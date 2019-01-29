@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: Shen
+Build-Jdk: 10
+Implementation-Title: petclinic
+Implementation-Version: 2.0.0
+Implementation-Vendor-Id: org.springframework.samples
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/spring-petclinic
+Created-By: Maven Integration for Eclipse
+
