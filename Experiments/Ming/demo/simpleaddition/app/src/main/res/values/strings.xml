@@ -4,4 +4,7 @@
     <string name="second_number">Second number</string>
     <string name="first_number">First number</string>
     <string name="answer">answer</string>
+    <string name="request_page">Request page</string>
+    <string name="response">Response:</string>
+    <string name="send_request">Send Request</string>
 </resources>

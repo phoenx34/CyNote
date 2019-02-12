@@ -1,5 +1,6 @@
 package com.example.hibiki.simpleaddition;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         answer = findViewById(R.id.answerNum);
 
         Button cal = findViewById(R.id.btnCal);//link button
-
         cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
                 answer.setText(inputNum1);
                 Toast.makeText(getApplicationContext(), "Done!", Toast.LENGTH_SHORT)
                         .show();
+            }
+        });
+
+        Button send = findViewById(R.id.requestB);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent reqPage = new Intent(MainActivity.this, Requestmsg.class);
+                startActivity(reqPage);
             }
         });
 
