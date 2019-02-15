@@ -14,6 +14,13 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 
+
+/**
+ * 
+ * @author Shen Chen
+ * @author Marc Issac
+ */
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -44,6 +51,8 @@ public class User {
     @NotFound(action = NotFoundAction.IGNORE)
     private String type;
 
+    
+    
     public String getUID() {
         return UID;
     }
@@ -76,9 +85,6 @@ public class User {
         return this.UID == null;
     }
     
-    public void setCreate_time(String create_time) {
-    	this.create_time = create_time;
-    }
     
     public String getEmail() {
     	return email;
