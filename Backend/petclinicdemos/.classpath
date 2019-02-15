@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Android_test/app/src/main/java"/>
+	<classpathentry kind="src" path="Spring/src/main/java"/>
+	<classpathentry kind="lib" path="Android_test/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="Spring/target/spring-petclinic-2.0.0.jar"/>
+	<classpathentry kind="output" path="Spring/target/classes"/>
+</classpath>
