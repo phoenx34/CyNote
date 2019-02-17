@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Cs309_CyNote</string>
+    <string name="CyNote">CyNote</string>
+    <string name="create_account">Create an Account:</string>
+
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="account_type">Account Type</string>
+    <string name="submit">Submit</string>
+
+    <string-array name="account_types">
+        <item>Professor</item>
+        <item>TA</item>
+        <item>Student</item>
+    </string-array>
+</resources>
