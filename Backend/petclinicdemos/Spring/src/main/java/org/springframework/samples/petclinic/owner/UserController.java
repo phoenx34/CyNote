@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
-    public Optional<User> findOwnerById(@PathVariable("ownerId") int id) {
+    public Optional<User> findUserById(@PathVariable("userId") int id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
         return results;

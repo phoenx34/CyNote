@@ -1,5 +1,14 @@
 package org.springframework.samples.petclinic.owner;
 
-public class Shoutoutrepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+/**
+ * 
+ * @author Shen Chen
+ * @author Marc Issac
+ */
+
+public interface Shoutoutrepository extends JpaRepository<Shoutout, Integer> {
 
 }
