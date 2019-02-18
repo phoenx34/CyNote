@@ -38,10 +38,11 @@ public class MainActivity extends AppCompatActivity {
                        "\"type\":\""+accType+"\"}";
         //Could create a pojo but doesn't really matter
 
-        String testUrl = "http://ptsv2.com/t/mp8ul-1550461405/post";
+        //String testUrl = "http://ptsv2.com/t/mp8ul-1550461405/post";
+        String serverUrl = "http://cs309-sd-7.misc.iastate.edu/";
 
         System.out.println("Calling API");
         APICalls api = new APICalls();
-        api.httpPost(testUrl, json);
+        api.httpPost(serverUrl, json);
     }
 }

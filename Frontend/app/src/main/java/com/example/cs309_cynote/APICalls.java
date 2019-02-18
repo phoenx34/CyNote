@@ -72,6 +72,8 @@ public class APICalls extends Application {
                     }
                 }
         );
+
+        System.out.println("Sending data");
         APICalls.getInstance().addToRequestQueue(jsonObjReq, "postRequest");
     }
 
