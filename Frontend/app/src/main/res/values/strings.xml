@@ -29,4 +29,5 @@
     </string>
     <string name="login">Login</string>
     <string name="login">Login</string>
+    <string name="login_successful">Login Successful</string>
 </resources>
