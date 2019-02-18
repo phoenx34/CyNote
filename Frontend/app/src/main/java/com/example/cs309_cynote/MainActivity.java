@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.json.JSONException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -14,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void submitForm(View view){
+    public void submitForm(View view) throws JSONException {
         //System.out.println("Submit pressed - ");
 
         EditText ACUsername = (EditText) findViewById(R.id.ACUsername); //Find the specific EditText
