@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/ACEmail"
         android:autofillHints="Email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -26,11 +26,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/ACUsername"
         tools:paddingLeft="15dp" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/ACPassword"
         android:autofillHints="Password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/ACEmail"
         tools:paddingLeft="15dp" />
 
     <TextView
@@ -84,8 +84,7 @@
         tools:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
-        android:autofillHints="Username"
+        android:id="@+id/ACUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -93,19 +92,20 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="50dp"
         android:layout_marginRight="50dp"
+        android:autofillHints="Username"
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:paddingLeft="10dp"
         android:paddingStart="10dp"
-        android:paddingRight="0dp"
+        android:paddingLeft="10dp"
         android:paddingEnd="0dp"
+        android:paddingRight="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:paddingLeft="15dp" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/ACDropdown"
         android:layout_width="0dp"
         android:layout_height="22dp"
         android:layout_marginStart="50dp"
@@ -138,7 +138,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/ACPassword" />
 
     <Button
         android:id="@+id/button"
@@ -153,7 +153,7 @@
         android:text="@string/submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/ACDropdown" />
 
     <TextView
         android:id="@+id/textView5"
