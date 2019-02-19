@@ -26,7 +26,7 @@ import org.springframework.core.style.ToStringCreator;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "UID")        
     private String UID;
 
@@ -44,6 +44,15 @@ public class User {
     
     @Column(name = "type")
     private String type;
+    
+    public User(String UID, String screenname, String password, String create_time, String email, String type) {
+    	this.UID = UID;
+    	this.screenname = screenname;
+    	this.password = password;
+    	this.email = email;
+    	this.type = type;
+    	this.create_time = create_time;
+    }
 
     
     

@@ -24,13 +24,13 @@ public class Textbook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Class number")    
+    @Column(name = "Class_number")    
     private String classNum;        // Class number
     
     @Column(name = "TID")    
     private String TID;        // Textbook ID
     
-    @Column(name = "Book link")    
+    @Column(name = "Book_link")    
     private String bookLink;        // Book link
     
     @Column(name = "Rating")    
