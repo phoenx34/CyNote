@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //Could create a pojo but doesn't really matter
 
         //String testUrl = "http://ptsv2.com/t/mp8ul-1550461405/post";
-        String serverUrl = "http://cs309-sd-7.misc.iastate.edu/";
+        String serverUrl = "http://cs309-sd-7.misc.iastate.edu:8080/users";
 
         System.out.println("Calling API");
         APICalls api = new APICalls();
