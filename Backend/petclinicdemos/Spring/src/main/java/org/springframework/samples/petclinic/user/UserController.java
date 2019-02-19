@@ -84,22 +84,7 @@ public class UserController {
     
     
     
-    //TODO
-    // @PathVariable means I am obtaining the string from the jason request link
-    // @RequestBody means I am obtaining the stuff from the jason request string  
-    /**
-     * The method is to find and return user by username
-     * @param userName The input taken from the jason request link
-     * @return The user object found from the database, which means it could be null if it does not exits 
-     */
-    /*@RequestMapping(method = RequestMethod.GET, path = "/users/{userName}")
-    public User findUserByUsername(@PathVariable String userName) throws IllegalArgumentException {
-    	return this.findUserByUsername(userName);		//Changed by SG, was giving error before, incorrect method use
-    	
-    	//return usersRepository.findByUsername(userName).get();
-    }*/
-
-    
+   
     
     // check if the email is already in the database
     // given an email address, and check if the email is already in the system
@@ -165,8 +150,8 @@ public class UserController {
     * @param userID The input userID to be deleted 
     * @return Whether the user has been deleted 
     * @throws IllegalArgumentException Exception when the input string is null
-    *
-    @RequestMapping(method = RequestMethod.POST, path = "/users/delete/{userID}")
+    */
+    @RequestMapping(method = RequestMethod.POST, path = "/users/{userID}")
     public String deleteUser(@PathVariable String userID) throws IllegalArgumentException {
     	if(userID == null)
     		throw new IllegalArgumentException();      // ????? difference between IllegalArgumentException and NUllPointerException
@@ -175,7 +160,7 @@ public class UserController {
     		return "UserId cannot be empty, try again";
     	}
         logger.info("Entered into Controller Layer");
-        List<User> results = usersRepository.findAll();        // Obtain the list of users 
+        List<User> results = (List<User>) usersRepository.findAll();        // Obtain the list of users 
         User targetUser = null;        // targetUser is the user we are trying to delete 
         int counter = 0;               // to count and make sure the input string actually exists in the list 
     	for(User user : results)
@@ -203,10 +188,6 @@ public class UserController {
     	}
     }
     
-    
-    
-    
-    */
     //"RequestMethod.GET" the Get here represent your not changing something from the data base
     // All your doing is to use the information from the data base to return to the user 
     @RequestMapping(method = RequestMethod.GET, path = "/users")
@@ -233,10 +214,29 @@ public class UserController {
     
     
 
-    /*@RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
-    public Optional<User> findUserById(@PathVariable("userId") String id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
+    public Optional<User> findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
         return results;
+    }
+    
+    //TODO
+    // @PathVariable means I am obtaining the string from the jason request link
+    // @RequestBody means I am obtaining the stuff from the jason request string  
+    /**
+     * The method is to find and return user by username
+     * @param userName The input taken from the jason request link
+     * @return The user object found from the database, which means it could be null if it does not exits 
+     */
+    /*@RequestMapping(method = RequestMethod.GET, path = "/useName/{userName}")
+    public User findUserByUsername(@PathVariable String userName) {
+    	logger.info("Entered into Controller Layer");
+    	Optional<User> results = usersRepository.findUserByUsername(userName);
+    	return this.findUserByUsername(userName);		//Changed by SG, was giving error before, incorrect method use
+    	
+    	//return usersRepository.findByUsername(userName).get();
     }*/
+
+    
 }
