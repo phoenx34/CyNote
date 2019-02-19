@@ -51,7 +51,7 @@ public class PreferenceController {
     
     // ????????This is problematic since we don't have a preferenceID
     @RequestMapping(method = RequestMethod.GET, path = "/preference/{preferenceId}")  // ????????? Have to change this line
-    public Optional<Preference> findPreferenceById(@PathVariable("preferenceId") int id) {
+    public Optional<Preference> findPreferenceById(@PathVariable("preferenceId") String id) {
         logger.info("Entered into Controller Layer");
         Optional<Preference> results = preferenceRepository.findById(id);
         return results;

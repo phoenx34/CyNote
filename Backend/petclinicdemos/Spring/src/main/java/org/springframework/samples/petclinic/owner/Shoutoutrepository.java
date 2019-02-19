@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Marc Issac
  */
 
-public interface Shoutoutrepository extends JpaRepository<Shoutout, Integer> {
+public interface Shoutoutrepository extends JpaRepository<Shoutout, String> {
 
 }

@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Marc Issac
  */
 
-public interface TextbookRepository extends JpaRepository<Textbook, Integer>{
+public interface TextbookRepository extends JpaRepository<Textbook, String>{
 
 }

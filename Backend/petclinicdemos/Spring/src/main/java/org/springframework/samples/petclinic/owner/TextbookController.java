@@ -40,7 +40,7 @@ public class TextbookController {
     }
     
     @RequestMapping(method = RequestMethod.GET, path = "/textbook/{textbookId}")
-    public Optional<Textbook> findTextbookById(@PathVariable("textbookId") int id) {
+    public Optional<Textbook> findTextbookById(@PathVariable("textbookId") String id) {
         logger.info("Entered into Controller Layer");
         Optional<Textbook> results = textbookRepository.findById(id);
         return results;

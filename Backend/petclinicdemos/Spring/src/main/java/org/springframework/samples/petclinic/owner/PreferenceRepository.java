@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Marc Issac
  */
 
-public interface PreferenceRepository extends JpaRepository<Preference, Integer> {
+public interface PreferenceRepository extends JpaRepository<Preference, String> {
 
 }

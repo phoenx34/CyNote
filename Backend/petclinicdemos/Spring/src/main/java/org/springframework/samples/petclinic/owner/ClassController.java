@@ -40,7 +40,7 @@ public class ClassController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/class/{classId}")
-    public Optional<Class> findClassById(@PathVariable("classID") int id) {
+    public Optional<Class> findClassById(@PathVariable("classID") String id) {
         logger.info("Entered into Controller Layer");
         Optional<Class> results = classRepository.findById(id);
         return results;

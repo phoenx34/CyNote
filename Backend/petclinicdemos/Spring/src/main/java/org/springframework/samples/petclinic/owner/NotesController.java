@@ -40,7 +40,7 @@ public class NotesController {
     }
     
     @RequestMapping(method = RequestMethod.GET, path = "/notes/{noteId}")
-    public Optional<Notes> findNoteById(@PathVariable("noteId") int id) {
+    public Optional<Notes> findNoteById(@PathVariable("noteId") String id) {
         logger.info("Entered into Controller Layer");
         Optional<Notes> results = noteRepository.findById(id);
         return results;

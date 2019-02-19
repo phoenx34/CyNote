@@ -41,7 +41,7 @@ public class ShoutoutController {
     }
     
     @RequestMapping(method = RequestMethod.GET, path = "/shoutout/{shoutoutId}")
-    public Optional<Shoutout> findShoutoutById(@PathVariable("shoutoutId") int id) {
+    public Optional<Shoutout> findShoutoutById(@PathVariable("shoutoutId") String id) {
         logger.info("Entered into Controller Layer");
         Optional<Shoutout> results = shoutoutrepository.findById(id);
         return results;
