@@ -32,6 +32,64 @@ public class UserController {
     }
 
     
+    // parse the jason string request into an object
+    // check if the email is already in the database 
+    // check if the email is valid
+    // check if the user name matches the email
+    
+    
+
+    
+    
+    // check if the email is already in the database
+    // given an email address, and check if the email is already in the system
+    //  ???????? Do we want the input to be a jason request or just the string emialAddress
+    /**
+     * This method is to check if the 
+     * @param emailAddress This is given as a string at the moment, but possibly 
+     * @return
+     * @throws IllegalArgumentException
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "/users/emailAvalibility")
+    public boolean emailAlreadyExisted(String emailAddress) throws IllegalArgumentException {
+    	if(emailAddress == null || emailAddress.trim().length()==0)
+    		throw new IllegalArgumentException("The input email address is not valid");
+        logger.info("Entered into Controller Layer");
+        List<User> results = usersRepository.findAll();       // list of users 
+        for(User user : results)
+    	{
+    		if(user.getEmail().equals(emailAddress))
+    		{
+    			return true;
+    		}
+    	}
+        return false;  
+    }
+    
+    
+    // check if the email is already in the database
+    // given an email address, and check if the email is already in the system
+    //  ???????? Do we want the input to be a jason request or just the string emialAddress
+    @RequestMapping(method = RequestMethod.GET, path = "/users/emailAvalibility")
+    public boolean emailAlreadyExisted1(String emailAddress) throws IllegalArgumentException {
+    	if(emailAddress == null || emailAddress.trim().length()==0)
+    		throw new IllegalArgumentException("The input email address is not valid");
+        logger.info("Entered into Controller Layer");
+        List<User> results = usersRepository.findAll();       // list of users 
+        for(User user : results)
+    	{
+    		if(user.getEmail().equals(emailAddress))
+    		{
+    			return true;
+    		}
+    	}
+        return false;  
+    }
+    
+    
+    
+    
+    
     
    /**
     * The method here is to delete user in the database by userID

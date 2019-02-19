@@ -21,13 +21,13 @@ import org.springframework.core.style.ToStringCreator;
  * @author Marc Issac
  */
 
-@Entity
+@Entity       // @Entitiy means that we are adding a new table 
 @Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UID")
+    @Column(name = "UID")         // adding a new column 
     @NotFound(action = NotFoundAction.IGNORE)
     private String UID;
 
