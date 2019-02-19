@@ -8,6 +8,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author Shen Chen
  * @author Marc Issac
  */
-public interface UserRepository extends CrudRepository<User, String>{
-	
+public interface UserRepository extends CrudRepository<User, Integer>{
+	User save(User persisted);
 }

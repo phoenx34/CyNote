@@ -1,17 +1,20 @@
 package org.springframework.samples.petclinic.user;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 // You write all the functions in the controller's class
@@ -89,12 +92,12 @@ public class UserController {
      * @param userName The input taken from the jason request link
      * @return The user object found from the database, which means it could be null if it does not exits 
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/users/{userName}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/users/{userName}")
     public User findUserByUsername(@PathVariable String userName) throws IllegalArgumentException {
     	return this.findUserByUsername(userName);		//Changed by SG, was giving error before, incorrect method use
     	
     	//return usersRepository.findByUsername(userName).get();
-    }
+    }*/
 
     
     
@@ -214,18 +217,26 @@ public class UserController {
         return results;
     }
     
-    @PostMapping("/users/new")
+    /*@PostMapping("/users/new")
     User post(@RequestBody User user) {
     	return userApplication.create(user);
+    }*/
+    
+    @PostMapping("/users") 
+    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
+    	User savedUser = usersRepository.save(user);  	
+    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
+    			.buildAndExpand(savedUser.getUID()).toUri();  	
+    	return ResponseEntity.created(location).build();  
     }
     
     
     
 
-    @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
     public Optional<User> findUserById(@PathVariable("userId") String id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
         return results;
-    }
+    }*/
 }
