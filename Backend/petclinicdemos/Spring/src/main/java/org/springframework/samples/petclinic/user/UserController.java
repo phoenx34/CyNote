@@ -151,21 +151,17 @@ public class UserController {
     * @return Whether the user has been deleted 
     * @throws IllegalArgumentException Exception when the input string is null
     */
-    @RequestMapping(method = RequestMethod.POST, path = "/users/{userID}")
-    public String deleteUser(@PathVariable String userID) throws IllegalArgumentException {
+    @RequestMapping(method = RequestMethod.POST, path = "/users/{userID}/del")
+    public String deleteUser(@PathVariable Integer userID) {
     	if(userID == null)
-    		throw new IllegalArgumentException();      // ????? difference between IllegalArgumentException and NUllPointerException
-    	if(userID.trim().length()==0)       //?????? difference between this and the exception
-    	{
-    		return "UserId cannot be empty, try again";
-    	}
+    		throw new IllegalArgumentException();      // ????? difference between IllegalArgumentException and NUllPointerException         
         logger.info("Entered into Controller Layer");
-        List<User> results = (List<User>) usersRepository.findAll();        // Obtain the list of users 
+        List<User> results = (List<User>) usersRepository.findAll();        // Obtain the list of users 	
         User targetUser = null;        // targetUser is the user we are trying to delete 
         int counter = 0;               // to count and make sure the input string actually exists in the list 
     	for(User user : results)
     	{
-    		if(user.getUID().equals(userID))
+    		if(user.getUID()==userID)
     		{
     			targetUser = user;
     			break;
@@ -198,7 +194,7 @@ public class UserController {
         return results;
     }
     
-    /*@PostMapping("/users/new")
+    /*@PostMapping("/users")
     User post(@RequestBody User user) {
     	return userApplication.create(user);
     }*/
