@@ -21,7 +21,7 @@ public class Preference {
     @Column(name = "UID")    
     private String UID;        // User ID
 	
-    @Column(name = "Start page")    
+    @Column(name = "Start_page")    
     private String startPage;        // Start Page
                                      // ??????? Store the page number of the start page
     
@@ -30,7 +30,7 @@ public class Preference {
                                      // ??????? Maybe use an arraylist instead or string
     
     
-    @Column(name = "Color preferences")    
+    @Column(name = "Color_preferences")    
     private String colorPreferences;    // Color preferences
 
 

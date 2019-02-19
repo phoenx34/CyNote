@@ -26,9 +26,9 @@ import org.springframework.core.style.ToStringCreator;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "UID")        
-    private String UID;
+    private Integer UID;
 
     @Column(name = "screenname")
     private String screenname;
@@ -44,14 +44,32 @@ public class User {
     
     @Column(name = "type")
     private String type;
+    
+    public User() {
+    	this.UID = 123456789;
+    	this.screenname = "defaultconstructor";
+    	this.password = "passssssword";
+    	this.create_time = "12:12:12";
+    	this.email = "hotmail";
+    	this.type = "user";
+    }
+    
+    public User(Integer UID, String screenname, String password, String create_time, String email, String type) {
+    	this.UID = UID;
+    	this.screenname = screenname;
+    	this.password = password;
+    	this.email = email;
+    	this.type = type;
+    	this.create_time = create_time;
+    }
 
     
     
-    public String getUID() {
+    public Integer getUID() {
         return UID;
     }
 
-    public void setUID(String UID) {
+    public void setUID(Integer UID) {
     	this.UID = UID;
     }
     
@@ -72,7 +90,7 @@ public class User {
     }
     
     public String getCreate_time() {
-    	return screenname;
+    	return create_time;
     }
     
     public boolean isNew() {

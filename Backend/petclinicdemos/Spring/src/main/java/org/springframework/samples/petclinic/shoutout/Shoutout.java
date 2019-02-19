@@ -25,11 +25,11 @@ public class Shoutout {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Class number")    
+    @Column(name = "Class_number")    
     private String classNum;        // Class number
     
     
-    @Column(name = "Lecture number")    
+    @Column(name = "Lecture_number")    
     private String lecNum;        // Lecture number
 
     @Column(name = "SID")    

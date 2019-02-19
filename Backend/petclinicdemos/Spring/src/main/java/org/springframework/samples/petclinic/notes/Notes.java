@@ -33,10 +33,10 @@ public class Notes {
 	@Column(name = "Content")
     private String content;      // Content of the note
 	
-	@Column(name = "Class number")
+	@Column(name = "Class_number")
     private String classNum;      // Class number
 	
-	@Column(name = "Lecture number")
+	@Column(name = "Lecture_number")
     private String lecNum;      // Lecture number
 
 	

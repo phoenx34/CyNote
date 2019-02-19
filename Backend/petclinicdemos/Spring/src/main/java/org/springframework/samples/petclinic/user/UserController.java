@@ -1,25 +1,32 @@
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.user;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 // You write all the functions in the controller's class
 // Every method is paired with a path
 // The path direct the request from the users to the specific method
+@RestController
 public class UserController {
 
 
     @Autowired        // @Autowired means that the controller is connected with the database 
     UserRepository usersRepository;
+    UserApplication userApplication;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -34,9 +41,9 @@ public class UserController {
      * @param user The user is obtained from the jason request string 
      * @return Check if the email and username are already been used, if not, create the new user in the database
      */
-    @RequestMapping(method = RequestMethod.POST, path = "/users/new")
-    public String saveUser(@RequestBody User user)throws IllegalArgumentException {
-    	if(this.emailAlreadyExisted(user.getEmail()).equals("The email already existed"))
+    /*@RequestMapping(method = RequestMethod.POST, path = "/users/new")
+    public String saveUser(@RequestBody User user) {
+    	/*if(this.emailAlreadyExisted(user.getEmail()).equals("The email already existed"))
     		return "The email already existed, please log in or use a different email to create the account";
     	else if(this.usernamelAlreadyExisted(user.getScreenname()).equals("Username already exited, try a different ones"))
     		return "Username already exited, try a different ones";
@@ -44,8 +51,8 @@ public class UserController {
     	{
     		 usersRepository.save(user);
     	     return "New User "+ user.getScreenname() + " Saved";
-    	}
-    }
+    	
+    }*/
 
     
     // parse the jason string request into an object
@@ -57,7 +64,7 @@ public class UserController {
      * @param username Obtained from the Jason request link
      * @param password Obtained from the Jason request link
      * @return If the login is successful
-     */
+     *
     @RequestMapping(method = RequestMethod.GET, path = "/users/login/{userName}/{passWord}")
     public String loginWithUsername(@PathVariable("userName") String username, @PathVariable("passWord") String password)throws IllegalArgumentException {
     	if(this.usernamelAlreadyExisted(username).equals("Username does not exist"))
@@ -72,12 +79,12 @@ public class UserController {
     		return "Incorrect password, try again";
     	}
     }
+    */
     
     
     
     
-    
-    
+    //TODO
     // @PathVariable means I am obtaining the string from the jason request link
     // @RequestBody means I am obtaining the stuff from the jason request string  
     /**
@@ -85,10 +92,12 @@ public class UserController {
      * @param userName The input taken from the jason request link
      * @return The user object found from the database, which means it could be null if it does not exits 
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/users/{userName}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/users/{userName}")
     public User findUserByUsername(@PathVariable String userName) throws IllegalArgumentException {
-        return usersRepository.findByUsername(userName).get();
-    }
+    	return this.findUserByUsername(userName);		//Changed by SG, was giving error before, incorrect method use
+    	
+    	//return usersRepository.findByUsername(userName).get();
+    }*/
 
     
     
@@ -101,7 +110,7 @@ public class UserController {
      * @return  To see if the email already exist in the database 
      * @throws IllegalArgumentException When the input is not even valid 
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/users/emailAvalibility/{emailAddress}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/users/emailAvalibility/{emailAddress}")
     public String emailAlreadyExisted(@PathVariable String emailAddress) throws IllegalArgumentException {
     	if(emailAddress == null || emailAddress.trim().length()==0)
     		throw new IllegalArgumentException("The input email address is not valid");
@@ -129,7 +138,7 @@ public class UserController {
      * @param userName This is given as a string at the moment
      * @return To see if the username already exist in the database
      * @throws IllegalArgumentException When the input is not even valid
-     */
+     *
     @RequestMapping(method = RequestMethod.GET, path = "/users/userNameAvalibility/{userName}")
     public String usernamelAlreadyExisted(@PathVariable String userName) throws IllegalArgumentException {
     	if(userName == null || userName.trim().length()==0)
@@ -156,7 +165,7 @@ public class UserController {
     * @param userID The input userID to be deleted 
     * @return Whether the user has been deleted 
     * @throws IllegalArgumentException Exception when the input string is null
-    */
+    *
     @RequestMapping(method = RequestMethod.POST, path = "/users/delete/{userID}")
     public String deleteUser(@PathVariable String userID) throws IllegalArgumentException {
     	if(userID == null)
@@ -197,24 +206,37 @@ public class UserController {
     
     
     
-    
+    */
     //"RequestMethod.GET" the Get here represent your not changing something from the data base
     // All your doing is to use the information from the data base to return to the user 
     @RequestMapping(method = RequestMethod.GET, path = "/users")
     public List<User> getAllUsers() {
         logger.info("Entered into Controller Layer");
-        List<User> results = usersRepository.findAll();
+        List<User> results = (List<User>) usersRepository.findAll();
         logger.info("Number of Records Fetched:" + results.size());
         return results;
+    }
+    
+    /*@PostMapping("/users/new")
+    User post(@RequestBody User user) {
+    	return userApplication.create(user);
+    }*/
+    
+    @PostMapping("/users") 
+    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
+    	User savedUser = usersRepository.save(user);  	
+    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
+    			.buildAndExpand(savedUser.getUID()).toUri();  	
+    	return ResponseEntity.created(location).build();  
     }
     
     
     
 
-    @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
     public Optional<User> findUserById(@PathVariable("userId") String id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
         return results;
-    }
+    }*/
 }

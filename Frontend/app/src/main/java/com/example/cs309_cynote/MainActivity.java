@@ -10,12 +10,19 @@ import android.widget.Spinner;
 
 import org.json.JSONException;
 
+<<<<<<< HEAD
 /**
  * User creation page used to create new user.
  *
  * @author Sean Gordon
  * @since  2019-02-15
  */
+=======
+import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+>>>>>>> 960abdc50ae8f27350538218731ff56577f1dd77
 public class MainActivity extends AppCompatActivity {
     private Button goBackToLogin;
 
@@ -52,11 +59,31 @@ public class MainActivity extends AppCompatActivity {
         Spinner ACDropdown = (Spinner) findViewById(R.id.ACDropdown);
         String accType = ACDropdown.getSelectedItem().toString().trim();
 
+        /*
         //Throw together the json
         String json = "{\"username\":\""+username+"\"," +
                        "\"email\":\""+email+"\", " +
                        "\"password\":\""+password+"\", " +
                        "\"type\":\""+accType+"\"}";
+        */
+
+        //Updated JSON to align with server side
+        //Server does not currently create new ID, so I'm using a number gen here. NEEDS to be fixed
+        Random rand = new Random();
+        int randInt = rand.nextInt(100000); //0-99999
+
+        //Getting current account creation time
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String creationTime =  sdf.format(cal.getTime());
+
+        String json = "{\"UID\":\""+randInt+"\"," +
+                      "\"screenname\":\""+username+"\"," +
+                      "\"email\":\""+email+"\", " +
+                      "\"password\":\""+password+"\", " +
+                      "\"create_time\":\""+creationTime+"\", " +
+                      "\"type\":\""+accType+"\"}";
+
         //Could create a pojo but doesn't really matter
 
         //String testUrl = "http://ptsv2.com/t/mp8ul-1550461405/post";
