@@ -26,20 +26,16 @@ public class Shoutout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Class number")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String classNum;        // Class number
     
     
     @Column(name = "Lecture number")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String lecNum;        // Lecture number
 
     @Column(name = "SID")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String SID;        // Shoutout ID
     
     @Column(name = "Content")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String content;        // content of each shoutout
 
     

@@ -25,19 +25,15 @@ public class Textbook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Class number")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String classNum;        // Class number
     
     @Column(name = "TID")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String TID;        // Textbook ID
     
     @Column(name = "Book link")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String bookLink;        // Book link
     
     @Column(name = "Rating")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private int rating;        // Rating of the textbook
                                // ???????? should the rating be integer
 

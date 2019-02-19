@@ -148,10 +148,10 @@ public class UserController {
         return results;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
     public Optional<User> findUserById(@PathVariable("userId") int id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
         return results;
-    }
+    }*/
 }

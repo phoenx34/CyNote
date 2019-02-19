@@ -55,11 +55,11 @@ class OwnerController {
         return results;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/owners/{ownerId}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/owners/{ownerId}")
     public Optional<Owners> findOwnerById(@PathVariable("ownerId") int id) {
         logger.info("Entered into Controller Layer");
         Optional<Owners> results = ownersRepository.findById(id);
         return results;
-    }
+    }*/
 
 }

@@ -27,28 +27,22 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UID")         // adding a new column 
-    @NotFound(action = NotFoundAction.IGNORE)
+    @Column(name = "UID")        
     private String UID;
 
     @Column(name = "screenname")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String screenname;
 
     @Column(name = "password")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String password;
 
     @Column(name = "create_time")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String create_time;
 
     @Column(name = "email")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String email;
     
     @Column(name = "type")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String type;
 
     

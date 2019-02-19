@@ -19,22 +19,18 @@ public class Preference {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UID")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String UID;        // User ID
 	
     @Column(name = "Start page")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String startPage;        // Start Page
                                      // ??????? Store the page number of the start page
     
     @Column(name = "Favorites")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String favorites;        // Favorite pages
                                      // ??????? Maybe use an arraylist instead or string
     
     
     @Column(name = "Color preferences")    
-    @NotFound(action = NotFoundAction.IGNORE)
     private String colorPreferences;    // Color preferences
 
 

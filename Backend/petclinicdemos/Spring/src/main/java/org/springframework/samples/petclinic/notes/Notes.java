@@ -24,24 +24,19 @@ public class Notes {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NID")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String NID;      // Note ID
 	
 	@Column(name = "Rating")
-    @NotFound(action = NotFoundAction.IGNORE)
     private int rating;      // Rating of the note to determine the quality of the note
 	                            // ???? Possibly change it to String
 
 	@Column(name = "Content")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String content;      // Content of the note
 	
 	@Column(name = "Class number")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String classNum;      // Class number
 	
 	@Column(name = "Lecture number")
-    @NotFound(action = NotFoundAction.IGNORE)
     private String lecNum;      // Lecture number
 
 	

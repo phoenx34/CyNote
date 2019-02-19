@@ -40,11 +40,11 @@ public class ShoutoutController {
         return results;
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = "/shoutout/{shoutoutId}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/shoutout/{shoutoutId}")
     public Optional<Shoutout> findShoutoutById(@PathVariable("shoutoutId") int id) {
         logger.info("Entered into Controller Layer");
         Optional<Shoutout> results = shoutoutrepository.findById(id);
         return results;
-    }
+    }*/
 
 }
