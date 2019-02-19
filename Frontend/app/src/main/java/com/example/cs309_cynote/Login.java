@@ -8,17 +8,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Login page, this should be the initial page that show up in APP
+ *
+ * @Author Zheming Fan
+ * @Since 2019-02-17
+ */
 public class Login extends AppCompatActivity
 {
-    private EditText emailIn;
-    private EditText passwordIn;
+    private EditText emailIn, passwordIn;
+    private Button loginB, createB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button loginB = findViewById(R.id.loginBot);
+        loginB = findViewById(R.id.loginBot);
+        createB = findViewById(R.id.creationBut);
         emailIn = findViewById(R.id.emailInput);
         passwordIn = findViewById(R.id.passwordInput);
 
@@ -52,6 +59,15 @@ public class Login extends AppCompatActivity
                 {
                     Toast.makeText(getApplicationContext(), "Login fails, email or password is wrong!", Toast.LENGTH_SHORT).show();//return massage
                 }
+            }
+        });
+
+        createB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent creationPage = new Intent(Login.this, MainActivity.class);
+                startActivity(creationPage);
+                finish();
             }
         });
     }
