@@ -72,7 +72,7 @@ public class User {
     }
     
     public String getCreate_time() {
-    	return screenname;
+    	return create_time;
     }
     
     public boolean isNew() {

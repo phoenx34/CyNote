@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.owner;
+package org.springframework.samples.petclinic.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +77,7 @@ public class UserController {
     
     
     
-    
+    //TODO
     // @PathVariable means I am obtaining the string from the jason request link
     // @RequestBody means I am obtaining the stuff from the jason request string  
     /**
@@ -87,7 +87,9 @@ public class UserController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userName}")
     public User findUserByUsername(@PathVariable String userName) throws IllegalArgumentException {
-        return usersRepository.findByUsername(userName).get();
+    	return this.findUserByUsername(userName);		//Changed by SG, was giving error before, incorrect method use
+    	
+    	//return usersRepository.findByUsername(userName).get();
     }
 
     
