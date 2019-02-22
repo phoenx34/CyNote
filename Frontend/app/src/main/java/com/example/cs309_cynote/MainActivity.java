@@ -10,19 +10,19 @@ import android.widget.Spinner;
 
 import org.json.JSONException;
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 /**
  * User creation page used to create new user.
  *
  * @author Sean Gordon
  * @since  2019-02-15
  */
-=======
+//=======
 import java.util.Random;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
->>>>>>> 960abdc50ae8f27350538218731ff56577f1dd77
+//>>>>>>> 960abdc50ae8f27350538218731ff56577f1dd77
 public class MainActivity extends AppCompatActivity {
     private Button goBackToLogin;
 
@@ -93,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
         APICalls api = new APICalls();
         api.httpPost(serverUrl, json);
 
-        Intent loginPagefromC = new Intent(MainActivity.this, Login.class);
-        startActivity(loginPagefromC);
+
+//        Intent goBackfromC2 = new Intent(MainActivity.this, Login.class);
+//        startActivity(goBackfromC2);
+
     }
 }
