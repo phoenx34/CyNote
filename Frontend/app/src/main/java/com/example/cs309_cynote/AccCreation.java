@@ -1,5 +1,6 @@
 package com.example.cs309_cynote;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +13,12 @@ import java.util.Random;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class AccCreation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.acc_creation);
     }
 
     public void submitForm(View view) throws JSONException {
@@ -68,5 +69,16 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Calling API");
         APICalls api = new APICalls();
         api.httpPost(serverUrl, json);
+    }
+
+    /**
+     * Upon clicking "Back" text view, calls this function to change views
+     * to the login page.
+     *
+     * @param view
+     */
+    public void gotoLogin(View view){
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
     }
 }

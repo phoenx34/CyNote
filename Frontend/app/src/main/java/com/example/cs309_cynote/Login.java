@@ -68,4 +68,20 @@ public class Login extends AppCompatActivity
         else
             return false;
     }
+
+    /**
+     * Upon clicking "New user?" text view, calls this function to change views
+     * to the account creation page.
+     *
+     * @param view
+     */
+    public void gotoAccCreation(View view){
+        Intent intent = new Intent(this, AccCreation.class);
+        startActivity(intent);
+    }
+
+    public void gotoClassSelection(View view){
+        Intent intent = new Intent(this, ClassSelection.class);
+        startActivity(intent);
+    }
 }

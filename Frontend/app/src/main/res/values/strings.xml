@@ -29,4 +29,13 @@
     </string>
     <string name="login">Login</string>
     <string name="login_successful">Login Successful</string>
+    <string name="new_user">New user?</string>
+    <string name="back">Back</string>
+
+    <string name="temp_to_class_select">Temp: Goto Class Selection</string>
+
+    <!-- Class Selection -->
+    <string name="class_selection">Class Selection:</string>
+    <string name="sample_class">Sample Class</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
