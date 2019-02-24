@@ -32,6 +32,7 @@ public class UserController {
 
     
     
+    // DOES NOT WORK !!!!!!!!!!!!!!!!!!!!!!!!!!!
     // !!!!!!!!! it is possible that this method is not valid 
     // @RequestMapping part below is an example of the rest API
     // "RequestMethod.POST" the post here represent your changing something of the data base 
@@ -59,6 +60,10 @@ public class UserController {
     // check if the email is valid
     // check if the user name matches the email
     
+    
+    
+    
+    // DOES NOT WORK!!!!!!!!!!!!!!!!!!!
     /**
      *  This is a login method, it first check if the input userName exist and then check to see if it matches with the password
      * @param username Obtained from the Jason request link
@@ -85,7 +90,7 @@ public class UserController {
     
     
    
-    
+    // DOES NOT WORK!!!!!!!!!!!!!!!!
     // check if the email is already in the database
     // given an email address, and check if the email is already in the system
     //  ???????? Do we want the input to be a jason request or just the string emialAddress
@@ -114,7 +119,7 @@ public class UserController {
     
     
     
-    
+    // DOES NOT WORK!!!!!!!!!!!!!!!!
     // check if the email is already in the database
     // given an email address, and check if the email is already in the system
     //  ???????? Do we want the input to be a jason request or just the string emialAddress
@@ -144,7 +149,8 @@ public class UserController {
     
     
     
-    
+    // WORKS!!!!!!!!!!!!!!!!!!!!!
+    // SLOW
    /**
     * The method here is to delete user in the database by userID
     * @param userID The input userID to be deleted 
@@ -194,6 +200,8 @@ public class UserController {
         return results;
     }
     
+    
+    // CHECK EMAIL AND USERNAME
     /*@PostMapping("/users")
     User post(@RequestBody User user) {
     	return userApplication.create(user);
@@ -209,7 +217,7 @@ public class UserController {
     
     
     
-
+    // WORKS!!!!!!!!
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
     public Optional<User> findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");
@@ -217,6 +225,9 @@ public class UserController {
         return results;
     }
     
+    
+    
+    // !!!!!!!! CHANGE TO others
     //TODO
     // @PathVariable means I am obtaining the string from the jason request link
     // @RequestBody means I am obtaining the stuff from the jason request string  
