@@ -17,7 +17,7 @@ import android.widget.Toast;
 public class Login extends AppCompatActivity
 {
     private EditText emailIn, passwordIn;
-    private Button loginB, createB;
+    private Button loginB, createB, jumpProfessor, jumpTA, jumpStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,6 +28,9 @@ public class Login extends AppCompatActivity
         createB = findViewById(R.id.creationBut);
         emailIn = findViewById(R.id.emailInput);
         passwordIn = findViewById(R.id.passwordInput);
+        jumpProfessor = findViewById(R.id.professorJumpPage);
+        jumpTA = findViewById(R.id.taJumpPage);
+        jumpStudent = findViewById(R.id.studentJumpPage);
 
         loginB.setOnClickListener(new View.OnClickListener()
         {
@@ -67,6 +70,33 @@ public class Login extends AppCompatActivity
             public void onClick(View v) {
                 Intent creationPage = new Intent(Login.this, MainActivity.class);
                 startActivity(creationPage);
+                finish();
+            }
+        });
+
+        jumpProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testForProPage = new Intent(Login.this, ProfessorMain.class);
+                startActivity(testForProPage);
+                finish();
+            }
+        });
+
+        jumpTA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testForTaPage = new Intent(Login.this, TaMain.class);
+                startActivity(testForTaPage);
+                finish();
+            }
+        });
+
+        jumpStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testForStudentPage = new Intent(Login.this, StudentMain.class);
+                startActivity(testForStudentPage);
                 finish();
             }
         });

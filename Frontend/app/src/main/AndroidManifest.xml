@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="ExtraText,GoogleAppIndexingWarning">
-        <activity android:name=".ProfessorMain"></activity>
+        <activity android:name=".StudentMain"></activity>
+        <activity android:name=".TaMain" />
+        <activity android:name=".ProfessorMain" />
         <activity android:name=".UserMain" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Login">
