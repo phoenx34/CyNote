@@ -63,89 +63,25 @@ public class UserController {
     
     
     
-    // DOES NOT WORK!!!!!!!!!!!!!!!!!!!
+
+    // The path is changed 
     /**
      *  This is a login method, it first check if the input userName exist and then check to see if it matches with the password
      * @param username Obtained from the Jason request link
      * @param password Obtained from the Jason request link
      * @return If the login is successful
-     *
-    @RequestMapping(method = RequestMethod.GET, path = "/users/login/{userName}/{passWord}")
-    public String loginWithUsername(@PathVariable("userName") String username, @PathVariable("passWord") String password)throws IllegalArgumentException {
-    	if(this.usernamelAlreadyExisted(username).equals("Username does not exist"))
-    		return "The username does not exist, check the spelling";
-    	User inputUser = this.findUserByUsername(username);
-    	if(inputUser.getPassword().equals(password))
-    	{
-    		return "Success";
-    	}
-    	else
-    	{
-    		return "Incorrect password, try again";
-    	}
-    }
-    */
-    
-    
-    
-    
-   
-    // DOES NOT WORK!!!!!!!!!!!!!!!!
-    // check if the email is already in the database
-    // given an email address, and check if the email is already in the system
-    //  ???????? Do we want the input to be a jason request or just the string emialAddress
-    /**
-     * This method is to check if the email already exist in the database 
-     * @param emailAddress This is given as a string at the moment 
-     * @return  To see if the email already exist in the database 
-     * @throws IllegalArgumentException When the input is not even valid 
      */
-    /*@RequestMapping(method = RequestMethod.GET, path = "/users/emailAvalibility/{emailAddress}")
-    public String emailAlreadyExisted(@PathVariable String emailAddress) throws IllegalArgumentException {
-    	if(emailAddress == null || emailAddress.trim().length()==0)
-    		throw new IllegalArgumentException("The input email address is not valid");
-        logger.info("Entered into Controller Layer");
-        List<User> results = usersRepository.findAll();       // list of users 
-        for(User user : results)
-    	{
-    		if(user.getEmail().equals(emailAddress))
-    		{
-    			return "The email already existed";
-    		}
-    	}
-        return "The email does not exist";  
+    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}/{passWord}")
+    public String loginWithUsername(@PathVariable("userName") String username, @PathVariable("passWord") String password)throws IllegalArgumentException 
+    {
+    	if(userApplication.usernamelAlreadyExisted(username)==true)
+    		return "The username does not exist, check the spelling";
+    	User inputUser = userApplication.findUserByUsername(username);
+    	if(inputUser.getPassword().equals(password))
+    		return "Sucess";
+    	else
+    		return "Incorrect password, try again";
     }
-    
-    
-    
-    
-    // DOES NOT WORK!!!!!!!!!!!!!!!!
-    // check if the email is already in the database
-    // given an email address, and check if the email is already in the system
-    //  ???????? Do we want the input to be a jason request or just the string emialAddress
-    /**
-     * This method is to check if the username already exist in the database 
-     * @param userName This is given as a string at the moment
-     * @return To see if the username already exist in the database
-     * @throws IllegalArgumentException When the input is not even valid
-     *
-    @RequestMapping(method = RequestMethod.GET, path = "/users/userNameAvalibility/{userName}")
-    public String usernamelAlreadyExisted(@PathVariable String userName) throws IllegalArgumentException {
-    	if(userName == null || userName.trim().length()==0)
-    		throw new IllegalArgumentException("The input email address is not valid");
-        logger.info("Entered into Controller Layer");
-        List<User> results = usersRepository.findAll();       // list of users 
-        for(User user : results)
-    	{
-    		if(user.getEmail().equals(userName))
-    		{
-    			return "Username already exited, try a different ones";
-    		}
-    	}
-        return "Username does not exist";  
-    }
-    
-    
     
     
     
@@ -201,6 +137,7 @@ public class UserController {
     }
     
     
+    
     // CHECK EMAIL AND USERNAME
     /*@PostMapping("/users")
     User post(@RequestBody User user) {
@@ -227,23 +164,6 @@ public class UserController {
     
     
     
-    // !!!!!!!! CHANGE TO others
-    //TODO
-    // @PathVariable means I am obtaining the string from the jason request link
-    // @RequestBody means I am obtaining the stuff from the jason request string  
-    /**
-     * The method is to find and return user by username
-     * @param userName The input taken from the jason request link
-     * @return The user object found from the database, which means it could be null if it does not exits 
-     */
-    /*@RequestMapping(method = RequestMethod.GET, path = "/useName/{userName}")
-    public User findUserByUsername(@PathVariable String userName) {
-    	logger.info("Entered into Controller Layer");
-    	Optional<User> results = usersRepository.findUserByUsername(userName);
-    	return this.findUserByUsername(userName);		//Changed by SG, was giving error before, incorrect method use
-    	
-    	//return usersRepository.findByUsername(userName).get();
-    }*/
 
     
 }
