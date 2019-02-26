@@ -80,7 +80,7 @@ public class UserApplication {
 	 * @return return the user with given username
 	 */
 	public User findUserByUsername(String username) {
-		User user = userRepository.findUserByUsername(username).get();
+		User user = userRepository.findByUsername(username);
 		return user;
 	}
 	

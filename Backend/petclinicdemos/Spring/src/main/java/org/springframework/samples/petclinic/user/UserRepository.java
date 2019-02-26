@@ -13,7 +13,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserRepository extends CrudRepository<User, Integer>{
 	User save(User persisted);
 
-	// ????????? query
-	Optional<User> findUserByUsername(String username);
+	
+	User findByUsername(String username);
 
 }
