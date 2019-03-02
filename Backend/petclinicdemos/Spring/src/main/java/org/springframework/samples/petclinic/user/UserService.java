@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserApplication {
+public class UserService {
 	@Autowired
 	UserRepository userRepository;
 	

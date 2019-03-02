@@ -26,7 +26,7 @@ public class UserController {
 
     @Autowired        // @Autowired means that the controller is connected with the database 
     UserRepository usersRepository;
-    UserApplication userApplication;
+    UserService userApplication;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
