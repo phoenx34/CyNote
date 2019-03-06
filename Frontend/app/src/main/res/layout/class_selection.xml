@@ -17,7 +17,8 @@
         android:background="#4d4dff"
         android:text="@string/sample_class"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/view2"/>
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        android:onClick="gotoModuleSelection"/>
 
     <Button
         android:id="@+id/button2"
@@ -29,7 +30,9 @@
         android:background="#ff3333"
         android:text="@string/sample_class"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/view2" />
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        android:onClick="gotoModuleSelection"/>
+
 
     <Button
         android:id="@+id/button3"
@@ -41,7 +44,8 @@
         android:background="#00cc44"
         android:text="@string/sample_class"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/button1" />
+        app:layout_constraintTop_toBottomOf="@+id/button1"
+        android:onClick="gotoModuleSelection"/>
 
 
     <TextView

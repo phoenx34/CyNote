@@ -23,4 +23,15 @@ public class ClassSelection extends AppCompatActivity {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
+
+    /**
+     * Upon clicking a 'Class' button, calls this function to change views
+     * to the Module Selection page.
+     *
+     * @param view
+     */
+    public void gotoModuleSelection(View view){
+        Intent intent = new Intent(this, ModuleSelection.class);
+        startActivity(intent);
+    }
 }
