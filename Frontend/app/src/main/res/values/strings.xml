@@ -56,4 +56,8 @@
     <string name="student_page">Student Page</string>
     <string name="ta_page">TA Page</string>
 
+    <!-- Notes -->
+    <string name="notes">Sample Notes</string>
+    <string name="cy_notes">CyNotes</string>
+
 </resources>
