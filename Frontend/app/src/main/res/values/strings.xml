@@ -37,6 +37,9 @@
     <!-- Class Selection -->
     <string name="class_selection">Class Selection:</string>
     <string name="sample_class">Sample Class</string>
+    <string name="sample_class1">CprE 381</string>
+    <string name="sample_class2">CprE 309</string>
+    <string name="sample_class3">ComS 330</string>
     <string name="sign_out">Sign Out</string>
 
     <string name="professor_page">Professor page</string>

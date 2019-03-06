@@ -9,6 +9,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -41,13 +42,17 @@ public class ModuleSelection extends AppCompatActivity {
         expListView.setAdapter(listAdapter);
 
 
+        //Getting button string from intent
+        String className = getIntent().getStringExtra("className");
+        //If coming from something other than classSelection, this property will be null
+        //(ie. starting a new activity from a Shoutout to reach here, rather than calling finish())
 
+        if(className == null)
+            className = "No Name";
 
-
-
-
-
-
+        //Update the "class_name" TextView with new String
+        TextView classNameField = findViewById(R.id.textView9);
+        classNameField.setText(className);
 
 
 

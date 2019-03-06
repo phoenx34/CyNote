@@ -14,7 +14,10 @@ public class NotesUI extends AppCompatActivity {
     }
 
     public void gotoModuleSelection(View view){
+        finish();
+        /*
         Intent intent = new Intent(this, ModuleSelection.class);
         startActivity(intent);
+        */
     }
 }
