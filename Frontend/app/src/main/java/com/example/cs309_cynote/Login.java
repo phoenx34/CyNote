@@ -8,19 +8,32 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Login page, this should be the initial page that show up in APP
+ *
+ * @Author Zheming Fan
+ * @Since 2019-02-17
+ */
 public class Login extends AppCompatActivity
 {
-    private EditText emailIn;
-    private EditText passwordIn;
+    private EditText emailIn, passwordIn;
+    private Button loginB, createB, jumpProfessor, jumpTA, jumpStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Button loginB = findViewById(R.id.loginBot);
+        loginB = findViewById(R.id.loginBot);
+        //createB = findViewById(R.id.creationBut);
         emailIn = findViewById(R.id.emailInput);
         passwordIn = findViewById(R.id.passwordInput);
+        jumpProfessor = findViewById(R.id.professorJumpPage);
+        jumpTA = findViewById(R.id.taJumpPage);
+        jumpStudent = findViewById(R.id.studentJumpPage);
 
         loginB.setOnClickListener(new View.OnClickListener()
         {
@@ -54,6 +67,43 @@ public class Login extends AppCompatActivity
                 }
             }
         });
+
+        /*
+        createB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent creationPage = new Intent(Login.this, AccCreation.class);
+                startActivity(creationPage);
+                finish();
+            }
+        });*/
+
+        jumpProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testForProPage = new Intent(Login.this, ProfessorMain.class);
+                startActivity(testForProPage);
+                finish();
+            }
+        });
+
+        jumpTA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testForTaPage = new Intent(Login.this, TaMain.class);
+                startActivity(testForTaPage);
+                finish();
+            }
+        });
+
+        jumpStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testForStudentPage = new Intent(Login.this, StudentMain.class);
+                startActivity(testForStudentPage);
+                finish();
+            }
+        });
     }
 
     /**
@@ -63,10 +113,10 @@ public class Login extends AppCompatActivity
      */
     private boolean isEmailValid(String emailText)
     {
-        if (emailText.contains("@"))
-            return true;
-        else
-            return false;
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(emailText);
+        return matcher.matches();
     }
 
     /**

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        android:text="CyNote"
+        android:text="@string/cynote"
         android:textColor="@color/ISURed"
         android:textSize="45sp"
         android:textStyle="bold"
@@ -24,11 +24,7 @@
         android:id="@+id/loginHead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="175dp"
-        android:layout_marginLeft="175dp"
         android:layout_marginTop="18dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginRight="177dp"
         android:text="@string/login"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +45,8 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginHead" />
+        app:layout_constraintTop_toBottomOf="@+id/loginHead"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/passwordInput"
@@ -81,13 +78,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
 
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="173dp"
         android:layout_marginLeft="173dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="173dp"
         android:layout_marginRight="173dp"
         android:onClick="gotoAccCreation"
@@ -97,15 +95,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginBot" />
 
+    <!--
+    <Button
+        android:id="@+id/creationBut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/create_a_new_account"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginBot" />
+    -->
+
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="@string/temp_to_class_select"
+        android:layout_marginTop="100dp"
         android:onClick="gotoClassSelection"
+        android:text="@string/temp_to_class_select"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+
+
+
+
+
+
+    <!-- Test buttons, go to specific page -->
+
+    <Button
+        android:id="@+id/professorJumpPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/test_prof"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/taJumpPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/test_ta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/studentJumpPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/test_stud"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
 </android.support.constraint.ConstraintLayout>
