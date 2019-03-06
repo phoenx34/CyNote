@@ -97,7 +97,20 @@ public class ModuleSelection extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                // TODO Auto-generated method stub
+
+                // Get the selected child String, contained in HashMap<String, List<String>>
+                String data = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+
+                //Purely for testing purposes, this code is super case specific.
+                //In future builds, this will use server requests and this 'ID'
+                //to grab the correct Shoutout data
+                if(data.equals("Shoutout"))
+                    gotoShoutout(v);
+                else
+                    gotoNotes(v);
+
+                /*
+                // T ODO Auto-generated method stub
                 Toast.makeText(
                         getApplicationContext(),
                         listDataHeader.get(groupPosition)
@@ -106,6 +119,7 @@ public class ModuleSelection extends AppCompatActivity {
                                 listDataHeader.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
+                */
                 return false;
             }
         });
@@ -156,6 +170,28 @@ public class ModuleSelection extends AppCompatActivity {
      */
     public void gotoClassSelection(View view){
         Intent intent = new Intent(this, ClassSelection.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Upon clicking "Shoutout" child, calls this function to change views
+     * to the Shoutout page.
+     *
+     * @param view
+     */
+    public void gotoShoutout(View view){
+        Intent intent = new Intent(this, ShoutOut.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Upon clicking "Notes" child, calls this function to change views
+     * to the Notes page.
+     *
+     * @param view
+     */
+    public void gotoNotes(View view){
+        Intent intent = new Intent(this, NotesUI.class);
         startActivity(intent);
     }
 }
