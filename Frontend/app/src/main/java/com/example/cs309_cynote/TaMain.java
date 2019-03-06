@@ -14,7 +14,7 @@ public class TaMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ta_main);
 
-        TaLogout = findViewById(R.id.logoutfromStudent);
+        TaLogout = findViewById(R.id.logoutfromTA);
         TaLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

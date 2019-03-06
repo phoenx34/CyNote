@@ -36,6 +36,24 @@
 
 
 
+        <TextView
+            android:id="@+id/cynoteTitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="160dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/shoutout"
+            android:textColor="@color/ISURed"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            app:fontFamily="serif"
+            android:gravity="top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ListView
             android:id="@+id/msg_list_view"
             android:layout_height="0dp"
@@ -71,6 +89,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:text="@string/goback"
+        android:onClick="gotoModuleSelection"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

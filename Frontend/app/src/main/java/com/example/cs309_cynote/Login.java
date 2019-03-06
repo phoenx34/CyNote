@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Login page, this should be the initial page that show up in APP
  *
@@ -25,7 +28,7 @@ public class Login extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         loginB = findViewById(R.id.loginBot);
-        createB = findViewById(R.id.creationBut);
+        //createB = findViewById(R.id.creationBut);
         emailIn = findViewById(R.id.emailInput);
         passwordIn = findViewById(R.id.passwordInput);
         jumpProfessor = findViewById(R.id.professorJumpPage);
@@ -65,14 +68,15 @@ public class Login extends AppCompatActivity
             }
         });
 
+        /*
         createB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent creationPage = new Intent(Login.this, MainActivity.class);
+                Intent creationPage = new Intent(Login.this, AccCreation.class);
                 startActivity(creationPage);
                 finish();
             }
-        });
+        });*/
 
         jumpProfessor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +113,25 @@ public class Login extends AppCompatActivity
      */
     private boolean isEmailValid(String emailText)
     {
-        if (emailText.contains("@"))
-            return true;
-        else
-            return false;
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(emailText);
+        return matcher.matches();
+    }
+
+    /**
+     * Upon clicking "New user?" text view, calls this function to change views
+     * to the account creation page.
+     *
+     * @param view
+     */
+    public void gotoAccCreation(View view){
+        Intent intent = new Intent(this, AccCreation.class);
+        startActivity(intent);
+    }
+
+    public void gotoClassSelection(View view){
+        Intent intent = new Intent(this, ClassSelection.class);
+        startActivity(intent);
     }
 }
