@@ -3,11 +3,26 @@ package com.example.cs309_cynote;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +36,10 @@ public class Login extends AppCompatActivity
 {
     private EditText emailIn, passwordIn;
     private Button loginB, createB, jumpProfessor, jumpTA, jumpStudent;
+    private int uID;
+    private String loginURL = "http://cs309-sd-7.misc.iastate.edu:8080/login";
+    String emailInString, passwordInString;
+    boolean loginCondition = false;//initial login condition to false
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,14 +59,13 @@ public class Login extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String emailInString = emailIn.getText().toString();//Get email String from input
-                String passwordInString = passwordIn.getText().toString();//Get password String from input
-                boolean loginCondition = false;//initial login condition to false
+                emailInString = emailIn.getText().toString();//Get email String from input
+                passwordInString = passwordIn.getText().toString();//Get password String from input
 
                 if(isEmailValid(emailInString))//check if email is valid
                 {
                     //use APIcalls to send json
-                    loginCondition = true;
+                    sendRequest();
                 }
                 else
                 {
@@ -57,8 +75,26 @@ public class Login extends AppCompatActivity
                 if(loginCondition)//check if login successful
                 {
                     Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();//display massage that login is successful
-                    Intent userPage = new Intent(Login.this, UserMain.class);//jump to user main page
-                    startActivity(userPage);//start user main page
+//                    Intent userPage = new Intent(Login.this, UserMain.class);//jump to user main page
+//                    startActivity(userPage);//start user main page
+                    if(uID == 1)
+                    {
+                        Intent toProPage = new Intent(Login.this, ProfessorMain.class);
+                        toProPage.putExtra("UID", uID);
+                        startActivity(toProPage);
+                    }
+                    else if(uID == 2)
+                    {
+                        Intent toTaPage = new Intent(Login.this, TaMain.class);
+                        toTaPage.putExtra("UID", uID);
+                        startActivity(toTaPage);
+                    }
+                    else
+                    {
+                        Intent toStudentPage = new Intent(Login.this, StudentMain.class);
+                        toStudentPage.putExtra("UID", uID);
+                        startActivity(toStudentPage);
+                    }
                     finish();//kill this page
                 }
                 else
@@ -134,4 +170,51 @@ public class Login extends AppCompatActivity
         Intent intent = new Intent(this, ClassSelection.class);
         startActivity(intent);
     }
+
+    public void sendRequest(){
+        final RequestQueue ReqQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest loginReq = new JsonObjectRequest(Request.Method.POST,
+                loginURL, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            uID = response.getInt("UID");
+                            loginCondition = response.getBoolean("loginCondition");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("Error: " + error.getMessage());
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", emailInString);
+                params.put("password", passwordInString);
+                return params;
+            }
+
+        };
+        ReqQueue.add(loginReq);
+
+    }
+
 }

@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="ExtraText,GoogleAppIndexingWarning">
-        <activity android:name=".ShoutOut"></activity>
+        <activity android:name=".AddTextbook"></activity>
+        <activity android:name=".ShoutOut" />
         <activity android:name=".UserSetting" />
         <activity android:name=".StudentMain" />
         <activity android:name=".TaMain" />
@@ -32,9 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ClassSelection"/>
-        <activity android:name=".ModuleSelection"/>
-        <activity android:name=".NotesUI"/>
+        <activity android:name=".ClassSelection" />
+        <activity android:name=".ModuleSelection" />
+        <activity android:name=".NotesUI" />
 
         <meta-data
             android:name="preloaded_fonts"
