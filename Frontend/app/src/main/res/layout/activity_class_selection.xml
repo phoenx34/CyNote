@@ -5,83 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--style="@style/Widget.AppCompat.Button"-->
-    <Button
-
-        android:id="@+id/button1"
-        android:layout_width="165dp"
-        android:layout_height="117dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
-        android:background="#4d4dff"
-        android:text="@string/sample_class1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/view2"
-        android:onClick="gotoModuleSelection"/>
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="165dp"
-        android:layout_height="117dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="22dp"
-        android:background="#ff3333"
-        android:text="@string/sample_class2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/view2"
-        android:onClick="gotoModuleSelection"/>
-
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="165dp"
-        android:layout_height="117dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
-        android:background="#00cc44"
-        android:text="@string/sample_class3"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/button1"
-        android:onClick="gotoModuleSelection"/>
-
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
-        android:text="@string/class_selection"
-        android:textSize="25sp"
-        app:fontFamily="@font/molengo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="fill_parent"
-        android:layout_height="2dip"
-        android:layout_marginStart="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:background="#cccccc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
@@ -89,10 +12,106 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="@string/sign_out"
         android:onClick="gotoLogin"
+        android:text="@string/sign_out"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="16dp"
+
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+
+        <TextView
+            android:id="@+id/classSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/class_selection"
+            android:textSize="25sp"
+            app:fontFamily="@font/molengo"
+
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_centerHorizontal="true"
+        />
+
+        <View
+            android:id="@+id/horizDivider"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:background="#cccccc"
+
+            android:layout_below="@+id/classSelection"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="25dp"
+        />
+
+
+
+        <Button
+
+            android:id="@+id/button1"
+            android:layout_width="165dp"
+            android:layout_height="117dp"
+            android:background="#4d4dff"
+            android:onClick="gotoModuleSelection"
+            android:text="@string/sample_class1"
+
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_below="@+id/horizDivider"
+        />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="165dp"
+            android:layout_height="117dp"
+            android:background="#ff3333"
+            android:onClick="gotoModuleSelection"
+            android:text="@string/sample_class2"
+
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="8dp"
+            android:layout_below="@+id/horizDivider"
+            android:layout_alignParentRight="true"
+        />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="165dp"
+            android:layout_height="117dp"
+            android:background="#00cc44"
+            android:onClick="gotoModuleSelection"
+            android:text="@string/sample_class3"
+
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_below="@+id/button1"
+        />
+
+        <!--
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+
+            android:layout_below="@+id/horizDivider"
+        />
+        -->
+
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>
+
+
