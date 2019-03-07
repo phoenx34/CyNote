@@ -1,4 +1,4 @@
-package classEntity;
+package org.springframework.samples.petclinic.classEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

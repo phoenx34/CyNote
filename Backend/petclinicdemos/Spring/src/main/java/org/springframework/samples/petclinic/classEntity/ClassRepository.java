@@ -1,4 +1,4 @@
-package classEntity;
+package org.springframework.samples.petclinic.classEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

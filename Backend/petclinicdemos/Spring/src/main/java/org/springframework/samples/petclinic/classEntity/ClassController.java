@@ -1,4 +1,4 @@
-package classEntity;
+package org.springframework.samples.petclinic.classEntity;
 
 import java.util.List;
 import java.util.Optional;
