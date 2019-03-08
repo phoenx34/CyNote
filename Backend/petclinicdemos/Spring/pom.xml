@@ -64,6 +64,11 @@
       <scope>runtime</scope>
     </dependency>
     
+    <!-- Below the dependency for the websocket  -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
 
   </dependencies>
   
