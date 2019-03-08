@@ -174,8 +174,11 @@ public class ModuleSelection extends AppCompatActivity {
      * @param view
      */
     public void gotoClassSelection(View view){
+        finish();
+        /*
         Intent intent = new Intent(this, ClassSelection.class);
         startActivity(intent);
+        */
     }
 
     /**
