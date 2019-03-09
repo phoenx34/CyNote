@@ -13,120 +13,46 @@ import org.springframework.core.style.ToStringCreator;
 
 /**
  * 
- * @author Shen Chen
+ * @author Shen Chen and Marc Isaac
  */
 
 
 
 @Entity
-@Table(name = "class")
+@Table(name = "Class")
 public class classEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UID")    
+    @Column(name = "CID")    
     @NotFound(action = NotFoundAction.IGNORE)
-    private String UID;        // User ID
+    private Integer CID;        // User ID
 	
     
-    @Column(name = "NID")
+    @Column(name = "Name")
     @NotFound(action = NotFoundAction.IGNORE)
-    private String NID;      // Note ID
+    private String Name;      // Note ID
     
-    
-    @Column(name = "SID")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private String SID;      // Shoutout ID
-    
-    @Column(name = "TID")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private String TID;      // TextBook ID
-    
-    @Column(name = "class number")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private String classNum;      // Class number
-	
-    @Column(name = "lecture number")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private String lecNum;      // Lecture number 
-    
-    
-    @Column(name = "Lecture date")
-    @NotFound(action = NotFoundAction.IGNORE)
-    private String LecDate;      // Lecture date
-
 
 
 
     // Getters and Setters below
    
-	public String getUID() {
-		return UID;
+	public Integer getCID() {
+		return CID;
 	}
 
 
-	public void setUID(String uID) {
-		UID = uID;
+	public void setUID(Integer cID) {
+		CID = cID;
 	}
-
-
-	public String getNID() {
-		return NID;
+	
+	public String getName() {
+		return Name;
 	}
-
-
-	public void setNID(String nID) {
-		NID = nID;
-	}
-
-
-	public String getSID() {
-		return SID;
-	}
-
-
-	public void setSID(String sID) {
-		SID = sID;
-	}
-
-
-	public String getTID() {
-		return TID;
-	}
-
-
-	public void setTID(String tID) {
-		TID = tID;
-	}
-
-
-	public String getClassNum() {
-		return classNum;
-	}
-
-
-	public void setClassNum(String classNum) {
-		this.classNum = classNum;
-	}
-
-
-	public String getLecNum() {
-		return lecNum;
-	}
-
-
-	public void setLecNum(String lecNum) {
-		this.lecNum = lecNum;
-	}
-
-
-	public String getLecDate() {
-		return LecDate;
-	}
-
-
-	public void setLecDate(String lecDate) {
-		LecDate = lecDate;
+	
+	public void setName(String name) {
+		Name = name;
 	}
 
 
@@ -134,8 +60,7 @@ public class classEntity {
 	// toString method
 	@Override
 	public String toString() {
-		return "Class [UserID=" + UID + ", ShoutoutID=" + SID + ", TID=" + TID + ", ClassNum=" + classNum + ", LectureDate=" + this.getLecDate()
-				+ ", LectureNum=" + lecNum + ", NoteID=" + this.getNID() + "]";
+		return "Class Name=" + Name + ", Class ID=" + CID;
 	}
 	
 	

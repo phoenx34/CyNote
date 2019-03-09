@@ -28,7 +28,7 @@ public class ClassController {
     @RequestMapping(method = RequestMethod.POST, path = "/class/new")
     public String saveClass(classEntity oneClass) {
     	classRepository.save(oneClass);
-        return "New class "+ oneClass.getClassNum() + " Saved";
+        return "New class "+ oneClass.getCID() + " Saved";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/class")
