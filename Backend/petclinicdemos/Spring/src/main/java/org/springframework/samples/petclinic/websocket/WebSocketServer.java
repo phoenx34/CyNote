@@ -23,7 +23,9 @@ import org.springframework.stereotype.Component;
  * 
  */
 
-@ServerEndpoint("/websocket/{username}")
+
+// ??????????? Maybe use different room ID to differentiate the different room
+@ServerEndpoint("/websocket/{roomID}/{username}")
 @Component
 public class WebSocketServer {
 
@@ -51,6 +53,7 @@ public class WebSocketServer {
 		
     }
  
+    
     
     @OnMessage
     public void onMessage(Session session, String message) throws IOException 

@@ -47,13 +47,14 @@ public class ProfileController {
 	
 	
 	
-	@RequestMapping(method= RequestMethod.GET, path ="/profile/{username}/users")
-	public Map<String, Object> getUserForProfile_2(@PathVariable String username){
-		if (userRepository.findByUsername(username).isPresent())
-			return profileRepository.findByUsername(username).get().getUser().toProfileDTO();
-		else
-			return new HashMap<String, Object>();
-	}
+//	
+//	@RequestMapping(method= RequestMethod.GET, path ="/profile/{username}/users")
+//	public Map<String, Object> getUserForProfile_2(@PathVariable String username){
+//		if (userRepository.findByUsername(username).isPresent())
+//			return profileRepository.findByUsername(username).get().getUser().toProfileDTO();
+//		else
+//			return new HashMap<String, Object>();
+//	}
 	
 	
 	
