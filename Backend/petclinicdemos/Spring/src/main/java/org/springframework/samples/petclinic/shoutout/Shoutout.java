@@ -5,10 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.samples.petclinic.classEntity.classEntity;
 
 /**
  * 
@@ -42,6 +45,10 @@ public class Shoutout {
     private int class_CID;        // The class ID, how we identify which class
     
     
+    // This is a many to one relationship with the class
+    @ManyToOne
+    @JoinColumn(name="Class_CID")
+    private classEntity classentity;
     
     
     

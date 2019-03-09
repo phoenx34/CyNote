@@ -5,10 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.samples.petclinic.classEntity.classEntity;
 
 /**
  * 
@@ -27,16 +30,19 @@ public class Textbook {
     @Column(name = "TID")    
     private String TID;        // Textbook ID   
     
-    @Column(name = "Class_CID")    
-    private int class_CID;        // The class ID, how we identify which class
-    
+ 
     @Column(name = "Book_link")    
     private String bookLink;        // Book link
     
     @Column(name = "Rating")    
     private int rating;        // Rating of the textbook
-                               // ???????? should the rating be integer
-
+     
+    
+    
+    // This is a many to one relationship with the class
+    @ManyToOne
+    @JoinColumn(name="Class_CID")
+    private classEntity classentity;
     
 
     
@@ -51,14 +57,7 @@ public class Textbook {
 		TID = tID;
 	}
 
-	public int getClass_CID() {
-		return class_CID;
-	}
-
-	public void setClass_CID(int class_CID) {
-		this.class_CID = class_CID;
-	}
-
+	
 	public String getBookLink() {
 		return bookLink;
 	}
