@@ -24,11 +24,11 @@ public class Textbook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Class_number")    
-    private String classNum;        // Class number
-    
     @Column(name = "TID")    
-    private String TID;        // Textbook ID
+    private String TID;        // Textbook ID   
+    
+    @Column(name = "Class_CID")    
+    private int class_CID;        // The class ID, how we identify which class
     
     @Column(name = "Book_link")    
     private String bookLink;        // Book link
@@ -38,27 +38,25 @@ public class Textbook {
                                // ???????? should the rating be integer
 
     
-    // ?????????? Is the lecture number necessary here
-//    @Column(name = "Lecture number")    
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private String lecNum;        // Lecture number
+
+    
     
     
     // Getters and Setters 
-    public String getClassNum() {
-		return classNum;
-	}
-
-	public void setClassNum(String classNum) {
-		this.classNum = classNum;
-	}
-
 	public String getTID() {
 		return TID;
 	}
 
 	public void setTID(String tID) {
 		TID = tID;
+	}
+
+	public int getClass_CID() {
+		return class_CID;
+	}
+
+	public void setClass_CID(int class_CID) {
+		this.class_CID = class_CID;
 	}
 
 	public String getBookLink() {
@@ -77,14 +75,9 @@ public class Textbook {
 		this.rating = rating;
 	}
 
-	
-	// toString method 
-	@Override
-	public String toString() {
-		return "Textbook [classNum=" + classNum + ", TID=" + TID + ", bookLink=" + bookLink + ", rating=" + rating
-				+ "]";
-	}
     
+
+   
 	
 	
     
