@@ -2,19 +2,14 @@ package org.springframework.samples.petclinic.classEntity;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.petclinic.shoutout.Shoutout;
 import org.springframework.samples.petclinic.textbook.Textbook;
+import org.springframework.samples.petclinic.user.User;
 
 /**
  * 
@@ -38,11 +33,18 @@ public class classEntity {
     @NotFound(action = NotFoundAction.IGNORE)
     private String Name;      // Note ID
     
-    @OneToMany(mappedBy="CID")
+    @OneToMany(mappedBy="classentity")
     private List<Textbook> textbooks;
     
-    @OneToMany(mappedBy="CID")
+    @OneToMany(mappedBy="classentity")
     private List<Shoutout> shoutout;
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="user_has_Class",
+    		joinColumns = @JoinColumn(name = "user_UID", referencedColumnName="UID"),
+    		inverseJoinColumns = @JoinColumn(name = "Class_CID",
+    		referencedColumnName = "CID"))
+    private List<User> users;
 
 
     // Getters and Setters below

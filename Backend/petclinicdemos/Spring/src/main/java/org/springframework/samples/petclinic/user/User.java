@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.user;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,13 +9,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-
+import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.preference.Preference;
 
 /**
  * 
@@ -24,11 +29,20 @@ import org.springframework.core.style.ToStringCreator;
 @Entity       // @Entitiy means that we are adding a new table 
 @Table(name = "user")
 public class User {
+	
+	@ManyToMany(mappedBy = "users")
+	private List<classEntity> classes;
+	
+	@OneToOne
+	@JoinColumn(name="preference_PID")
+	//@RestResource(path = "userPreference", rel="preference")
+	private Preference preference;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "UID")        
     private Integer UID;
+    
 
     @Column(name = "screenname")
     private String screenname;
