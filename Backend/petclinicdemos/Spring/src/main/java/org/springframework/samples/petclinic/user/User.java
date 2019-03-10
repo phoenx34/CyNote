@@ -17,6 +17,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.samples.petclinic.preference.Preference;
 
@@ -35,7 +36,7 @@ public class User {
 	
 	@OneToOne
 	@JoinColumn(name="preference_PID")
-	//@RestResource(path = "userPreference", rel="preference")
+	@RestResource(path = "userPreference", rel="preference")
 	private Preference preference;
 
     @Id
