@@ -41,9 +41,9 @@ public class classEntity {
     
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="user_has_Class",
-    		joinColumns = @JoinColumn(name = "user_UID", referencedColumnName="UID"),
-    		inverseJoinColumns = @JoinColumn(name = "Class_CID",
-    		referencedColumnName = "CID"))
+    		joinColumns = @JoinColumn(name = "Class_CID", referencedColumnName="CID"),
+    		inverseJoinColumns = @JoinColumn(name = "user_UID",
+    		referencedColumnName = "UID"))
     private List<User> users;
 
 

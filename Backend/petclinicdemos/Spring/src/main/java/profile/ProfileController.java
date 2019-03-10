@@ -38,7 +38,7 @@ public class ProfileController {
 	 * @return The list of classes
 	 */
 	@RequestMapping(method= RequestMethod.GET, path ="/profile/{UID}")
-	public String[] getUserForProfile(@PathVariable String UID){
+	public String[] getUserForProfile(@PathVariable Integer UID){
 		if (userRepository.findById(UID).isPresent())
 			return (String[]) profileRepository.findAllById(UID);
 		else

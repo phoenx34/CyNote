@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.user;
 
 import java.util.List;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +18,6 @@ import javax.persistence.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.samples.petclinic.preference.Preference;
 
@@ -34,10 +34,10 @@ public class User {
 	@ManyToMany(mappedBy = "users")
 	private List<classEntity> classes;
 	
-	@OneToOne
+	/*@OneToOne
 	@JoinColumn(name="preference_PID")
 	@RestResource(path = "userPreference", rel="preference")
-	private Preference preference;
+	private Preference preference;*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
