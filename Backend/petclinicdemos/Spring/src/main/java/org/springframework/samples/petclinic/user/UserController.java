@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -71,17 +72,17 @@ public class UserController {
      * @param password Obtained from the Jason request link
      * @return If the login is successful
      */
-    /*@RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}/{passWord}")
+    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}/{passWord}")
     public String loginWithUsername(@PathVariable("userName") String username, @PathVariable("passWord") String password)throws IllegalArgumentException 
     {
     	if(userApplication.usernamelAlreadyExisted(username)==true)
     		return "The username does not exist, check the spelling";
-    	User inputUser = userApplication.findUserByUsername(username);
-    	if(inputUser.getPassword().equals(password))
+    	//User inputUser = userApplication.findUserByUsername(username);
+    	//if(inputUser.getPassword().equals(password))
     		return "Sucess";
-    	else
-    		return "Incorrect password, try again";
-    }*/
+    	//else
+    		//return "Incorrect password, try again";
+    }
     
     
     
@@ -145,14 +146,28 @@ public class UserController {
     }*/
     
     @PostMapping("/users") 
-    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
-    	User savedUser = usersRepository.save(user);  	
-    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
-    			.buildAndExpand(savedUser.getUID()).toUri();  	
-    	return ResponseEntity.created(location).build();  
+    public String createStudent(@RequestBody User user) { 
+    	
+    	return " ";  
     }
     
-    
+    @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
+    public List<String> getClassList(@PathVariable("userId") Integer id) {
+    	logger.info("Entered into Controller Layer");
+    	Optional<User> results = usersRepository.findById(id);
+    	if(results.isPresent() == false)
+    		return null;
+    	User user = results.get();
+    	List<classEntity> classes = user.getClasses();
+    	classes.toArray();
+    	List<String> result = null;
+    	for(int i=0; i < classes.size(); i++) {
+    		classEntity temp = classes.get(i);
+    		result.add(temp.getName());
+    	}
+		return result;
+    	
+    }
     
     // WORKS!!!!!!!!
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")

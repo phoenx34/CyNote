@@ -100,6 +100,10 @@ public class User {
     	return password;
     }
     
+    public List<classEntity> getClasses(){
+    	return classes;
+    }
+    
     public void setPassword(String password) {
     	this.password = password;
     }
