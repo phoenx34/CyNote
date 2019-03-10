@@ -26,8 +26,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Modified by Tanmay Ghosh
  *
  */
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages= {"websocket"})
 public class PetClinicApplication {
 	
     public static void main(String[] args) throws Exception {
