@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.textbook.Textbook;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +46,30 @@ public class ClassController {
         logger.info("Number of Records Fetched:" + results.size());
         return results;
     }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
+    public List<String> getTextbooks(@PathVariable("id") Integer id) {
+    	logger.info("Entered into Controller Layer");
+    	Optional<classEntity> thisClass = this.findClassById(id);
+    	if(thisClass.isPresent() == false) {
+    		return null;
+    	}
+    	
+    	List<String> textbooks = null;
+    	classEntity temp = thisClass.get();
+    	List<Textbook> texts = temp.getTextbooks();
+    	texts.toArray();
+    	
+    	for(int i = 0; i < texts.size(); i++) {
+    		Textbook text = texts.get(i);
+    		textbooks.add(text.getBookLink());
+    	}
+    	
+    	return textbooks;
+    }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/class/{classId}")
-    public Optional<classEntity> findClassById(@PathVariable("classID") Integer id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
+    public Optional<classEntity> findClassById(@PathVariable("id") Integer id) {
         logger.info("Entered into Controller Layer");
         Optional<classEntity> results = classRepository.findById(id);
         return results;
