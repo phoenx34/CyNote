@@ -71,7 +71,7 @@ public class UserController {
      * @param password Obtained from the Jason request link
      * @return If the login is successful
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}/{passWord}")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}/{passWord}")
     public String loginWithUsername(@PathVariable("userName") String username, @PathVariable("passWord") String password)throws IllegalArgumentException 
     {
     	if(userApplication.usernamelAlreadyExisted(username)==true)
@@ -81,7 +81,7 @@ public class UserController {
     		return "Sucess";
     	else
     		return "Incorrect password, try again";
-    }
+    }*/
     
     
     

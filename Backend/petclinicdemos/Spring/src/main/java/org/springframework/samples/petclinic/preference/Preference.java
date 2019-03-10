@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.*;
-import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.samples.petclinic.classEntity.classEntity;
@@ -44,8 +42,8 @@ public class Preference {
     
     
     // This is a many to one relationship with the class
-    @OneToOne(mappedBy = "preference")
-    private User users;
+    /*@OneToOne(mappedBy = "preference")
+    private User users;*/
 
     
     

@@ -9,7 +9,7 @@ public interface ProfileRepository extends CrudRepository<Profile, String> {
 
 	Optional<User> findByUserId(String id);
 
-	Object findAllById(String uID);
+	Object findAllById(Integer uID);
 
 	Optional<User> findByUsername(String username);
 

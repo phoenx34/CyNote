@@ -70,24 +70,6 @@ public class UserService {
     	}
         return false; 
 	}
-
-	
-
-	// ?????????? The method might still not work yet 
-	/**
-	 * Finding user by the user name
-	 * @param username The given input string 
-	 * @return return the user with given username
-	 */
-	public User findUserByUsername(String username) {
-		User user = userRepository.findByUsername(username);
-		return user;
-	}
-	
-	
-	
-	
-	
 	
 	
 	

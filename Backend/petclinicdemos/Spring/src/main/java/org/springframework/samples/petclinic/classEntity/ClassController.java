@@ -32,17 +32,17 @@ public class ClassController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/class")
-    public List<Class> getAllClasses() {
+    public List<classEntity> getAllClasses() {
         logger.info("Entered into Controller Layer");
-        List<Class> results = classRepository.findAll();
+        List<classEntity> results = classRepository.findAll();
         logger.info("Number of Records Fetched:" + results.size());
         return results;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/class/{classId}")
-    public Optional<Class> findClassById(@PathVariable("classID") String id) {
+    public Optional<classEntity> findClassById(@PathVariable("classID") String id) {
         logger.info("Entered into Controller Layer");
-        Optional<Class> results = classRepository.findById(id);
+        Optional<classEntity> results = classRepository.findById(id);
         return results;
     }
 }

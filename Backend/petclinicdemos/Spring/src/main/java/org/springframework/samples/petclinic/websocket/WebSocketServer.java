@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.websocket;
+/*package org.springframework.samples.petclinic.websocket;
 
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author Shen Chen 
  * 
- */
+ *
 
 
 // ??????????? Maybe use different room ID to differentiate the different room
@@ -100,7 +100,7 @@ public class WebSocketServer {
      * Sending message to a specific user 
      * @param username The user you want to send message to 
      * @param message The message you want to send
-     */
+     *
 	private void sendMessageToPArticularUser(String username, String message) 
     {	
     	try {
@@ -115,7 +115,7 @@ public class WebSocketServer {
 	 * Sending messages to alll users 
 	 * @param message The message you want to send
 	 * @throws IOException 
-	 */
+	 *
     private static void broadcast(String message) 
     	      throws IOException 
     {	  
@@ -134,7 +134,7 @@ public class WebSocketServer {
     /**
      * Show the online people 
      * @return The number of people online
-     */
+     *
     public static synchronized int getOnlineCount()
     {
 	     return usernameSessionMap.size();	
@@ -147,4 +147,4 @@ public class WebSocketServer {
     
     
     
-}
+}*/

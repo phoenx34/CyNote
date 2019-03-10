@@ -39,11 +39,6 @@ public class Shoutout {
     
     @Column(name = "Content")    
     private String content;        // content of each shoutout
-
-    
-    @Column(name = "Class_CID")    
-    private int class_CID;        // The class ID, how we identify which class
-    
     
     // This is a many to one relationship with the class
     @ManyToOne
@@ -88,16 +83,6 @@ public class Shoutout {
 	}
 
 
-	public int getClass_CID() {
-		return class_CID;
-	}
-
-
-	public void setClass_CID(int class_CID) {
-		this.class_CID = class_CID;
-	}
-
-    
     
     
 

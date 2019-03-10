@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.notes;
+/*package org.springframework.samples.petclinic.notes;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 
  * @author Shen Chen
  * @author Marc Issac
- */
+ *
 
 
 public interface NotesRepository extends JpaRepository<Notes, String> {
 
-}
+}*/
