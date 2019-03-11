@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.shoutout.Shoutout;
 import org.springframework.samples.petclinic.textbook.Textbook;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,8 +48,8 @@ public class ClassController {
         return results;
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public List<String> getTextbooks(Integer id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
+    public List<String> getTextbooks(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
     	Optional<classEntity> thisClass = this.findClassById(id);
     	if(thisClass.isPresent() == false) {
@@ -66,6 +67,27 @@ public class ClassController {
     	}
     	
     	return textbooks;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
+    public List<String> getShoutouts(@PathVariable("id") Integer id) {
+    	logger.info("Entered into Controller layer, poop");
+    	Optional<classEntity> thisClass = this.findClassById(id);
+    	if(thisClass.isPresent() == false) {
+    		return null;
+    	}
+    	
+    	List<String> shoutouts = null;
+    	classEntity temp = thisClass.get();
+    	List<Shoutout> shouts = temp.getShoutouts();
+    	shouts.toArray();
+    	
+    	for(int i = 0; i < shouts.size(); i++) {
+    		Shoutout shout = shouts.get(i);
+    		shoutouts.add(shout.getContent());
+    	}
+    	
+    	return shoutouts;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
