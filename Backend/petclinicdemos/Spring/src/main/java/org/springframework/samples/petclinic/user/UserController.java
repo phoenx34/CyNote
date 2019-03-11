@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.user;
 
 import java.net.URI;
+import java.util.UUID;
 import java.util.List;
 import java.util.Optional;
 
@@ -138,23 +139,28 @@ public class UserController {
     
     
     
-    // CHECK EMAIL AND USERNAME
-    /*@PostMapping("/users")
-    User post(@RequestBody User user) {
-    	return userApplication.create(user);
-    }*/
-    
-    @PostMapping("/users") 
-    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
-    	User savedUser = usersRepository.save(user);  	
-    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
-    			.buildAndExpand(savedUser.getUID()).toUri();  	
-    	return ResponseEntity.created(location).build();  
+
+    /**
+     * Create a new user 
+     * @param user The user object obtained from the Jason request 
+     * @return 
+     */
+    @PostMapping("/users/new") 
+    public String createStudent(@RequestBody User user) { 
+    	if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
+    		return "{\"status\":0,\"UID\":0}";
+    	if(userApplication.emailAlreadyExisted(user.getEmail())==true)
+    		return "{\"status\":1,\"UID\":0}";
+    	User savedUser = usersRepository.save(user); 
+    	return savedUser.getUID().toString();  
     }
     
-    
-    
-    // WORKS!!!!!!!!
+
+    /**
+     * Return the user with given userID
+     * @param id Return the user with the given user ID 
+     * @return Return a user with a given 
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
     public Optional<User> findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");
