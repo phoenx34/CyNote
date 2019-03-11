@@ -127,29 +127,7 @@ public class UserController {
     	}
     }
     
-    //"RequestMethod.GET" the Get here represent your not changing something from the data base
-    // All your doing is to use the information from the data base to return to the user 
-    @RequestMapping(method = RequestMethod.GET, path = "/users")
-    public List<User> getAllUsers() {
-        logger.info("Entered into Controller Layer");
-        List<User> results = (List<User>) usersRepository.findAll();
-        logger.info("Number of Records Fetched:" + results.size());
-        return results;
-    }
     
-    
-    
-    // CHECK EMAIL AND USERNAME
-    /*@PostMapping("/users")
-    User post(@RequestBody User user) {
-    	return userApplication.create(user);
-    }*/
-    
-    @PostMapping("/users") 
-    public String createStudent(@RequestBody User user) { 
-    	
-    	return " ";  
-    }
     
     @RequestMapping(method = RequestMethod.GET)
     public List<String> getClassList(Integer id) {
@@ -168,8 +146,40 @@ public class UserController {
 		return result;
     	
     }
-    
-    // WORKS!!!!!!!!
+  //“RequestMethod.GET” the Get here represent your not changing something from the data base
+    // All your doing is to use the information from the data base to return to the user
+    @RequestMapping(method = RequestMethod.GET, path = "/users")
+    public List<User> getAllUsers() {
+        logger.info("Entered into Controller Layer");
+        List<User> results = (List<User>) usersRepository.findAll();
+        logger.info("Number of Records Fetched: " + results.size());
+        return results;
+    }
+
+
+
+
+    /**
+     * Create a new user
+     * @param user The user object obtained from the Jason request
+     * @return
+     */
+    @PostMapping("/users/new")
+    public String createStudent(@RequestBody User user) {
+        if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
+            return "{\"status\":0,\"UID\":0}";
+        if(userApplication.emailAlreadyExisted(user.getEmail())==true)
+            return "{\"status\":1,\"UID\":0}";
+        User savedUser = usersRepository.save(user);
+        return savedUser.getUID().toString();
+    }
+
+
+    /**
+     * Return the user with given userID
+     * @param id Return the user with the given user ID
+     * @return Return a user with a given
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
     public Optional<User> findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");
