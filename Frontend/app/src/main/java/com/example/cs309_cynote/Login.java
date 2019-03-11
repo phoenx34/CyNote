@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity
 {
     private EditText emailIn, passwordIn;
     private Button loginB, createB, jumpProfessor, jumpTA, jumpStudent;
-    private int uID;
+    private int uID, userType;
     private String loginURL = "http://cs309-sd-7.misc.iastate.edu:8080/login";
     String emailInString, passwordInString;
     boolean loginCondition = false;//initial login condition to false
@@ -64,7 +64,7 @@ public class Login extends AppCompatActivity
 
                 if(isEmailValid(emailInString))//check if email is valid
                 {
-                    //use APIcalls to send json
+                    //use APICalls to send json
                     sendRequest();
                 }
                 else
@@ -77,19 +77,19 @@ public class Login extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();//display massage that login is successful
 //                    Intent userPage = new Intent(Login.this, UserMain.class);//jump to user main page
 //                    startActivity(userPage);//start user main page
-                    if(uID == 1)
+                    if(userType == 0)//professor type is 0
                     {
                         Intent toProPage = new Intent(Login.this, ProfessorMain.class);
                         toProPage.putExtra("UID", uID);
                         startActivity(toProPage);
                     }
-                    else if(uID == 2)
+                    else if(userType == 1)//TA type is 1
                     {
                         Intent toTaPage = new Intent(Login.this, TaMain.class);
                         toTaPage.putExtra("UID", uID);
                         startActivity(toTaPage);
                     }
-                    else
+                    else//student type is 3, else
                     {
                         Intent toStudentPage = new Intent(Login.this, StudentMain.class);
                         toStudentPage.putExtra("UID", uID);
@@ -147,7 +147,7 @@ public class Login extends AppCompatActivity
      * @param emailText email input String.
      * @return boolean, true if it contains @.
      */
-    private boolean isEmailValid(String emailText)
+    private boolean isEmailValid(String emailText)//method that check email valid
     {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
@@ -182,6 +182,7 @@ public class Login extends AppCompatActivity
                         try {
                             uID = response.getInt("UID");
                             loginCondition = response.getBoolean("loginCondition");
+                            userType = response.getInt("userType");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
