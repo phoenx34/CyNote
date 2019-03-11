@@ -52,6 +52,10 @@ public class classEntity {
 	public Integer getCID() {
 		return CID;
 	}
+	
+	public List<Textbook> getTextbooks(){
+		return textbooks;
+	}
 
 
 	public void setUID(Integer cID) {

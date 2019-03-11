@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,17 +73,17 @@ public class UserController {
      * @param password Obtained from the Jason request link
      * @return If the login is successful
      */
-    /*@RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}/{passWord}")
+    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}/{passWord}")
     public String loginWithUsername(@PathVariable("userName") String username, @PathVariable("passWord") String password)throws IllegalArgumentException 
     {
     	if(userApplication.usernamelAlreadyExisted(username)==true)
     		return "The username does not exist, check the spelling";
-    	User inputUser = userApplication.findUserByUsername(username);
-    	if(inputUser.getPassword().equals(password))
+    	//User inputUser = userApplication.findUserByUsername(username);
+    	//if(inputUser.getPassword().equals(password))
     		return "Sucess";
-    	else
-    		return "Incorrect password, try again";
-    }*/
+    	//else
+    		//return "Incorrect password, try again";
+    }
     
     
     
@@ -127,15 +128,35 @@ public class UserController {
     	}
     }
     
-    //"RequestMethod.GET" the Get here represent your not changing something from the data base
-    // All your doing is to use the information from the data base to return to the user 
+    
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public List<String> getClassList(Integer id) {
+    	logger.info("Entered into Controller Layer");
+    	Optional<User> results = usersRepository.findById(id);
+    	if(results.isPresent() == false)
+    		return null;
+    	User user = results.get();
+    	List<classEntity> classes = user.getClasses();
+    	classes.toArray();
+    	List<String> result = null;
+    	for(int i=0; i < classes.size(); i++) {
+    		classEntity temp = classes.get(i);
+    		result.add(temp.getName());
+    	}
+		return result;
+    	
+    }
+  //“RequestMethod.GET” the Get here represent your not changing something from the data base
+    // All your doing is to use the information from the data base to return to the user
     @RequestMapping(method = RequestMethod.GET, path = "/users")
     public List<User> getAllUsers() {
         logger.info("Entered into Controller Layer");
         List<User> results = (List<User>) usersRepository.findAll();
-        logger.info("Number of Records Fetched:" + results.size());
+        logger.info("Number of Records Fetched: " + results.size());
         return results;
     }
+
     
     
     
@@ -160,6 +181,31 @@ public class UserController {
      * Return the user with given userID
      * @param id Return the user with the given user ID 
      * @return Return a user with a given 
+
+
+
+
+
+    /**
+     * Create a new user
+     * @param user The user object obtained from the Jason request
+     * @return
+     */
+    @PostMapping("/users/new")
+    public String createStudent(@RequestBody User user) {
+        if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
+            return "{\"status\":0,\"UID\":0}";
+        if(userApplication.emailAlreadyExisted(user.getEmail())==true)
+            return "{\"status\":1,\"UID\":0}";
+        User savedUser = usersRepository.save(user);
+        return savedUser.getUID().toString();
+    }
+
+
+    /**
+     * Return the user with given userID
+     * @param id Return the user with the given user ID
+     * @return Return a user with a given
      */
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
     public Optional<User> findUserById(@PathVariable("userId") Integer id) {
