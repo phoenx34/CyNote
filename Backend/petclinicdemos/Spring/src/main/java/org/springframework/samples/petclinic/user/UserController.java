@@ -151,8 +151,8 @@ public class UserController {
     	return " ";  
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
-    public List<String> getClassList(@PathVariable("userId") Integer id) {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<String> getClassList(Integer id) {
     	logger.info("Entered into Controller Layer");
     	Optional<User> results = usersRepository.findById(id);
     	if(results.isPresent() == false)

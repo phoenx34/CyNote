@@ -47,8 +47,8 @@ public class ClassController {
         return results;
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
-    public List<String> getTextbooks(@PathVariable("id") Integer id) {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<String> getTextbooks(Integer id) {
     	logger.info("Entered into Controller Layer");
     	Optional<classEntity> thisClass = this.findClassById(id);
     	if(thisClass.isPresent() == false) {
