@@ -162,22 +162,6 @@ public class UserController {
     
 
     /**
-     * Create a new user 
-     * @param user The user object obtained from the Jason request 
-     * @return 
-     */
-    @PostMapping("/users/new") 
-    public String createStudent(@RequestBody User user) { 
-    	if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
-    		return "{\"status\":0,\"UID\":0}";
-    	if(userApplication.emailAlreadyExisted(user.getEmail())==true)
-    		return "{\"status\":1,\"UID\":0}";
-    	User savedUser = usersRepository.save(user); 
-    	return savedUser.getUID().toString();  
-    }
-    
-
-    /**
      * Return the user with given userID
      * @param id Return the user with the given user ID 
      * @return Return a user with a given 
