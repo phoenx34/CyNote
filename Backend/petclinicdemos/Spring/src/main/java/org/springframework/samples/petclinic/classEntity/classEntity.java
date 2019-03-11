@@ -56,6 +56,10 @@ public class classEntity {
 	public List<Textbook> getTextbooks(){
 		return textbooks;
 	}
+	
+	public List<Shoutout> getShoutouts() {
+		return shoutout;
+	}
 
 
 	public void setUID(Integer cID) {
