@@ -21,9 +21,11 @@ import org.springframework.stereotype.Component;
  * 
  * @author Shen Chen 
  * 
- */
+ **/
 
-@ServerEndpoint("/websocket/{username}")
+
+// ??????????? Maybe use different room ID to differentiate the different room
+@ServerEndpoint("/websocket/{roomID}/{username}")
 @Component
 public class WebSocketServer {
 
@@ -51,6 +53,7 @@ public class WebSocketServer {
 		
     }
  
+    
     
     @OnMessage
     public void onMessage(Session session, String message) throws IOException 
@@ -97,7 +100,7 @@ public class WebSocketServer {
      * Sending message to a specific user 
      * @param username The user you want to send message to 
      * @param message The message you want to send
-     */
+     **/
 	private void sendMessageToPArticularUser(String username, String message) 
     {	
     	try {
@@ -112,7 +115,7 @@ public class WebSocketServer {
 	 * Sending messages to alll users 
 	 * @param message The message you want to send
 	 * @throws IOException 
-	 */
+	 **/
     private static void broadcast(String message) 
     	      throws IOException 
     {	  
@@ -131,7 +134,7 @@ public class WebSocketServer {
     /**
      * Show the online people 
      * @return The number of people online
-     */
+     **/
     public static synchronized int getOnlineCount()
     {
 	     return usernameSessionMap.size();	
