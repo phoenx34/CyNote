@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.classEntity.ClassController;
 import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,8 @@ public class UserController {
     @Autowired        // @Autowired means that the controller is connected with the database 
     UserRepository usersRepository;
     UserService userApplication;
+    
+    ClassController classCont;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -124,8 +127,8 @@ public class UserController {
      * @param id Return a list of classes 
      * @return All the classes 
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public List<String> getClassList(Integer id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/users_class/{id}")
+    public List<String> getClassList(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
     	Optional<User> results = usersRepository.findById(id);
     	if(results.isPresent() == false)
@@ -139,6 +142,19 @@ public class UserController {
     		result.add(temp.getName());
     	}
 		return result;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "addclass/{uid}/{cid}")
+    public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Integer cid) {
+		
+    	User u = this.findUserById(uid).get();
+    	
+    	classEntity classent = classCont.findClassById(cid).get();
+    	
+    	classent.getUsers().add(u);
+    	
+    	return true;
+    	
     }
     
     
@@ -171,15 +187,24 @@ public class UserController {
      * @param user The user object obtained from the Jason request
      * @return
      */
-    @PostMapping("/users/new")
+    /*@PostMapping("/users/new")
     public String createStudent(@RequestBody User user) {
-        if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
+        /*if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
             return "{\"status\":0,\"UID\":0}";
         if(userApplication.emailAlreadyExisted(user.getEmail())==true)
-            return "{\"status\":1,\"UID\":0}";
+            return "{\"status\":1,\"UID\":0}";*
         User savedUser = usersRepository.save(user);
         return "{\"status\":2,\"UID\":savedUser.getUID().toString()}";
+    }*/
+    
+    @PostMapping("/users") 
+    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
+    	User savedUser = usersRepository.save(user);  	
+    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
+    			.buildAndExpand(savedUser.getUID()).toUri();  	
+    	return ResponseEntity.created(location).build();  
     }
+
 
 
     

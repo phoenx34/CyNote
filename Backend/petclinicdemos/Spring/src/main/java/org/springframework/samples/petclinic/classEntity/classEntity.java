@@ -60,6 +60,10 @@ public class classEntity {
 	public List<Shoutout> getShoutouts() {
 		return shoutout;
 	}
+	
+	public List<User> getUsers() {
+		return users;
+	}
 
 
 	public void setUID(Integer cID) {

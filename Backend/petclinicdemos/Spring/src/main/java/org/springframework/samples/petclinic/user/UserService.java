@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 	@Autowired
 	UserRepository userRepository;
+	UserController userController;
 	
 	/**
 	 * Create a new user and store in the data base
@@ -33,7 +34,7 @@ public class UserService {
 	 * @return Whether if the email already exist in the database
 	 * @throws IllegalArgumentException When the input is not even valid
 	 */
-	public boolean emailAlreadyExisted(String emailAddress) throws IllegalArgumentException 
+	/*public boolean emailAlreadyExisted(String emailAddress) throws IllegalArgumentException 
 	{
 		if(emailAddress == null || emailAddress.trim().length()==0)
     		throw new IllegalArgumentException("The input email address is not valid"); 
@@ -55,7 +56,7 @@ public class UserService {
 	 * @param userName This is given as a string at the moment
 	 * @return Whether if the username already exist in the database
 	 * @throws IllegalArgumentException When the input is not even valid
-	 */
+	 *
 	public boolean usernamelAlreadyExisted(String userName)throws IllegalArgumentException
 	{
 		if(userName == null || userName.trim().length()==0)
@@ -69,7 +70,7 @@ public class UserService {
     		}
     	}
         return false; 
-	}
+	}*/
 	
 	/**
 	 * Find the userID from the UserScreen name
@@ -81,7 +82,7 @@ public class UserService {
 	{
 		if(userName == null || userName.trim().length()==0)
     		throw new IllegalArgumentException("The input email address is not valid");
-        List<User> results = (List<User>) userRepository.findAll();       // list of users 
+        List<User> results = (List<User>) userController.getAllUsers();       // list of users 
         for(User user : results)
     	{
     		if(user.getScreenname().equals(userName))
