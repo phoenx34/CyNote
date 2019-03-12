@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.notes;
+/*package org.springframework.samples.petclinic.notes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import org.hibernate.annotations.NotFoundAction;
  * 
  * @author Shen Chen
  * @author Marc Issac
- */
+ *
 
 @Entity
 @Table(name = "notes")
@@ -104,4 +104,4 @@ public class Notes {
 	
 	
 	
-}
+}*/

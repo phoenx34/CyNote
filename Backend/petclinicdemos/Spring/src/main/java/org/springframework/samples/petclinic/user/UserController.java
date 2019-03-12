@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.user;
 
 import java.net.URI;
+import java.util.UUID;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,62 +33,49 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     
-    
-    // DOES NOT WORK !!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // !!!!!!!!! it is possible that this method is not valid 
-    // @RequestMapping part below is an example of the rest API
-    // "RequestMethod.POST" the post here represent your changing something of the data base 
-    // Every Mapping is required with a "Path", it tells the program on when the path is given, run the method
-    /**
-     * The method is to create a new user in the database 
-     * @param user The user is obtained from the jason request string 
-     * @return Check if the email and username are already been used, if not, create the new user in the database
-     */
-    /*@RequestMapping(method = RequestMethod.POST, path = "/users/new")
-    public String saveUser(@RequestBody User user) {
-    	/*if(this.emailAlreadyExisted(user.getEmail()).equals("The email already existed"))
-    		return "The email already existed, please log in or use a different email to create the account";
-    	else if(this.usernamelAlreadyExisted(user.getScreenname()).equals("Username already exited, try a different ones"))
-    		return "Username already exited, try a different ones";
-    	else
-    	{
-    		 usersRepository.save(user);
-    	     return "New User "+ user.getScreenname() + " Saved";
-    	
-    }*/
-
-    
-    // parse the jason string request into an object
-    // check if the email is valid
-    // check if the user name matches the email
+ 
     
     
     
     
 
-    // The path is changed 
+   
     /**
      *  This is a login method, it first check if the input userName exist and then check to see if it matches with the password
+     *  In the jason request body, gives only the password
      * @param username Obtained from the Jason request link
      * @param password Obtained from the Jason request link
      * @return If the login is successful
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}/{passWord}")
-    public String loginWithUsername(@PathVariable("userName") String username, @PathVariable("passWord") String password)throws IllegalArgumentException 
+    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}")
+    public String loginWithUsername(@PathVariable("userName") String username, @RequestBody String password)throws IllegalArgumentException 
     {
-    	if(userApplication.usernamelAlreadyExisted(username)==true)
-    		return "The username does not exist, check the spelling";
-    	User inputUser = userApplication.findUserByUsername(username);
-    	if(inputUser.getPassword().equals(password))
-    		return "Sucess";
+    	if(username == null || username.trim().length()==0)
+    		throw new IllegalArgumentException("The input email address is not valid");
+    	User user = userApplication.findUserFromUsername(username);
+    	if(user==null)  // user does not exist
+    	{
+    		return "{\"status\":3,\"UID\":0}";    // user does not exist 
+    	}
     	else
-    		return "Incorrect password, try again";
+    	{
+    		if(user.getPassword().equals(password))
+    		{
+    			return "{\"status\":4,\"UID\":user.getUID().toString()}";  // password mathches with the username 
+    		}
+    		else
+    		{
+    			return "{\"status\":5,\"UID\":0}";   //  password doesn't match with the username
+    		}
+    	}
+    	
     }
     
     
     
-    // WORKS!!!!!!!!!!!!!!!!!!!!!
-    // SLOW
+    
+    
+
    /**
     * The method here is to delete user in the database by userID
     * @param userID The input userID to be deleted 
@@ -126,35 +115,79 @@ public class UserController {
     	}
     }
     
-    //"RequestMethod.GET" the Get here represent your not changing something from the data base
-    // All your doing is to use the information from the data base to return to the user 
+    
+    
+    
+    
+    /**
+     * Return the class list of each user
+     * @param id Return a list of classes 
+     * @return All the classes 
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public List<String> getClassList(Integer id) {
+    	logger.info("Entered into Controller Layer");
+    	Optional<User> results = usersRepository.findById(id);
+    	if(results.isPresent() == false)
+    		return null;
+    	User user = results.get();
+    	List<classEntity> classes = user.getClasses();
+    	classes.toArray();
+    	List<String> result = null;
+    	for(int i=0; i < classes.size(); i++) {
+    		classEntity temp = classes.get(i);
+    		result.add(temp.getName());
+    	}
+		return result;
+    }
+    
+    
+    
+    
+    
+  
+    /**
+     * Return all the users
+     * @return all the users 
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/users")
     public List<User> getAllUsers() {
         logger.info("Entered into Controller Layer");
         List<User> results = (List<User>) usersRepository.findAll();
-        logger.info("Number of Records Fetched:" + results.size());
+        logger.info("Number of Records Fetched: " + results.size());
         return results;
     }
+
     
     
     
-    // CHECK EMAIL AND USERNAME
-    /*@PostMapping("/users")
-    User post(@RequestBody User user) {
-    	return userApplication.create(user);
-    }*/
-    
-    @PostMapping("/users") 
-    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
-    	User savedUser = usersRepository.save(user);  	
-    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
-    			.buildAndExpand(savedUser.getUID()).toUri();  	
-    	return ResponseEntity.created(location).build();  
+
+
+
+
+
+    /**
+     * Create a new user
+     * @param user The user object obtained from the Jason request
+     * @return
+     */
+    @PostMapping("/users/new")
+    public String createStudent(@RequestBody User user) {
+        if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
+            return "{\"status\":0,\"UID\":0}";
+        if(userApplication.emailAlreadyExisted(user.getEmail())==true)
+            return "{\"status\":1,\"UID\":0}";
+        User savedUser = usersRepository.save(user);
+        return "{\"status\":2,\"UID\":savedUser.getUID().toString()}";
     }
+
+
     
-    
-    
-    // WORKS!!!!!!!!
+    /**
+     * Return the user with given userID
+     * @param id Return the user with the given user ID
+     * @return Return a user with a given
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
     public Optional<User> findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");

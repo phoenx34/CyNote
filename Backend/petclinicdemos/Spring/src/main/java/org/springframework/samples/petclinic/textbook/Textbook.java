@@ -5,10 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.samples.petclinic.classEntity.classEntity;
 
 /**
  * 
@@ -24,43 +27,37 @@ public class Textbook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Class_number")    
-    private String classNum;        // Class number
-    
     @Column(name = "TID")    
-    private String TID;        // Textbook ID
+    private Integer TID;        // Textbook ID   
     
+ 
     @Column(name = "Book_link")    
     private String bookLink;        // Book link
     
     @Column(name = "Rating")    
     private int rating;        // Rating of the textbook
-                               // ???????? should the rating be integer
+     
+    
+    
+    // This is a many to one relationship with the class
+    @ManyToOne
+    @JoinColumn(name="Class_CID")
+    private classEntity classentity;
+    
 
     
-    // ?????????? Is the lecture number necessary here
-//    @Column(name = "Lecture number")    
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private String lecNum;        // Lecture number
     
     
     // Getters and Setters 
-    public String getClassNum() {
-		return classNum;
-	}
-
-	public void setClassNum(String classNum) {
-		this.classNum = classNum;
-	}
-
-	public String getTID() {
+	public Integer getTID() {
 		return TID;
 	}
 
-	public void setTID(String tID) {
+	public void setTID(Integer tID) {
 		TID = tID;
 	}
 
+	
 	public String getBookLink() {
 		return bookLink;
 	}
@@ -77,14 +74,9 @@ public class Textbook {
 		this.rating = rating;
 	}
 
-	
-	// toString method 
-	@Override
-	public String toString() {
-		return "Textbook [classNum=" + classNum + ", TID=" + TID + ", bookLink=" + bookLink + ", rating=" + rating
-				+ "]";
-	}
     
+
+   
 	
 	
     

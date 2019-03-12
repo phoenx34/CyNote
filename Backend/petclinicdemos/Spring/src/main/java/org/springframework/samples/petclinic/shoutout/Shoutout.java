@@ -5,10 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.samples.petclinic.classEntity.classEntity;
 
 /**
  * 
@@ -25,65 +28,67 @@ public class Shoutout {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Class_number")    
-    private String classNum;        // Class number
+    @Column(name = "SID")    
+    private int SID;        // Shoutout ID
     
+
     
     @Column(name = "Lecture_number")    
     private String lecNum;        // Lecture number
 
-    @Column(name = "SID")    
-    private String SID;        // Shoutout ID
     
     @Column(name = "Content")    
     private String content;        // content of each shoutout
-
+    
+    // This is a many to one relationship with the class
+    @ManyToOne
+    @JoinColumn(name="Class_CID")
+    private classEntity classentity;
+    
+    
+    
     
     
     
     // Getters and Setters
-    
-	public String getClassNum() {
-		return classNum;
+   
+
+	public int getSID() {
+		return SID;
 	}
 
-	public void setClassNum(String classNum) {
-		this.classNum = classNum;
+
+	public void setSID(int sID) {
+		SID = sID;
 	}
+
 
 	public String getLecNum() {
 		return lecNum;
 	}
 
+
 	public void setLecNum(String lecNum) {
 		this.lecNum = lecNum;
 	}
 
-	public String getSID() {
-		return SID;
-	}
-
-	public void setSID(String sID) {
-		SID = sID;
-	}
 
 	public String getContent() {
 		return content;
 	}
 
+
 	public void setContent(String content) {
 		this.content = content;
 	}
 
-	
-	
-	// toString Method
-	@Override
-	public String toString() {
-		return "Shoutout [classNum=" + classNum + ", lecNum=" + lecNum + ", SID=" + SID + ", content=" + content + "]";
-	}
+
     
     
+
+    
+
+
 	
 	
     

@@ -70,22 +70,27 @@ public class UserService {
     	}
         return false; 
 	}
-
 	
-
-	// ?????????? The method might still not work yet 
 	/**
-	 * Finding user by the user name
-	 * @param username The given input string 
-	 * @return return the user with given username
+	 * Find the userID from the UserScreen name
+	 * @param userName The screen name provided to find the user 
+	 * @return The userID in string
+	 * @throws IllegalArgumentException 
 	 */
-	public User findUserByUsername(String username) {
-		User user = userRepository.findByUsername(username);
-		return user;
+	public User findUserFromUsername(String userName)throws IllegalArgumentException
+	{
+		if(userName == null || userName.trim().length()==0)
+    		throw new IllegalArgumentException("The input email address is not valid");
+        List<User> results = (List<User>) userRepository.findAll();       // list of users 
+        for(User user : results)
+    	{
+    		if(user.getScreenname().equals(userName))
+    		{
+    			return user;
+    		}
+    	}
+        return null; 
 	}
-	
-	
-	
 	
 	
 	

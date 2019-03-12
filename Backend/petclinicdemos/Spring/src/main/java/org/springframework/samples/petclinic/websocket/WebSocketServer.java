@@ -21,20 +21,23 @@ import org.springframework.stereotype.Component;
  * 
  * @author Shen Chen 
  * 
- */
+ **/
 
+
+//??????????? Maybe use different room ID to differentiate the different room
+//??????????? ("/websocket/{roomID}/{username}")
 @ServerEndpoint("/websocket/{username}")
 @Component
 public class WebSocketServer {
-
-	private Session session;       
-	private static Map<Session, String> sessionUsernameMap = new HashMap<>();
+	
+	// Store all socket session and their corresponding username.
+    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
     private static Map<String, Session> usernameSessionMap = new HashMap<>();
     
     private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
-
     
-   
+    
+    
     
     @OnOpen
     public void onOpen(
@@ -52,6 +55,8 @@ public class WebSocketServer {
     }
  
     
+    
+    
     @OnMessage
     public void onMessage(Session session, String message) throws IOException 
     {
@@ -59,9 +64,9 @@ public class WebSocketServer {
     	logger.info("Entered into Message: Got Message:"+message);
     	String username = sessionUsernameMap.get(session);
     	
-    	if (message.startsWith("@")) // Direct message to a user using the format "@username <message>"
+    	if (message.startsWith("@")) 
     	{
-    		String destUsername = message.split(" ")[0].substring(1); 
+    		String destUsername = message.split(" ")[0].substring(1); // don't do this in your code!
     		sendMessageToPArticularUser(destUsername, "[DM] " + username + ": " + message);
     		sendMessageToPArticularUser(username, "[DM] " + username + ": " + message);
     	}
@@ -84,8 +89,6 @@ public class WebSocketServer {
         broadcast(message);
     }
  
-    
-    
     @OnError
     public void onError(Session session, Throwable throwable) 
     {
@@ -93,11 +96,15 @@ public class WebSocketServer {
     	logger.info("Entered into Error");
     }
     
+    
+    
+    
+    
     /**
      * Sending message to a specific user 
      * @param username The user you want to send message to 
      * @param message The message you want to send
-     */
+     **/
 	private void sendMessageToPArticularUser(String username, String message) 
     {	
     	try {
@@ -108,11 +115,14 @@ public class WebSocketServer {
         }
     }
     
+	
+	
+	
 	/**
-	 * Sending messages to alll users 
+	 * Sending messages to all users 
 	 * @param message The message you want to send
 	 * @throws IOException 
-	 */
+	 **/
     private static void broadcast(String message) 
     	      throws IOException 
     {	  
@@ -126,22 +136,23 @@ public class WebSocketServer {
 	        }
 	    });
 	}
-
+    
+    
     
     /**
      * Show the online people 
      * @return The number of people online
-     */
+     **/
     public static synchronized int getOnlineCount()
     {
 	     return usernameSessionMap.size();	
     }
-    	  
-    
-    
-    
-    
-    
-    
-    
+   
 }
+    
+    
+    
+    
+    
+    
+
