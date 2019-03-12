@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.classEntity.ClassController;
 import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,8 @@ public class UserController {
     @Autowired        // @Autowired means that the controller is connected with the database 
     UserRepository usersRepository;
     UserService userApplication;
+    
+    ClassController classCont;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -143,7 +146,14 @@ public class UserController {
     
     @RequestMapping(method = RequestMethod.GET, path = "addclass/{uid}/{cid}")
     public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Integer cid) {
-		return false;
+		
+    	User u = this.findUserById(uid).get();
+    	
+    	classEntity classent = classCont.findClassById(cid).get();
+    	
+    	classent.getUsers().add(u);
+    	
+    	return true;
     	
     }
     
