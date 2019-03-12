@@ -13,12 +13,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 /**
  * API used to send information to the server, contains several types of HTTP requests
  *
@@ -28,7 +22,6 @@ import java.net.URL;
 public class APICalls extends Application {
     private static APICalls mInstance;
     private RequestQueue requestQueue;
-    private String response = "No response";
 
     public void onCreate() {
         super.onCreate();
@@ -76,10 +69,10 @@ public class APICalls extends Application {
      * @param data             Data to be packaged with the post request to be sent to the supplied url
      * @param responseListener Response.Listener, used to handle success responses.
      *                         Object must be initialized with desired methods before being passed as parameter.
-     *                         Example in Class 'Login', method 'loginToClassSelection'
+     *                         Example in Class 'Login', method 'loginToUID'
      * @param errorListener    Response.ErrorListener, used to handle error responses.
      *                         Object must be initialized with desired methods before being passed as parameter.
-     *                         Example in Class 'Login', method 'loginToClassSelection'
+     *                         Example in Class 'Login', method 'loginToUID'
      */
     protected void volleyPost(String urlString, String data, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) throws JSONException {
         JSONObject jsonObj = new JSONObject(data);
@@ -109,9 +102,7 @@ public class APICalls extends Application {
                 }
         );
 
-        System.out.println("Sending data - ");
-        System.out.println(data);
-        APICalls.getInstance().addToRequestQueue(jsonObjectRequest, "postRequest");
+        addToRequestQueue(jsonObjectRequest, "postRequest");
     }
 
 
@@ -127,10 +118,10 @@ public class APICalls extends Application {
      *                         "sampleUrl.com/endpoint"    or    "sampleUrl.com/endpoint?data1=12345&data2=something"
      * @param responseListener Response.Listener, used to handle success responses.
      *                         Object must be initialized with desired methods before being passed as parameter.
-     *                         Example in Class 'Login', method 'loginToClassSelection'
+     *                         Example in Class 'Login', method 'loginToUID'
      * @param errorListener    Response.ErrorListener, used to handle error responses.
      *                         Object must be initialized with desired methods before being passed as parameter.
-     *                         Example in Class 'Login', method 'loginToClassSelection'
+     *                         Example in Class 'Login', method 'loginToUID'
      */
     public void volleyGet(String urlString, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) throws IllegalArgumentException {
 
@@ -159,7 +150,7 @@ public class APICalls extends Application {
                 }
         );
 
-        APICalls.getInstance().addToRequestQueue(jsonObjectRequest, "getRequest");
+        addToRequestQueue(jsonObjectRequest, "getRequest");
     }
 
 

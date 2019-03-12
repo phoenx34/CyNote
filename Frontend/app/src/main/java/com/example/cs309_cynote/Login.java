@@ -50,11 +50,13 @@ public class Login extends AppCompatActivity
         setContentView(R.layout.activity_login);
         loginB = findViewById(R.id.loginBot);
         //createB = findViewById(R.id.creationBut);
-        emailIn = findViewById(R.id.emailInput);
+        //emailIn = findViewById(R.id.emailInput);      //Currently swapped for a username input
         passwordIn = findViewById(R.id.passwordInput);
         jumpProfessor = findViewById(R.id.professorJumpPage);
         jumpTA = findViewById(R.id.taJumpPage);
         jumpStudent = findViewById(R.id.studentJumpPage);
+
+        /* Directly setting loginB onClick
 
         loginB.setOnClickListener(new View.OnClickListener()
         {
@@ -105,6 +107,7 @@ public class Login extends AppCompatActivity
                 }
             }
         });
+        */
 
         /*
         createB.setOnClickListener(new View.OnClickListener() {
@@ -173,26 +176,64 @@ public class Login extends AppCompatActivity
         startActivity(intent);
     }
 
+
+
+
+    //Server side login currently fucked, skipping login and using hardcoded ID
+    public void loginToUID(final View view){
+        UIDtoClassSelection(view, 1);
+    }
+
+
+
+
+
+
+
+
     /**
      * Upon submitting login form, call this method to send a get request to server
-     * containing login information as url parameters, and upon callback use what
-     * is defined in this personalized responseObject
+     * containing login information as url parameters, and receive a User ID with the
+     * specified callback object
      *
      * @param view  View selected to submit login form
      */
-    public void loginToClassSelection(final View view){
+    public void loginToUIDCURRENTLYBROKEN(final View view){
 
-        //TODO replace with correct url
-        String url = "http://webhook.site/aee170c8-ab5b-49d1-845c-b625a4768066";    //Server-side url to receive userID
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080//usersLogin";    //Server-side url to receive screenname and password as params
 
+
+
+
+        /*Server-side currently accepts only username and password, not email, so we will be treating
+        //email as username for the time being
         EditText editEmail = findViewById(R.id.emailInput);
-        String email = editEmail.getText().toString();
+        String email = editEmail.getText().toString();*/
 
+
+        //Grab entered screenname
+        EditText editScreenname = findViewById(R.id.screennameInput);
+        String screenname = editScreenname.getText().toString();
+
+        //Grab entered password
         EditText editPassword = findViewById(R.id.passwordInput);
         String password = editPassword.getText().toString();
 
+        //Test for empty entries
+        if(screenname == null || screenname.trim().length() == 0){
+            Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(password == null || password.trim().length() == 0){
+            Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         //Add login form data as parameters
-        url += "?email="+email+"&password="+password;
+        url += "?screenname="+screenname+"&password="+password;
+
+
+
 
         APICalls api = new APICalls();
 
@@ -200,6 +241,64 @@ public class Login extends AppCompatActivity
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                //Call another method to make another get request using the received UID
+                UIDtoClassSelection(view, Integer.parseInt(response));
+
+                /*
+                Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                intent.putExtra("data", response);  //Link received data to ClassSelection intent
+                startActivity(intent);
+                */
+            }
+        };
+
+        //Set up listener for error case
+        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Login unsuccessful");
+                System.out.println(error.getMessage());
+            }
+        };
+
+
+        //Uses the APICalls generic volley get request
+        try{
+            api.volleyGet(url, responseListener, errorListener);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Upon successfully submitting login form and receiving a UserID, call this method
+     * (usually through a callback object) with current view and received UID to get
+     * request list of classes tied to UID
+     *
+     * @param view  View selected to submit login form
+     * @param UID   UID to get request for classList
+     */
+    public void UIDtoClassSelection(final View view, int UID){
+        //            http://cs309-sd-7.misc.iastate.edu:8080//users_class//{id}
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080//users_class//";    //Server-side url to receive list of classes for UID
+
+        //Add UID to path
+        url += UID;
+
+
+
+        APICalls api = new APICalls();
+
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("ClassList received:\n");
+                System.out.println(response);
+
                 Intent intent = new Intent(view.getContext(), ClassSelection.class);
                 intent.putExtra("data", response);  //Link received data to ClassSelection intent
                 startActivity(intent);
@@ -225,6 +324,10 @@ public class Login extends AppCompatActivity
             System.out.println(e.getMessage());
         }
     }
+
+
+
+
 
     public void sendRequest(){
         final RequestQueue ReqQueue = Volley.newRequestQueue(this);
@@ -274,10 +377,10 @@ public class Login extends AppCompatActivity
     }
 
 
+    /*
     public void testGet(final View view) throws IOException, JSONException {
 
 
-        //TODO replace with correct url
         String url = "http://webhook.site/aee170c8-ab5b-49d1-845c-b625a4768066";    //Server-side url to receive userID
 
         EditText editEmail = findViewById(R.id.emailInput);
@@ -322,5 +425,6 @@ public class Login extends AppCompatActivity
             System.out.println(e.getMessage());
         }
     }
+    */
 
 }

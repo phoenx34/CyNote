@@ -31,6 +31,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cynoteTitle" />
 
+    <!--    Username box    -->
+    <EditText
+        android:id="@+id/screennameInput"
+        android:layout_width="307dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginHead"
+        android:autofillHints="" />
+
+
+
+    <!--    Email box    --><!--
     <EditText
         android:id="@+id/emailInput"
         android:layout_width="307dp"
@@ -47,6 +68,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginHead"
         android:autofillHints="" />
+        -->
 
     <EditText
         android:id="@+id/passwordInput"
@@ -62,7 +84,11 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
+        app:layout_constraintTop_toBottomOf="@+id/screennameInput"
+        />
+    <!--
+        app:layout_constraintTop_toBottomOf="@+id/emailInput"
+        -->
 
     <Button
         android:id="@+id/loginBot"
@@ -74,6 +100,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="@string/login"
+        android:onClick="loginToUID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordInput" />

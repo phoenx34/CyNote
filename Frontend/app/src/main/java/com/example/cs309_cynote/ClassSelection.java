@@ -13,6 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -39,13 +43,45 @@ public class ClassSelection extends AppCompatActivity {
         */
 
 
-
-
-        //Sample Data
         List<String> classNames = new ArrayList<String>();
-        classNames.add("ComS 309");
-        classNames.add("CprE 381");
-        classNames.add("CprE 412");
+
+        String data = null;
+        Bundle extras = getIntent().getExtras();
+        //data = extras.getString("data");
+
+        //Sample data received from server
+        data = "{\"classes\":[\"ComS 309\",\"CprE 381\",\"ComS 311\"]}";
+
+        if(data == null || data.trim().length() == 0){
+            System.out.println("No data received");
+            /*
+            //Sample Data
+            classNames.add("ComS 309");
+            classNames.add("CprE 381");
+            classNames.add("CprE 412");
+            */
+        }
+        else{
+            try{
+                JSONObject jsonObject = new JSONObject(data);
+
+                JSONArray arr = jsonObject.getJSONArray("classes");
+                for (int i = 0; i < arr.length(); i++) {
+                    String className = arr.get(i).toString();;
+                    classNames.add(className);
+                }
+            }catch(JSONException e){
+                System.out.println(e.getMessage());
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+
+        }
+
+
+
+
+
 
 
         //I'm using this to generate a random color, won't be needed later
