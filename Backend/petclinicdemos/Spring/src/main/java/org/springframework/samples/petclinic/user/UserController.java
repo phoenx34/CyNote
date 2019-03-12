@@ -64,7 +64,7 @@ public class UserController {
     	{
     		if(user.getPassword().equals(password))
     		{
-    			return "{\"status\":4,\"UID\":user.getUID().toString()}";  // password mathches with the username 
+    			return "{\"status\":4,\"UID\":" + user.getUID().toString() + "}";  // password mathches with the username 
     		}
     		else
     		{
@@ -128,7 +128,7 @@ public class UserController {
      * @return All the classes 
      */
     @RequestMapping(method = RequestMethod.GET, path = "/users_class/{id}")
-    public List<String> getClassList(@PathVariable("id") Integer id) {
+    public String getClassList(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
     	Optional<User> results = usersRepository.findById(id);
     	if(results.isPresent() == false)
@@ -137,11 +137,14 @@ public class UserController {
     	List<classEntity> classes = user.getClasses();
     	classes.toArray();
     	List<String> result = null;
+    	logger.info("size of classes" + classes.size());
     	for(int i=0; i < classes.size(); i++) {
     		classEntity temp = classes.get(i);
     		result.add(temp.getName());
     	}
-		return result;
+		String s = "{\"classes\":[" + result.toArray().toString() + "]}";
+		logger.info("string is: " + s); 
+		return s;
     }
     
     @RequestMapping(method = RequestMethod.GET, path = "addclass/{uid}/{cid}")

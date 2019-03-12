@@ -29,7 +29,7 @@ public class classEntity {
     private Integer CID;        // User ID
 	
     
-    @Column(name = "Name", nullable=false)
+    @Column(name = "Name")
     @NotFound(action = NotFoundAction.IGNORE)
     private String Name;      // Note ID
     
