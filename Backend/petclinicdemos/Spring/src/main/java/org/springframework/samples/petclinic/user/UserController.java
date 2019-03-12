@@ -124,8 +124,8 @@ public class UserController {
      * @param id Return a list of classes 
      * @return All the classes 
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public List<String> getClassList(Integer id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/users_class/{id}")
+    public List<String> getClassList(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
     	Optional<User> results = usersRepository.findById(id);
     	if(results.isPresent() == false)
@@ -139,6 +139,12 @@ public class UserController {
     		result.add(temp.getName());
     	}
 		return result;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "addclass/{uid}/{cid}")
+    public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Integer cid) {
+		return false;
+    	
     }
     
     
@@ -171,15 +177,24 @@ public class UserController {
      * @param user The user object obtained from the Jason request
      * @return
      */
-    @PostMapping("/users/new")
+    /*@PostMapping("/users/new")
     public String createStudent(@RequestBody User user) {
-        if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
+        /*if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
             return "{\"status\":0,\"UID\":0}";
         if(userApplication.emailAlreadyExisted(user.getEmail())==true)
-            return "{\"status\":1,\"UID\":0}";
+            return "{\"status\":1,\"UID\":0}";*
         User savedUser = usersRepository.save(user);
         return "{\"status\":2,\"UID\":savedUser.getUID().toString()}";
+    }*/
+    
+    @PostMapping("/users") 
+    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
+    	User savedUser = usersRepository.save(user);  	
+    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
+    			.buildAndExpand(savedUser.getUID()).toUri();  	
+    	return ResponseEntity.created(location).build();  
     }
+
 
 
     
