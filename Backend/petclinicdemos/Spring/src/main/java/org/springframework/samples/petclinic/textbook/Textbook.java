@@ -28,7 +28,7 @@ public class Textbook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TID")    
-    private String TID;        // Textbook ID   
+    private Integer TID;        // Textbook ID   
     
  
     @Column(name = "Book_link")    
@@ -49,11 +49,11 @@ public class Textbook {
     
     
     // Getters and Setters 
-	public String getTID() {
+	public Integer getTID() {
 		return TID;
 	}
 
-	public void setTID(String tID) {
+	public void setTID(Integer tID) {
 		TID = tID;
 	}
 

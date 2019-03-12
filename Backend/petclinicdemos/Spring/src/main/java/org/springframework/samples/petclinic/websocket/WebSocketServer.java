@@ -24,19 +24,20 @@ import org.springframework.stereotype.Component;
  **/
 
 
-// ??????????? Maybe use different room ID to differentiate the different room
-@ServerEndpoint("/websocket/{roomID}/{username}")
+//??????????? Maybe use different room ID to differentiate the different room
+//??????????? ("/websocket/{roomID}/{username}")
+@ServerEndpoint("/websocket/{username}")
 @Component
 public class WebSocketServer {
-
-	private Session session;       
-	private static Map<Session, String> sessionUsernameMap = new HashMap<>();
+	
+	// Store all socket session and their corresponding username.
+    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
     private static Map<String, Session> usernameSessionMap = new HashMap<>();
     
     private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
-
     
-   
+    
+    
     
     @OnOpen
     public void onOpen(
@@ -55,6 +56,7 @@ public class WebSocketServer {
  
     
     
+    
     @OnMessage
     public void onMessage(Session session, String message) throws IOException 
     {
@@ -62,9 +64,9 @@ public class WebSocketServer {
     	logger.info("Entered into Message: Got Message:"+message);
     	String username = sessionUsernameMap.get(session);
     	
-    	if (message.startsWith("@")) // Direct message to a user using the format "@username <message>"
+    	if (message.startsWith("@")) 
     	{
-    		String destUsername = message.split(" ")[0].substring(1); 
+    		String destUsername = message.split(" ")[0].substring(1); // don't do this in your code!
     		sendMessageToPArticularUser(destUsername, "[DM] " + username + ": " + message);
     		sendMessageToPArticularUser(username, "[DM] " + username + ": " + message);
     	}
@@ -87,14 +89,16 @@ public class WebSocketServer {
         broadcast(message);
     }
  
-    
-    
     @OnError
     public void onError(Session session, Throwable throwable) 
     {
         // Do error handling here
     	logger.info("Entered into Error");
     }
+    
+    
+    
+    
     
     /**
      * Sending message to a specific user 
@@ -111,8 +115,11 @@ public class WebSocketServer {
         }
     }
     
+	
+	
+	
 	/**
-	 * Sending messages to alll users 
+	 * Sending messages to all users 
 	 * @param message The message you want to send
 	 * @throws IOException 
 	 **/
@@ -129,7 +136,8 @@ public class WebSocketServer {
 	        }
 	    });
 	}
-
+    
+    
     
     /**
      * Show the online people 
@@ -139,12 +147,12 @@ public class WebSocketServer {
     {
 	     return usernameSessionMap.size();	
     }
-    	  
-    
-    
-    
-    
-    
-    
-    
+   
 }
+    
+    
+    
+    
+    
+    
+

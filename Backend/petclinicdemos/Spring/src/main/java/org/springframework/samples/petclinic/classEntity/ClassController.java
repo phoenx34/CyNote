@@ -40,7 +40,7 @@ public class ClassController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/class")
+    @RequestMapping(method = RequestMethod.GET, path = "/classes")
     public List<classEntity> getAllClasses() {
         logger.info("Entered into Controller Layer");
         List<classEntity> results = (List<classEntity>) classRepository.findAll();
@@ -48,8 +48,8 @@ public class ClassController {
         return results;
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
-    public List<String> getTextbooks(@PathVariable("id") Integer id) {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<String> getTextbook(Integer id) {
     	logger.info("Entered into Controller Layer");
     	Optional<classEntity> thisClass = this.findClassById(id);
     	if(thisClass.isPresent() == false) {
@@ -69,8 +69,8 @@ public class ClassController {
     	return textbooks;
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
-    public List<String> getShoutouts(@PathVariable("id") Integer id) {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<String> getShoutout(Integer id) {
     	logger.info("Entered into Controller layer, poop");
     	Optional<classEntity> thisClass = this.findClassById(id);
     	if(thisClass.isPresent() == false) {

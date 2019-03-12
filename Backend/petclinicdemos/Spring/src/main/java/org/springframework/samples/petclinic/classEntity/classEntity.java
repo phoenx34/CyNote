@@ -19,7 +19,7 @@ import org.springframework.samples.petclinic.user.User;
 
 
 @Entity
-@Table(name = "Class")
+@Table(name = "classent")
 public class classEntity {
 
     @Id
@@ -34,7 +34,7 @@ public class classEntity {
     private String Name;      // Note ID
     
     @OneToMany(mappedBy="classentity")
-    private List<Textbook> textbooks;
+    private List<Textbook> textbook;
     
     @OneToMany(mappedBy="classentity")
     private List<Shoutout> shoutout;
@@ -54,7 +54,7 @@ public class classEntity {
 	}
 	
 	public List<Textbook> getTextbooks(){
-		return textbooks;
+		return textbook;
 	}
 	
 	public List<Shoutout> getShoutouts() {

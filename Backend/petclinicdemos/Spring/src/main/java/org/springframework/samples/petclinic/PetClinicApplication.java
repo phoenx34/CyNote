@@ -22,14 +22,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * PetClinic Spring Boot Application.
  * 
- * @author Dave Syer
- * Modified by Tanmay Ghosh
+ * @author Marc Isaac
+ * @author Shen Chen
  *
  */
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages= {"websocket"})
 public class PetClinicApplication {
 	
     public static void main(String[] args) throws Exception {
