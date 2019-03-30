@@ -1,4 +1,4 @@
-/*package org.springframework.samples.petclinic.notes;
+package org.springframework.samples.petclinic.notes;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 
  * @author Shen Chen
  * @author Marc Issac
- *
+ **/
 
 @RestController
 public class NotesController {
@@ -39,12 +39,14 @@ public class NotesController {
         return results;
     }
     
-    /*@RequestMapping(method = RequestMethod.GET, path = "/notes/{noteId}")
+    
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/notes/{noteId}")
     public Optional<Notes> findNoteById(@PathVariable("noteId") int id) {
         logger.info("Entered into Controller Layer");
         Optional<Notes> results = noteRepository.findById(id);
         return results;
-    }*
+    }
 
 	
-}*/
+}
