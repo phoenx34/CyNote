@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.shoutout.Shoutout;
 import org.springframework.samples.petclinic.textbook.Textbook;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +32,8 @@ public class ClassController {
 
     private final Logger logger = LoggerFactory.getLogger(ClassController.class);
 
-    @PostMapping("/classes")
-    public ResponseEntity<Object> saveClass(classEntity oneClass) {
+    @PostMapping("/classent")
+    public ResponseEntity<Object> saveClass(@RequestBody classEntity oneClass) {
     	classEntity savedClass = classRepository.save(oneClass);  	
     	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
     			.buildAndExpand(savedClass.getCID()).toUri();  	
@@ -40,7 +41,7 @@ public class ClassController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/classes")
+    @RequestMapping(method = RequestMethod.GET, path = "/classent")
     public List<classEntity> getAllClasses() {
         logger.info("Entered into Controller Layer");
         List<classEntity> results = (List<classEntity>) classRepository.findAll();
@@ -48,8 +49,8 @@ public class ClassController {
         return results;
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public List<String> getTextbook(Integer id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/textbooklist/{id}")
+    public List<String> getTextbook(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
     	Optional<classEntity> thisClass = this.findClassById(id);
     	if(thisClass.isPresent() == false) {
@@ -69,8 +70,8 @@ public class ClassController {
     	return textbooks;
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public List<String> getShoutout(Integer id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/shoutoutlist/{id}")
+    public List<String> getShoutout(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller layer, poop");
     	Optional<classEntity> thisClass = this.findClassById(id);
     	if(thisClass.isPresent() == false) {
@@ -90,7 +91,7 @@ public class ClassController {
     	return shoutouts;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/classes/{id}")
+    @RequestMapping(method = RequestMethod.GET, path = "/classent/{id}")
     public Optional<classEntity> findClassById(@PathVariable("id") Integer id) {
         logger.info("Entered into Controller Layer");
         Optional<classEntity> results = classRepository.findById(id);

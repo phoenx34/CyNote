@@ -9,12 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.classEntity.ClassController;
 import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,6 +31,8 @@ public class UserController {
     @Autowired        // @Autowired means that the controller is connected with the database 
     UserRepository usersRepository;
     UserService userApplication;
+    
+    ClassController classCont;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -61,7 +65,7 @@ public class UserController {
     	{
     		if(user.getPassword().equals(password))
     		{
-    			return "{\"status\":4,\"UID\":user.getUID().toString()}";  // password mathches with the username 
+    			return "{\"status\":4,\"UID\":" + user.getUID().toString() + "}";  // password mathches with the username 
     		}
     		else
     		{
@@ -70,6 +74,34 @@ public class UserController {
     	}
     	
     }
+    
+    
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/userLogin", headers = "Accept=application/json")
+    public String loginUserPass(@RequestParam("screename") String screename, @RequestParam("password") String password){
+        if(screename == null || screename.trim().length()==0)
+            throw new IllegalArgumentException("The input screename is not valid");
+            
+            
+            
+        User user = userApplication.findUserFromUsername(screename);
+        
+        
+        
+        if(user == null)
+            return "{\"status\":3,\"UID\":0}";    // user does not exist 
+        
+        if(user.getPassword().equals(password))
+            return "{\"status\":4,\"UID\":user.getUID().toString()}";  // password mathches with the username
+            
+        return "{\"status\":5,\"UID\":0}";   //  password doesn't match with the username
+    }
+    
+    
+    
+    
+    
+    
     
     
     
@@ -124,21 +156,39 @@ public class UserController {
      * @param id Return a list of classes 
      * @return All the classes 
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public List<String> getClassList(Integer id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/users_class/{id}")
+    public String getClassList(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
+    	logger.info("id: " + id);
     	Optional<User> results = usersRepository.findById(id);
+    	logger.info("userid: " + results.get().getUID());
     	if(results.isPresent() == false)
     		return null;
     	User user = results.get();
     	List<classEntity> classes = user.getClasses();
     	classes.toArray();
     	List<String> result = null;
+    	logger.info("size of classes" + classes.size());
     	for(int i=0; i < classes.size(); i++) {
     		classEntity temp = classes.get(i);
     		result.add(temp.getName());
     	}
-		return result;
+		String s = "{\"classes\":[" + result.toArray().toString() + "]}";
+		logger.info("string is: " + s); 
+		return s;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "addclass/{uid}/{cid}")
+    public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Integer cid) {
+		
+    	User u = this.findUserById(uid).get();
+    	
+    	classEntity classent = classCont.findClassById(cid).get();
+    	
+    	classent.getUsers().add(u);
+    	
+    	return true;
+    	
     }
     
     
@@ -153,7 +203,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/users")
     public List<User> getAllUsers() {
         logger.info("Entered into Controller Layer");
-        List<User> results = (List<User>) usersRepository.findAll();
+        List<User> results = userApplication.getUsers();
         logger.info("Number of Records Fetched: " + results.size());
         return results;
     }
@@ -171,15 +221,24 @@ public class UserController {
      * @param user The user object obtained from the Jason request
      * @return
      */
-    @PostMapping("/users/new")
+    /*@PostMapping("/users/new")
     public String createStudent(@RequestBody User user) {
-        if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
+        /*if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
             return "{\"status\":0,\"UID\":0}";
         if(userApplication.emailAlreadyExisted(user.getEmail())==true)
-            return "{\"status\":1,\"UID\":0}";
+            return "{\"status\":1,\"UID\":0}";*
         User savedUser = usersRepository.save(user);
         return "{\"status\":2,\"UID\":savedUser.getUID().toString()}";
+    }*/
+    
+    @PostMapping("/users") 
+    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
+    	User savedUser = usersRepository.save(user);  	
+    	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
+    			.buildAndExpand(savedUser.getUID()).toUri();  	
+    	return ResponseEntity.created(location).build();  
     }
+
 
 
     
@@ -192,6 +251,7 @@ public class UserController {
     public Optional<User> findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
+        
         return results;
     }
     
