@@ -54,8 +54,8 @@ public class FileUploadController {
 
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) {
-
+            RedirectAttributes redirectAttributes, @PathVariable("cid") Integer cid, @PathVariable("lid") Integer lid) {
+    	
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
