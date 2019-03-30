@@ -24,13 +24,13 @@ public class Notes {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NID")
-    private String NID;      // Note ID            
+    private Integer NID;      // Note ID            
 	
 	@Column(name = "Class_number")
-    private String classNum;      // Class number
+    private Integer classNum;      // Class number
 
 	@Column(name = "Lecture_number")
-    private String lecNum;      // Lecture number
+    private Integer lecNum;      // Lecture number
 	
 	@Column(name = "Title")
     private String title;      // The title of the note
@@ -41,35 +41,33 @@ public class Notes {
 	@Column(name = "Rating")
     private int rating;      // Rating of the note to determine the quality of the note  
 	
-	@Column(name = "Content")
-    private String content;      // Content of the note
-
+	
 	
 	
 	
 	
 	// getters and setters
-	public String getNID() {
+	public Integer getNID() {
 		return NID;
 	}
 
-	public void setNID(String nID) {
+	public void setNID(Integer nID) {
 		NID = nID;
 	}
 
-	public String getClassNum() {
+	public Integer getClassNum() {
 		return classNum;
 	}
 
-	public void setClassNum(String classNum) {
+	public void setClassNum(Integer classNum) {
 		this.classNum = classNum;
 	}
 
-	public String getLecNum() {
+	public Integer getLecNum() {
 		return lecNum;
 	}
 
-	public void setLecNum(String lecNum) {
+	public void setLecNum(Integer lecNum) {
 		this.lecNum = lecNum;
 	}
 
@@ -97,24 +95,5 @@ public class Notes {
 		this.rating = rating;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

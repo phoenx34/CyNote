@@ -21,11 +21,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.springframework.samples.petclinic.storage.StorageFileNotFoundException;
 import org.springframework.samples.petclinic.storage.StorageService;
+import org.springframework.samples.petclinic.notes.*;
 
 @Controller
 public class FileUploadController {
 
     private final StorageService storageService;
+    public NotesController notes;
 
     @Autowired
     public FileUploadController(StorageService storageService) {
@@ -57,6 +59,10 @@ public class FileUploadController {
             RedirectAttributes redirectAttributes, @PathVariable("cid") Integer cid, @PathVariable("lid") Integer lid) {
     	
         storageService.store(file);
+        Notes note = new Notes();
+        note.setClassNum(cid);
+        note.setLecNum(lid);
+        notes.saveNote(note);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 

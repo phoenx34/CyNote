@@ -13,21 +13,26 @@ public class NotesService {
 	@Autowired
 	NotesController notesController;
 	
-	public String[] sortNote()
+	
+	
+	
+	
+	public Notes[] sortNote(Notes[] arr)
 	{
-		
+		 sort(arr, arr.length);
+		 return arr;
 	}
 	
 	// insertion sort
-	void sort(String s[], int n) 
+	static void sort(Notes []s, int n) 
 	{ 
 	    for (int i=1 ;i<n; i++) 
 	    { 
-	        String temp = s[i]; 
+	        Notes temp = s[i]; 
 	  
 	        // Insert s[j] at its correct position 
 	        int j = i - 1; 
-	        while (j >= 0 && temp.length() < s[j].length()) 
+	        while (j >= 0 && temp.getRating() < s[j].getRating()) 
 	        { 
 	            s[j+1] = s[j]; 
 	            j--; 
@@ -37,8 +42,22 @@ public class NotesService {
 	} 
 	
 	
-	// quick sort according to the 
-    public static void quickSort(int[] arr, int start, int end){
+	
+	
+	
+	
+	
+	
+	
+	public Notes[] quicksortNote(Notes[] arr)
+	{
+		quickSort(arr, 0, arr.length-1);
+		 return arr;
+	}
+	
+	
+	// quick sort according to the rating
+    public static void quickSort(Notes[] arr, int start, int end){
     	 
         int partition = partition(arr, start, end);
  
@@ -50,19 +69,19 @@ public class NotesService {
         }
     }
  
-    public static int partition(int[] arr, int start, int end){
-        int pivot = arr[end];
+    public static int partition(Notes[] arr, int start, int end){
+        Notes pivot = arr[end];
  
         for(int i=start; i<end; i++){
-            if(arr[i]<pivot){
-                int temp= arr[start];
+            if(arr[i].getRating()<pivot.getRating()){
+                Notes temp= arr[start];
                 arr[start]=arr[i];
                 arr[i]=temp;
                 start++;
             }
         }
  
-        int temp = arr[start];
+        Notes temp = arr[start];
         arr[start] = pivot;
         arr[end] = temp;
  
