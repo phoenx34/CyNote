@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -171,6 +173,59 @@ public class Login extends AppCompatActivity
         startActivity(intent);
     }
 
+    /**
+     * Upon submitting login form, call this method to send a get request to server
+     * containing login information as url parameters, and upon callback use what
+     * is defined in this personalized responseObject
+     *
+     * @param view  View selected to submit login form
+     */
+    public void loginToClassSelection(final View view){
+
+        //TODO replace with correct url
+        String url = "http://webhook.site/aee170c8-ab5b-49d1-845c-b625a4768066";    //Server-side url to receive userID
+
+        EditText editEmail = findViewById(R.id.emailInput);
+        String email = editEmail.getText().toString();
+
+        EditText editPassword = findViewById(R.id.passwordInput);
+        String password = editPassword.getText().toString();
+
+        //Add login form data as parameters
+        url += "?email="+email+"&password="+password;
+
+        APICalls api = new APICalls();
+
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                intent.putExtra("data", response);  //Link received data to ClassSelection intent
+                startActivity(intent);
+            }
+        };
+
+        //Set up listener for error case
+        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Login unsuccessful");
+                System.out.println(error.getMessage());
+            }
+        };
+
+
+        //Uses the APICalls generic volley get request
+        try{
+            api.volleyGet(url, responseListener, errorListener);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void sendRequest(){
         final RequestQueue ReqQueue = Volley.newRequestQueue(this);
         JsonObjectRequest loginReq = new JsonObjectRequest(Request.Method.POST,
@@ -216,6 +271,56 @@ public class Login extends AppCompatActivity
         };
         ReqQueue.add(loginReq);
 
+    }
+
+
+    public void testGet(final View view) throws IOException, JSONException {
+
+
+        //TODO replace with correct url
+        String url = "http://webhook.site/aee170c8-ab5b-49d1-845c-b625a4768066";    //Server-side url to receive userID
+
+        EditText editEmail = findViewById(R.id.emailInput);
+        String email = editEmail.getText().toString();
+
+        EditText editPassword = findViewById(R.id.passwordInput);
+        String password = editPassword.getText().toString();
+
+        url += "?email="+email+"&password="+password;
+
+
+
+        APICalls api = new APICalls();
+
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println(response);
+                //Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                //intent.putExtra("data", response);  //Link received data to ClassSelection intent
+                //startActivity(intent);
+            }
+        };
+
+        //Set up listener for error case
+        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Login unsuccessful");
+                System.out.println(error.getMessage());
+            }
+        };
+
+
+        //Uses the APICalls generic volley get request
+        try{
+            api.volleyGet(url, responseListener, errorListener);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
 }

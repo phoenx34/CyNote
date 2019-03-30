@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import org.json.JSONException;
 
 import java.util.Random;
@@ -88,9 +91,30 @@ public class AccCreation extends AppCompatActivity {
         //String testUrl = "http://ptsv2.com/t/mp8ul-1550461405/post";
         String serverUrl = "http://cs309-sd-7.misc.iastate.edu:8080/users";
 
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println(response);
+                //Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                //intent.putExtra("data", response);  //Link received data to ClassSelection intent
+                //startActivity(intent);
+            }
+        };
+
+        //Set up listener for error case
+        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Login unsuccessful");
+                System.out.println(error.getMessage());
+            }
+        };
+
         System.out.println("Calling API");
         APICalls api = new APICalls();
-        api.httpPost(serverUrl, json);
+        api.volleyPost(serverUrl, json, responseListener, errorListener);
 
 
 //        Intent goBackfromC2 = new Intent(MainActivity.this, Login.class);

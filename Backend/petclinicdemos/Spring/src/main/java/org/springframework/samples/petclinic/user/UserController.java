@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -73,6 +74,34 @@ public class UserController {
     	}
     	
     }
+    
+    
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/userLogin", headers = "Accept=application/json")
+    public String loginUserPass(@RequestParam("screename") String screename, @RequestParam("password") String password){
+        if(screename == null || screename.trim().length()==0)
+            throw new IllegalArgumentException("The input screename is not valid");
+            
+            
+            
+        User user = userApplication.findUserFromUsername(screename);
+        
+        
+        
+        if(user == null)
+            return "{\"status\":3,\"UID\":0}";    // user does not exist 
+        
+        if(user.getPassword().equals(password))
+            return "{\"status\":4,\"UID\":user.getUID().toString()}";  // password mathches with the username
+            
+        return "{\"status\":5,\"UID\":0}";   //  password doesn't match with the username
+    }
+    
+    
+    
+    
+    
+    
     
     
     
@@ -174,7 +203,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/users")
     public List<User> getAllUsers() {
         logger.info("Entered into Controller Layer");
-        List<User> results = (List<User>) usersRepository.findAll();
+        List<User> results = userApplication.getUsers();
         logger.info("Number of Records Fetched: " + results.size());
         return results;
     }
