@@ -86,14 +86,11 @@ public class UserService {
 	{
 		if(userName == null || userName.trim().length()==0)
     		throw new IllegalArgumentException("The input email address is not valid");
-<<<<<<< HEAD
+
 
         List<User> results = (List<User>) userRepository.findAll();       // list of users 
 
-=======
-        List<User> results = (List<User>) userRepository.findAll();       // list of users 
-        
->>>>>>> b3db784d1eecfb94cd918a1189c6ba226a98f472
+
         for(User user : results)
     	{
     		if(user.getScreenname().equals(userName))

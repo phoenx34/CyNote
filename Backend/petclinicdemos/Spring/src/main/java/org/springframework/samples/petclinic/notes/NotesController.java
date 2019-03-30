@@ -23,6 +23,9 @@ public class NotesController {
 	@Autowired
 	NotesRepository noteRepository;
 
+	@Autowired
+	NotesService notesService;
+	
     private final Logger logger = LoggerFactory.getLogger(NotesController.class);
 
     @RequestMapping(method = RequestMethod.POST, path = "/notes/new")
@@ -32,11 +35,12 @@ public class NotesController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/notes")
-    public List<Notes> getAllNotes() {
+    public Notes[] getAllNotes() {
         logger.info("Entered into Controller Layer");
         List<Notes> results = noteRepository.findAll();
         logger.info("Number of Records Fetched:" + results.size());
-        return results;
+        Notes[] result = notesService.quicksortNote((Notes[]) results.toArray());
+       return result;
     }
     
     
