@@ -18,8 +18,26 @@ public class NotesService {
 		
 	}
 	
+	// insertion sort
+	void sort(String s[], int n) 
+	{ 
+	    for (int i=1 ;i<n; i++) 
+	    { 
+	        String temp = s[i]; 
+	  
+	        // Insert s[j] at its correct position 
+	        int j = i - 1; 
+	        while (j >= 0 && temp.length() < s[j].length()) 
+	        { 
+	            s[j+1] = s[j]; 
+	            j--; 
+	        } 
+	        s[j+1] = temp; 
+	    } 
+	} 
 	
-	// quick sort accoring to the 
+	
+	// quick sort according to the 
     public static void quickSort(int[] arr, int start, int end){
     	 
         int partition = partition(arr, start, end);
