@@ -130,7 +130,9 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/users_class/{id}")
     public String getClassList(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
+    	logger.info("id: " + id);
     	Optional<User> results = usersRepository.findById(id);
+    	logger.info("userid: " + results.get().getUID());
     	if(results.isPresent() == false)
     		return null;
     	User user = results.get();
@@ -220,6 +222,7 @@ public class UserController {
     public Optional<User> findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
+        
         return results;
     }
     
