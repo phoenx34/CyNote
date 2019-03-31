@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.system;
+/*package org.springframework.samples.petclinic.system;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,4 +11,4 @@ class WelcomeController {
     public String welcome() {
         return "welcome";
     }
-}
+}*/
