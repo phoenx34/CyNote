@@ -1,6 +1,6 @@
 package com.example.cs309_cynote;
 
-import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -19,22 +19,24 @@ import org.json.JSONObject;
  * @author Sean Gordon
  * @since 2019-02-17
  */
-public class APICalls extends Application {
-    private static APICalls mInstance;
+public class APICalls{
     private RequestQueue requestQueue;
+    private Context applicationContext;
 
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
+    public APICalls(){
+        //DO NOT USE
+        //Android needs this for its reflection process
+        //Debating making this throw an error
     }
 
-    public static synchronized APICalls getInstance() {
-        return mInstance;
+    public APICalls(Context applicationContext){
+        //Found using getApplicationContext()
+        this.applicationContext = applicationContext;
     }
 
     public RequestQueue getRequestQueue() {
         if (requestQueue == null)
-            requestQueue = Volley.newRequestQueue(getApplicationContext());
+            requestQueue = Volley.newRequestQueue(applicationContext);
         return requestQueue;
     }
 

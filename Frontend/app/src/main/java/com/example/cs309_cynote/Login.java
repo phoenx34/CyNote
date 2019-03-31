@@ -178,14 +178,14 @@ public class Login extends AppCompatActivity
 
 
 
-
+/*
     //Server side login currently fucked, skipping login and using hardcoded ID
     public void loginToUID(final View view){
         UIDtoClassSelection(view, 1);
     }
 
 
-
+*/
 
 
 
@@ -198,9 +198,9 @@ public class Login extends AppCompatActivity
      *
      * @param view  View selected to submit login form
      */
-    public void loginToUIDCURRENTLYBROKEN(final View view){
+    public void loginToUID(final View view){
 
-        String url = "http://cs309-sd-7.misc.iastate.edu:8080//usersLogin";    //Server-side url to receive screenname and password as params
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";    //Server-side url to receive screenname and password as params
 
 
 
@@ -230,12 +230,13 @@ public class Login extends AppCompatActivity
         }
 
         //Add login form data as parameters
-        url += "?screenname="+screenname+"&password="+password;
+        //url += "?screenname="+screenname+"&password="+password;
+        url += "/"+screenname+"/"+password;
 
 
 
 
-        APICalls api = new APICalls();
+        APICalls api = new APICalls(getApplicationContext());
 
         //Set up listener for success case
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -290,7 +291,7 @@ public class Login extends AppCompatActivity
 
 
 
-        APICalls api = new APICalls();
+        APICalls api = new APICalls(getApplicationContext());
 
         //Set up listener for success case
         Response.Listener<String> responseListener = new Response.Listener<String>() {

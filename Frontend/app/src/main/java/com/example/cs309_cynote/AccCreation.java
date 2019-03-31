@@ -113,7 +113,7 @@ public class AccCreation extends AppCompatActivity {
         };
 
         System.out.println("Calling API");
-        APICalls api = new APICalls();
+        APICalls api = new APICalls(getApplicationContext());
         api.volleyPost(serverUrl, json, responseListener, errorListener);
 
 
