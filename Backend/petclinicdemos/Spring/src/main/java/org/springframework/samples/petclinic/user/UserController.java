@@ -51,7 +51,7 @@ public class UserController {
      * @param password Obtained from the Jason request link
      * @return If the login is successful
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin")
+    /*@RequestMapping(method = RequestMethod.GET, path = "/usersLogin")
     public String loginWithUsername(@RequestBody String username, @RequestBody String password)throws IllegalArgumentException 
     {
     	if(username == null || username.trim().length()==0)
@@ -73,28 +73,33 @@ public class UserController {
     		}
     	}
     	
-    }
+    }*/
     
     
     
-    @RequestMapping(method = RequestMethod.GET, path = "/userLogin", headers = "Accept=application/json")
-    public String loginUserPass(@RequestParam("screename") String screename, @RequestParam("password") String password){
-        if(screename == null || screename.trim().length()==0)
+    @RequestMapping(method = RequestMethod.GET, path = "/userLogin/{screenname}/{password}", headers = "Accept=application/json")
+    public String loginUserPass(@PathVariable("screenname") String screenname, @PathVariable("password") String password){
+        if(screenname == null || screenname.trim().length()==0)
             throw new IllegalArgumentException("The input screename is not valid");
-            
-            
-            
-        User user = userApplication.findUserFromUsername(screename);
         
-        
-        
-        if(user == null)
-            return "{\"status\":3,\"UID\":0}";    // user does not exist 
-        
-        if(user.getPassword().equals(password))
-            return "{\"status\":4,\"UID\":user.getUID().toString()}";  // password mathches with the username
-            
-        return "{\"status\":5,\"UID\":0}";   //  password doesn't match with the username
+        List<User> results = usersRepository.findAll();       // list of users 
+
+
+        for(User user : results)
+    	{
+    		if(user.getScreenname().equals(screenname))
+    		{
+    			if(user.getPassword().equals(password)) {
+    	            return "{\"status\":4,\"UID\":" + user.getUID().toString() + "}";
+    			} else {
+    				return "{\"status\":5,\"UID\":0}"; 
+    			}
+    		} else {
+    			if(user == null)
+    	            return "{\"status\":3,\"UID\":0}"; 
+    		}
+    	}
+		return null;
     }
     
     
