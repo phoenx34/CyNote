@@ -51,8 +51,8 @@ public class UserController {
      * @param password Obtained from the Jason request link
      * @return If the login is successful
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin/{userName}")
-    public String loginWithUsername(@PathVariable("userName") String username, @RequestBody String password)throws IllegalArgumentException 
+    @RequestMapping(method = RequestMethod.GET, path = "/usersLogin")
+    public String loginWithUsername(@RequestBody String username, @RequestBody String password)throws IllegalArgumentException 
     {
     	if(username == null || username.trim().length()==0)
     		throw new IllegalArgumentException("The input email address is not valid");
