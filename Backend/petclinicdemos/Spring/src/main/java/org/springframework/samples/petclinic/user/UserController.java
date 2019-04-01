@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.classEntity.ClassController;
+import org.springframework.samples.petclinic.classEntity.ClassRepository;
 import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,9 +31,12 @@ public class UserController {
 
     @Autowired        // @Autowired means that the controller is connected with the database 
     UserRepository usersRepository;
+    @Autowired
     UserService userApplication;
-    
+    @Autowired
     ClassController classCont;
+    @Autowired
+    ClassRepository classRepo;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -171,26 +175,89 @@ public class UserController {
     		return null;
     	User user = results.get();
     	List<classEntity> classes = user.getClasses();
-    	classes.toArray();
-    	List<String> result = null;
-    	logger.info("size of classes" + classes.size());
+    	logger.info("size of class list: " + classes.size());
+    	//classes.toArray();
+
+    	String result = "{\"classes\":[";
+    	
+    	for(int i=0; i < classes.size(); i++) {
+    		result += classes.get(i).getName() + ", ";
+    	}
+    	result += "]}";
+    	
+    	
+    	
+    	
+    	/*logger.info("size of classes" + classes.size());
+    	
     	for(int i=0; i < classes.size(); i++) {
     		classEntity temp = classes.get(i);
     		result.add(temp.getName());
     	}
-		String s = "{\"classes\":[" + result.toArray().toString() + "]}";
-		logger.info("string is: " + s); 
-		return s;
+    	
+    	List<classEntity> classes = classRepo.findAll();
+    	List<String> result = null;
+    	
+    	for(classEntity c : classes) {
+    		List<User> users = c.getUsers();
+    		logger.info("users for class size: " + users.size());
+    		for(User use : users) {
+    			if(use.getUID().equals(user.getUID())) {
+    				result.add(c.getName());
+    			}
+    		}
+    	}*/
+		logger.info("string is: " + result); 
+		return result;
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = "addclass/{uid}/{cid}")
+    @RequestMapping(method = RequestMethod.GET, path = "/addclass/{uid}/{cid}")
     public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Integer cid) {
 		
-    	User u = this.findUserById(uid).get();
+    	User u = null;
+    	 
+        List<User> results = usersRepository.findAll();       // list of users 
+
+
+        for(User user : results)
+    	{
+    		if(user.getUID().equals(uid))
+    		{
+    			u = user;
+    		}
+    	}
+        
+        if(u == null) {
+        	return false;
+        }
+        
+        
     	
-    	classEntity classent = classCont.findClassById(cid).get();
+    	classEntity classent = null;
     	
-    	classent.getUsers().add(u);
+    	List<classEntity> classes = classRepo.findAll();
+    	
+    	for(classEntity classe : classes) {
+    		if(classe.getCID().equals(cid)) {
+    			classent = classe;
+    		}
+    	}
+    	
+    	if(classent == null) {
+    		return false;
+    	}
+    	
+    	classent.addUser(u);
+    	u.addClass(classent);
+    	logger.info("classlist size: " + classent.getUsers().size());
+    	logger.info("user class list size: " + u.getClasses().size());
+    	
+    	this.deleteUser(uid);
+    	this.createStudent(u);
+    	
+    	
+    	
+    	
     	
     	return true;
     	
@@ -208,7 +275,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, path = "/users")
     public List<User> getAllUsers() {
         logger.info("Entered into Controller Layer");
-        List<User> results = userApplication.getUsers();
+        List<User> results = usersRepository.findAll();
         logger.info("Number of Records Fetched: " + results.size());
         return results;
     }

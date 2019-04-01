@@ -64,6 +64,10 @@ public class classEntity {
 	public List<User> getUsers() {
 		return users;
 	}
+	
+	public void addUser(User u) {
+		users.add(u);
+	}
 
 
 	public void setUID(Integer cID) {

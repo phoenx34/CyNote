@@ -108,6 +108,10 @@ public class User {
     	this.password = password;
     }
     
+    public void addClass(classEntity classent) {
+    	classes.add(classent);
+    }
+    
     public String getCreate_time() {
     	return create_time;
     }
