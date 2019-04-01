@@ -178,19 +178,6 @@ public class Login extends AppCompatActivity
 
 
 
-/*
-    //Server side login currently fucked, skipping login and using hardcoded ID
-    public void loginToUID(final View view){
-        UIDtoClassSelection(view, 1);
-    }
-
-
-*/
-
-
-
-
-
     /**
      * Upon submitting login form, call this method to send a get request to server
      * containing login information as url parameters, and receive a User ID with the
@@ -202,13 +189,6 @@ public class Login extends AppCompatActivity
 
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";    //Server-side url to receive screenname and password as params
 
-
-
-
-        /*Server-side currently accepts only username and password, not email, so we will be treating
-        //email as username for the time being
-        EditText editEmail = findViewById(R.id.emailInput);
-        String email = editEmail.getText().toString();*/
 
 
         //Grab entered screenname
@@ -242,8 +222,8 @@ public class Login extends AppCompatActivity
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Call another method to make another get request using the received UID
-                UIDtoClassSelection(view, Integer.parseInt(response));
+                //Call another method to make another get request using the received stuff
+                UIDtoClassSelection(view, response);
 
                 /*
                 Intent intent = new Intent(view.getContext(), ClassSelection.class);
@@ -280,50 +260,73 @@ public class Login extends AppCompatActivity
      * request list of classes tied to UID
      *
      * @param view  View selected to submit login form
-     * @param UID   UID to get request for classList
+     * @param json  Received JSON string from login
      */
-    public void UIDtoClassSelection(final View view, int UID){
-        //            http://cs309-sd-7.misc.iastate.edu:8080//users_class//{id}
-        String url = "http://cs309-sd-7.misc.iastate.edu:8080//users_class//";    //Server-side url to receive list of classes for UID
+    public void UIDtoClassSelection(final View view, String json){
 
-        //Add UID to path
-        url += UID;
-
-
-
-        APICalls api = new APICalls(getApplicationContext());
-
-        //Set up listener for success case
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println("ClassList received:\n");
-                System.out.println(response);
-
-                Intent intent = new Intent(view.getContext(), ClassSelection.class);
-                intent.putExtra("data", response);  //Link received data to ClassSelection intent
-                startActivity(intent);
-            }
-        };
-
-        //Set up listener for error case
-        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("Login unsuccessful");
-                System.out.println(error.getMessage());
-            }
-        };
-
-
-        //Uses the APICalls generic volley get request
         try{
-            api.volleyGet(url, responseListener, errorListener);
-        }
-        catch (Exception e){
+            //JSON comes in the form of {"status":3,"UID":0}
+            JSONObject jsonObj = new JSONObject(json);
+
+            int status = jsonObj.getInt("status");
+            int UID = jsonObj.getInt("UID");
+
+            switch(status){
+                case 3: throw new Exception("Username is incorrect");
+                    //case 4: Case 4 clears, no need to throw an exception
+                case 5: throw new Exception("Password is incorrect");
+            }
+
+
+            //            http://cs309-sd-7.misc.iastate.edu:8080//users_class//{id}
+            String url = "http://cs309-sd-7.misc.iastate.edu:8080//users_class//";    //Server-side url to receive list of classes for UID
+
+            //Add UID to path
+            url += UID;
+
+
+
+            APICalls api = new APICalls(getApplicationContext());
+
+            //Set up listener for success case
+            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    System.out.println("ClassList received:\n");
+                    System.out.println(response);
+
+                    Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                    intent.putExtra("data", response);  //Link received data to ClassSelection intent
+                    startActivity(intent);
+                }
+            };
+
+            //Set up listener for error case
+            //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("Login unsuccessful");
+                    System.out.println(error.getMessage());
+                }
+            };
+
+
+            //Uses the APICalls generic volley get request
+            try{
+                api.volleyGet(url, responseListener, errorListener);
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+
+
+        }catch(JSONException e){
+            System.out.println(e.getMessage());
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
+
     }
 
 
