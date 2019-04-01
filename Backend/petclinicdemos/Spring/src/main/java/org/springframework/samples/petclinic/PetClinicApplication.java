@@ -23,7 +23,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import org.springframework.samples.petclinic.storage.*;
+
 
 /**
  * PetClinic Spring Boot Application.
@@ -33,10 +33,9 @@ import org.springframework.samples.petclinic.storage.*;
  *
  */
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.user.UserController;
+
 
 @SpringBootApplication
-@EnableConfigurationProperties(StorageProperties.class)
 public class PetClinicApplication {
 	
 	
@@ -44,12 +43,5 @@ public class PetClinicApplication {
         SpringApplication.run(PetClinicApplication.class, args);
     }
     
-    @Bean
-    CommandLineRunner init(StorageService storageService) {
-    	return (args) -> {
-    		storageService.deleteAll();
-    		storageService.init();
-    	};
-    }
-
+  
 }
