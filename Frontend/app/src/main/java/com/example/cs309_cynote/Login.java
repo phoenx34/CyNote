@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity
     private EditText emailIn, passwordIn;
     private Button loginB, createB, jumpProfessor, jumpTA, jumpStudent;
     private int uID, userType;
-    private String loginURL = "http://cs309-sd-7.misc.iastate.edu:8080/login";
+    private String loginURL = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";
     String emailInString, passwordInString;
     boolean loginCondition = false;//initial login condition to false
 

@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,8 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="ExtraText,GoogleAppIndexingWarning">
-
-        <activity android:name=".TextbookSelection"></activity>
+        <activity android:name=".AddUserToClass"></activity>
+        <activity android:name=".TextbookSelection" />
         <activity android:name=".AddTextbook" />
         <activity android:name=".ShoutOut" />
         <activity android:name=".UserSetting" />
