@@ -88,5 +88,8 @@
     </string-array>
     <string name="notes_collab">Notes(Collaborative)</string>
     <string name="shoutout">Shoutout</string>
+    <string name="select_class">Select class</string>
+    <string name="type_class_name">Type class name</string>
+    <string name="update">Update</string>
 
 </resources>
