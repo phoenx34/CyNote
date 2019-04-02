@@ -65,28 +65,12 @@
 
     <!-- Module Selection -->
     <string name="class_name">Class Name</string>
-    <string-array name="module_list">
-        <item>Lecture 4
-            <string-array name="lec4_modules">
-                <string name="lec4_shoutout">Shoutout\n</string>
-                <string name="lec4_notes1">Notes(Collaborative)</string>
-            </string-array>
-        </item>
-        <item>Lecture 5
-            <string-array name="lec5_modules">
-                <string name="lec5_shoutout">Shoutout</string>
-                <string name="lec5_notes1">Notes(Collaborative)</string>
-                <string name="lec5_notes2">Notes(StudentID)</string>
-            </string-array>
-        </item>
-        <item>Lecture 6
-            <string-array name="lec6_modules">
-                <string name="lec6_shoutout">Shoutout</string>
-                <string name="lec6_notes1">Notes(Collaborative)</string>
-            </string-array>
-        </item>
-    </string-array>
     <string name="notes_collab">Notes(Collaborative)</string>
     <string name="shoutout">Shoutout</string>
+
+    <!-- Shoutout -->
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="send">Send</string>
 
 </resources>
