@@ -212,4 +212,12 @@ public class ClassSelection extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+    public void goToAddNewClass(View view){
+        Intent intent = new Intent(this, AddUserToClass.class);
+        int uid = 4;//need received
+        intent.putExtra("UID", uid);
+        startActivity(intent);
+
+    }
 }
