@@ -31,6 +31,9 @@ public class AddUserToClass extends AppCompatActivity {
     }
 
 
+    /**
+     * Find class-ID (cid) by using APICalls, volley GET method with String-className from input
+     */
     public void findCID(final View view) {
 
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/";//waiting for backend path /*****
