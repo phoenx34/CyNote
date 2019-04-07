@@ -27,9 +27,16 @@ public class ShoutoutWebsocket extends AsyncTask<String, Void, String> {
      */
     private static boolean active = false;
 
+    /**
+     * Object used to return textMessages to ShoutOut
+     */
+    private static ShoutOut.WebsocketCallbacks callbackObj;
+
     public ShoutoutWebsocket(){}
 
-    public ShoutoutWebsocket(String server, int timeout){
+    public ShoutoutWebsocket(String server, int timeout, ShoutOut.WebsocketCallbacks callbacks){
+        callbackObj = callbacks;
+
         try{
             ws = buildWS(server, timeout);
         }
@@ -150,6 +157,8 @@ public class ShoutoutWebsocket extends AsyncTask<String, Void, String> {
     public void sendMessage(String message) throws IllegalStateException{
         if(!active)
             throw new IllegalStateException("Websocket is not connected!");
+        System.out.println("Message sent: ");
+        System.out.println(message);
         ws.sendText(message);
     }
 
@@ -165,8 +174,8 @@ public class ShoutoutWebsocket extends AsyncTask<String, Void, String> {
                 .addListener(new WebSocketAdapter() {
                     // A text message arrived from the server.
                     public void onTextMessage(WebSocket websocket, String message) {
-                        System.out.println("Message received: ");
-                        System.out.println(message);
+                        //Send it on over to ShoutOut
+                        callbackObj.onTextMessage(message);
                     }
                 })
                 .addExtension(WebSocketExtension.PERMESSAGE_DEFLATE);

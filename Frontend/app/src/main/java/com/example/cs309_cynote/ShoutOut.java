@@ -14,6 +14,14 @@ import java.util.List;
 public class ShoutOut extends AppCompatActivity{
 
     /**
+     * Interface defined to create callbacks for WebSocket textMessages
+     */
+    public interface WebsocketCallbacks {
+        void onTextMessage(String message);
+    }
+
+
+    /**
      * The echo server on websocket.org.
      */
     private static final String SERVER = "ws://echo.websocket.org";
@@ -28,10 +36,11 @@ public class ShoutOut extends AppCompatActivity{
      */
     private static final int TIMEOUT = 5000;
 
+
     /**
      * Create the websocket for use later
      */
-    ShoutoutWebsocket SOWS = new ShoutoutWebsocket(SERVER, TIMEOUT);
+    ShoutoutWebsocket SOWS = null;
 
 
     /**
@@ -74,7 +83,29 @@ public class ShoutOut extends AppCompatActivity{
         send.setClickable(false);
         edTxt.setEnabled(false);
         conn.setText(R.string.connect);
+
+
+
+
+
+
+
+        SOWS = new ShoutoutWebsocket(SERVER, TIMEOUT, callbacks);
     }
+
+    /**
+     * Implementing custom interface callbacks to work with WebSocket textMessages
+     */
+    WebsocketCallbacks callbacks = new WebsocketCallbacks() {
+        @Override
+        public void onTextMessage(String message) {
+            System.out.println("Message received: ");
+            System.out.println(message);
+
+            addMessage(message);
+            arrayAdapter.notifyDataSetChanged();
+        }
+    };
 
 
     public void connectButton(View view){
@@ -109,7 +140,6 @@ public class ShoutOut extends AppCompatActivity{
         edTxt.setText("");
 
         SOWS.sendMessage(message);
-        //TODO - Implement as callback so websocket can do this on return messages as well
         addMessage(message);
     }
     public void addMessage(String message){
@@ -118,6 +148,8 @@ public class ShoutOut extends AppCompatActivity{
         //Notifies the attached observers that the underlying data has been
         //changed and any View reflecting the data set should refresh itself.
     }
+
+
 
 
     public void gotoModuleSelection(View view){
