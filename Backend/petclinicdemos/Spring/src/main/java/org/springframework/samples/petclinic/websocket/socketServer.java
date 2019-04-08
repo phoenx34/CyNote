@@ -1,5 +1,4 @@
 package org.springframework.samples.petclinic.websocket;
-
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -12,15 +11,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
  
-//The websocket.html page is already added to the server
-//Just have to incorporate the code here into the code 
-// and test it on the server
-//!!!!!!! One dependency was added to the pom
-
 /**
- * This is for people have different chat room, this way, when students of the same class and 
- * same lecture will not talk to other lectures 
- *
+ * writer: holien
+ * Time: 2017-08-01 13:00
+ * Intent: webSocket服务器
  */
 @ServerEndpoint("/webSocket/chat/{roomName}")
 public class socketServer {
@@ -67,5 +61,5 @@ public class socketServer {
                 session.getBasicRemote().sendText(msg);
         }
     }
-
+ 
 }

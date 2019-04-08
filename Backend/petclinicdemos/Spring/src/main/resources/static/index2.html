@@ -36,13 +36,13 @@
     /*set srcoll end*/
 </style>
 <body>
-<label>RoomNumber</label>
+<label>房间名</label>
 <input id="input_roomName" size="10" maxlength="10">
-<input type="button"  value="Enter" onclick="initWebSocket()" />
-<input type="button" value="Exit" onclick="closeWs()" /><br>
+<input type="button"  value="进入聊天室" onclick="initWebSocket()" />
+<input type="button" value="退出聊天室" onclick="closeWs()" /><br>
 <div class="msg_board"></div>
 <input id="input_msg" size="43" maxlength="40">
-<input type="button" value="Send" onclick="send_msg()" />
+<input type="button" value="发送" onclick="send_msg()" />
 </body>
 <script type="text/javascript">
     var webSocket;
@@ -57,7 +57,7 @@
             // 清除input框里的信息
             document.getElementById("input_msg").value = "";
         } else {
-            alert("You are offline, please Reenter the chatroom...");
+            alert("您已掉线，请重新进入聊天室...");
         }
     };
  
@@ -69,23 +69,21 @@
         var roomName = document.getElementById("input_roomName").value;
         // 房间名不能为空
         if (roomName == null || roomName == "") {
-            alert("Please enter room number");
+            alert("请输入房间名");
             return;
         }
         if ("WebSocket" in window) {
 //            alert("您的浏览器支持 WebSocket!");
             if (webSocket == null) {
-            	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!  change the address
-            	//              ws = new WebSocket("ws://" +"cs309-sd-7.misc.iastate.edu:8080/webSocket/chat/" + roomName");
-                var url = "ws://cs309-sd-7.misc.iastate.edu:8080/webSocket/chat/" + roomName;
+                var url = "ws://localhost:8080/webSocket/chat/" + roomName;
                 // 打开一个 web socket
                 webSocket = new WebSocket(url);
             } else {
-                alert("You already enter the chat room...");
+                alert("您已进入聊天室...");
             }
  
             webSocket.onopen = function () {
-                alert("In the chatroom, start chating");
+                alert("已进入聊天室，畅聊吧...");
             };
  
             webSocket.onmessage = function (evt) {
@@ -99,15 +97,16 @@
  
             webSocket.onclose = function () {
                 // 关闭 websocket，清空信息板
-                alert("The connection is closed...");
+                alert("连接已关闭...");
                 webSocket = null;
                 document.getElementsByClassName("msg_board")[0].innerHTML = "";
             };
         }
         else {
             // 浏览器不支持 WebSocket
-            alert("Your browser does not support WebSocket!");
+            alert("您的浏览器不支持 WebSocket!");
         }
     }
 </script>
 </html>
+
