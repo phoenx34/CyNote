@@ -75,7 +75,7 @@
         if ("WebSocket" in window) {
 //            alert("您的浏览器支持 WebSocket!");
             if (webSocket == null) {
-                var url = "ws://localhost:8080/webSocket/chat/" + roomName;
+                var url = "ws://localhost:8080/webSocket/" + roomName;
                 // 打开一个 web socket
                 webSocket = new WebSocket(url);
             } else {
@@ -86,6 +86,9 @@
                 alert("已进入聊天室，畅聊吧...");
             };
  
+
+
+
             webSocket.onmessage = function (evt) {
                 var msg_board = document.getElementsByClassName("msg_board")[0];
                 var received_msg = evt.data;
@@ -95,6 +98,9 @@
                 msg_board.scrollTop = msg_board.scrollTop + 40;
             };
  
+
+
+
             webSocket.onclose = function () {
                 // 关闭 websocket，清空信息板
                 alert("连接已关闭...");
