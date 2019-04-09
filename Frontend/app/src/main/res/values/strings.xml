@@ -44,6 +44,7 @@
 
     <string name="professor_page">Professor page</string>
     <string name="create_a_new_account">Create a new account</string>
+    <string name="add_to_class">Add to Class</string>
     <string name="cynote">CyNote</string>
     <string name="log_out">log out</string>
     <string name="logout">logout</string>

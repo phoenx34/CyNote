@@ -112,5 +112,8 @@ public class AddUserToClass extends AppCompatActivity {
         }
     }
 
+    public void CancelAddToClass(View view) {
+        finish();
+    }
 
 }
