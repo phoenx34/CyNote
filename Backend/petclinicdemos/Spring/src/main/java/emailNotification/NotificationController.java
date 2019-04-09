@@ -35,7 +35,7 @@ public class NotificationController {
 	// "send-mail/{classNum}"
 	// With the given classNum, go into the database and loop through all the student and send email to all of them
 	@RequestMapping(method = RequestMethod.GET, path = "/send-mail/{id}")
-	public void sendMailNotification(@PathVariable("id") Integer id) throws IllegalArgumentException
+	public void sendMailNotificationToClass(@PathVariable("id") Integer id) throws IllegalArgumentException
 	{
 	    	logger.info("The method started");
 	    	logger.info("The given classID from html path is: " + id);
@@ -68,6 +68,13 @@ public class NotificationController {
 	    	}
 		
 	}
+	
+	@RequestMapping("/send-mail")
+	public void testSendingMail() throws MessagingException
+	{
+		smtpMailSender.send("schen41003@gmail.com", "!!!!!!!Testing", "fuck");
+	}
+	
 	
 	
 }
