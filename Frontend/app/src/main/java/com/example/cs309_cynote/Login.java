@@ -124,7 +124,6 @@ public class Login extends AppCompatActivity
             public void onClick(View v) {
                 Intent testForProPage = new Intent(Login.this, ProfessorMain.class);
                 startActivity(testForProPage);
-                finish();
             }
         });
 
@@ -133,7 +132,6 @@ public class Login extends AppCompatActivity
             public void onClick(View v) {
                 Intent testForTaPage = new Intent(Login.this, TaMain.class);
                 startActivity(testForTaPage);
-                finish();
             }
         });
 
@@ -142,7 +140,6 @@ public class Login extends AppCompatActivity
             public void onClick(View v) {
                 Intent testForStudentPage = new Intent(Login.this, StudentMain.class);
                 startActivity(testForStudentPage);
-                finish();
             }
         });
     }
