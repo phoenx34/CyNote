@@ -1,3 +1,8 @@
 /Users/peter/Desktop/309/Backend/petclinicdemos/Spring/src/main/java/org/springframework/samples/petclinic/PetClinicApplication.java
+/Users/peter/Desktop/309/Backend/petclinicdemos/Spring/src/main/java/lecture_chatHistory/ChatHistory.java
+/Users/peter/Desktop/309/Backend/petclinicdemos/Spring/src/main/java/lecture_chatHistory/ChatHistoryRepository.java
+/Users/peter/Desktop/309/Backend/petclinicdemos/Spring/src/main/java/org/springframework/samples/petclinic/websocket/copy/SmtpMailSender.java
 /Users/peter/Desktop/309/Backend/petclinicdemos/Spring/src/main/java/org/springframework/samples/petclinic/websocket/WebSocketConfig.java
+/Users/peter/Desktop/309/Backend/petclinicdemos/Spring/src/main/java/org/springframework/samples/petclinic/websocket/copy/NotificationController.java
 /Users/peter/Desktop/309/Backend/petclinicdemos/Spring/src/main/java/org/springframework/samples/petclinic/websocket/socketServer.java
+/Users/peter/Desktop/309/Backend/petclinicdemos/Spring/src/main/java/lecture_chatHistory/ChatHistoryController.java

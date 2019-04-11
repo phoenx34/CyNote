@@ -12,9 +12,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
+// roomName is constructed as below xxxxx_xx
 @ServerEndpoint("/webSocket/{roomName}")
 @Component
 public class socketServer {
@@ -24,6 +26,10 @@ public class socketServer {
     private static final Map<String, Set<Session>> rooms = new ConcurrentHashMap();
     private final Logger logger = LoggerFactory.getLogger(socketServer.class);
 
+    // You actually need one 
+    // This is for saving the chat message in the data base
+
+    
     
     
     
@@ -58,10 +64,13 @@ public class socketServer {
         System.out.println("a client has disconnected!");
     }
  
+ // roomName is constructed as below xxxxx_xx
     @OnMessage
     public void receiveMsg(@PathParam("roomName") String roomName,
                            String msg, Session session) throws Exception {
-        // 此处应该有html过滤
+        String lectureNum = roomName.substring(6);
+        String classNum = roomName.substring(0,5);
+    	// 此处应该有html过滤
         msg = session.getId() + ":" + msg;
         System.out.println(msg);
         // 接收到信息后进行广播
