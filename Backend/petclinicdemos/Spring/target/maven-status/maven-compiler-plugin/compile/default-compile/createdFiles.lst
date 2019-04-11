@@ -4,8 +4,8 @@ org/springframework/samples/petclinic/preference/PreferenceController.class
 org/springframework/samples/petclinic/shoutout/Shoutoutrepository.class
 org/springframework/samples/petclinic/preference/PreferenceRepository.class
 org/springframework/samples/petclinic/classEntity/ClassRepository.class
-org/springframework/samples/petclinic/classEntity/ClassController.class
 org/springframework/samples/petclinic/user/User.class
+org/springframework/samples/petclinic/classEntity/ClassController.class
 org/springframework/samples/petclinic/PetClinicApplication.class
 org/springframework/samples/petclinic/shoutout/Shoutout.class
 org/springframework/samples/petclinic/notes/NotesService.class

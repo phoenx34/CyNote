@@ -1,155 +1,92 @@
 package org.springframework.samples.petclinic.websocket;
 
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.websocket.OnClose;
-import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * 
- * @author Shen Chen 
- * 
- **/
 
-
-//??????????? Maybe use different room ID to differentiate the different room
-//??????????? ("/websocket/{roomID}/{username}")
-@ServerEndpoint("/websocket/{username}")
+// roomName is constructed as below xxxxx_xx
+@ServerEndpoint("/webSocket/{roomName}")
 @Component
 public class WebSocketServer {
-	
-	// Store all socket session and their corresponding username.
-    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
-    private static Map<String, Session> usernameSessionMap = new HashMap<>();
-    
+ 
+    // 使用map来收集session，key为roomName，value为同一个房间的用户集合
+    // concurrentMap的key不存在时报错，不是返回null
+    private static final Map<String, Set<Session>> rooms = new ConcurrentHashMap();
     private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
+
+    // You actually need one 
+    // This is for saving the chat message in the data base
+
     
     
     
     
     @OnOpen
-    public void onOpen(
-    	      Session session, 
-    	      @PathParam("username") String username) throws IOException 
-    {
-        logger.info("Entered into Open");
-        
-        sessionUsernameMap.put(session, username);
-        usernameSessionMap.put(username, session);
-        
-        String message="User:" + username + " has Joined the Chat";
-        	broadcast(message);
-		
-    }
- 
-    
-    
-    
-    @OnMessage
-    public void onMessage(Session session, String message) throws IOException 
-    {
-        // Handle new messages
-    	logger.info("Entered into Message: Got Message:"+message);
-    	String username = sessionUsernameMap.get(session);
+    public void connect(@PathParam("roomName") String roomName, Session session) throws Exception {
     	
-    	if (message.startsWith("@")) 
-    	{
-    		String destUsername = message.split(" ")[0].substring(1); // don't do this in your code!
-    		sendMessageToPArticularUser(destUsername, "[DM] " + username + ": " + message);
-    		sendMessageToPArticularUser(username, "[DM] " + username + ": " + message);
-    	}
-    	else // Message to whole chat
-    	{
-	    	broadcast(username + ": " + message);
-    	}
+    	logger.info(" 进了@open ");
+    	
+    	
+    	
+    	
+    	// 将session按照房间名来存储，将各个房间的用户隔离
+        if (!rooms.containsKey(roomName)) {
+            // 创建房间不存在时，创建房间
+        	logger.info("创建房间不存在时，创建房间");
+            Set<Session> room = new HashSet<>();
+            logger.info("添加用户");
+            // 添加用户
+            room.add(session);
+            rooms.put(roomName, room);
+        } else {
+        	logger.info("房间已存在，直接添加用户到相应的房间");
+            // 房间已存在，直接添加用户到相应的房间
+            rooms.get(roomName).add(session);
+        }
+        System.out.println("a client has connected!");
     }
  
     @OnClose
-    public void onClose(Session session) throws IOException
-    {
-    	logger.info("Entered into Close");
-    	
-    	String username = sessionUsernameMap.get(session);
-    	sessionUsernameMap.remove(session);
-    	usernameSessionMap.remove(username);
-        
-    	String message= username + " disconnected";
-        broadcast(message);
+    public void disConnect(@PathParam("roomName") String roomName, Session session) {
+        rooms.get(roomName).remove(session);
+        System.out.println("a client has disconnected!");
     }
  
-    @OnError
-    public void onError(Session session, Throwable throwable) 
-    {
-        // Do error handling here
-    	logger.info("Entered into Error");
+ // roomName is constructed as below xxxxx_xx
+    @OnMessage
+    public void receiveMsg(@PathParam("roomName") String roomName,
+                           String msg, Session session) throws Exception {
+        String lectureNum = roomName.substring(6);
+        String classNum = roomName.substring(0,5);
+    	// 此处应该有html过滤
+        msg = session.getId() + ":" + msg;
+        System.out.println(msg);
+        // 接收到信息后进行广播
+        broadcast(roomName, msg);
     }
-    
-    
-    
-    
-    
-    /**
-     * Sending message to a specific user 
-     * @param username The user you want to send message to 
-     * @param message The message you want to send
-     **/
-	private void sendMessageToPArticularUser(String username, String message) 
-    {	
-    	try {
-    		usernameSessionMap.get(username).getBasicRemote().sendText(message);
-        } catch (IOException e) {
-        	logger.info("Exception: " + e.getMessage().toString());
-            e.printStackTrace();
+ 
+    // 按照房间名进行广播
+    public static void broadcast(String roomName, String msg) throws Exception {
+        for (Session session : rooms.get(roomName)) {
+                session.getBasicRemote().sendText(msg);
         }
     }
-    
-	
-	
-	
-	/**
-	 * Sending messages to all users 
-	 * @param message The message you want to send
-	 * @throws IOException 
-	 **/
-    private static void broadcast(String message) 
-    	      throws IOException 
-    {	  
-    	sessionUsernameMap.forEach((session, username) -> {
-    		synchronized (session) {
-	            try {
-	                session.getBasicRemote().sendText(message);
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    });
-	}
-    
-    
-    
-    /**
-     * Show the online people 
-     * @return The number of people online
-     **/
-    public static synchronized int getOnlineCount()
-    {
-	     return usernameSessionMap.size();	
-    }
-   
+ 
 }
-    
     
     
     
