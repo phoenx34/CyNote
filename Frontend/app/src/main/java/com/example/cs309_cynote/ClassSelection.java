@@ -256,7 +256,7 @@ public class ClassSelection extends AppCompatActivity {
         startActivity(intent);
 
     }
-}
+
 
     public void addClass(){
 
