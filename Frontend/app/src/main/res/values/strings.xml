@@ -41,6 +41,8 @@
     <string name="sample_class2">CprE 309</string>
     <string name="sample_class3">ComS 330</string>
     <string name="sign_out">Sign Out</string>
+    <string name="add_class">Add a Class +</string>
+
 
     <string name="professor_page">Professor page</string>
     <string name="create_a_new_account">Create a new account</string>
@@ -67,6 +69,7 @@
     <string name="class_name">Class Name</string>
     <string name="notes_collab">Notes(Collaborative)</string>
     <string name="shoutout">Shoutout</string>
+    <string name="go_uploader">Go to Uploader</string>
 
     <!-- Shoutout -->
     <string name="connect">Connect</string>

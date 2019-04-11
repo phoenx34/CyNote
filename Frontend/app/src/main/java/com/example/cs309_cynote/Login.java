@@ -203,6 +203,8 @@ public class Login extends AppCompatActivity
      */
     public void UIDtoClassSelection(final View view, String json){
 
+        System.out.println("UIDtoClassSelection: \n"+json);
+
         try{
             //JSON comes in the form of {"status":3,"UID":0}
             JSONObject jsonObj = new JSONObject(json);

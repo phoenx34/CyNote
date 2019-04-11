@@ -248,4 +248,15 @@ public class ClassSelection extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+
+    public void addClass(){
+
+    }
+
+
+    public void gotoFileUploader(View view){
+        Intent intent = new Intent(this, FileSelector.class);
+        startActivity(intent);
+    }
 }

@@ -41,6 +41,7 @@
         </activity>
         <activity android:name=".ClassSelection" />
         <activity android:name=".ModuleSelection" />
+        <activity android:name=".FileSelector" />
         <activity android:name=".NotesUI" />
 
         <meta-data
