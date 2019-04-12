@@ -49,28 +49,28 @@ public class TestServices {
 //	}
 
 	
+
+	
 	/**
 	 * Test 1
 	 */
 	@Test
 	public void getUerByIdTest() {
-		when(repo.getUserById(1)).thenReturn(new User(1,"Shen_1","123","12:12:12","shenchen_1@iastate.edu","user"));
+		when(repo.findById(1).get()).thenReturn(new User(1,"Shen_1","123","12:12:12","shenchen_1@iastate.edu","user"));
 
 		User user = userService.findUserByID(1);
 
-		assertEquals(Interger(1), user.getUID());
+		assertEquals(1, user.getUID().intValue());
 		assertEquals("Shen_1", user.getScreenname());
 		assertEquals("shenchen_1@iastate.edu", user.getEmail());
+	
 	}
 	
 	
 	
 	
 	
-	private Object Interger(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
 
