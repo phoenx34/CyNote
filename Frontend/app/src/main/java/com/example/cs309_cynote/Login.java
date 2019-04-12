@@ -56,13 +56,75 @@ public class Login extends AppCompatActivity
         jumpTA = findViewById(R.id.taJumpPage);
         jumpStudent = findViewById(R.id.studentJumpPage);
 
+        /* Directly setting loginB onClick
 
+        loginB.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                emailInString = emailIn.getText().toString();//Get email String from input
+                passwordInString = passwordIn.getText().toString();//Get password String from input
+
+                if(isEmailValid(emailInString))//check if email is valid
+                {
+                    //use APICalls to send json
+                    sendRequest();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Invalid email, try again!", Toast.LENGTH_LONG).show();//display massage that email is invalid.
+                }
+
+                if(loginCondition)//check if login successful
+                {
+                    Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();//display massage that login is successful
+//                    Intent userPage = new Intent(Login.this, UserMain.class);//jump to user main page
+//                    startActivity(userPage);//start user main page
+                    if(userType == 0)//professor type is 0
+                    {
+                        Intent toProPage = new Intent(Login.this, ProfessorMain.class);
+                        toProPage.putExtra("UID", uID);
+                        startActivity(toProPage);
+                    }
+                    else if(userType == 1)//TA type is 1
+                    {
+                        Intent toTaPage = new Intent(Login.this, TaMain.class);
+                        toTaPage.putExtra("UID", uID);
+                        startActivity(toTaPage);
+                    }
+                    else//student type is 3, else
+                    {
+                        Intent toStudentPage = new Intent(Login.this, StudentMain.class);
+                        toStudentPage.putExtra("UID", uID);
+                        startActivity(toStudentPage);
+                    }
+                    finish();//kill this page
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Login fails, email or password is wrong!", Toast.LENGTH_SHORT).show();//return massage
+                }
+            }
+        });
+        */
+
+        /*
+        createB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent creationPage = new Intent(Login.this, AccCreation.class);
+                startActivity(creationPage);
+                finish();
+            }
+        });*/
 
         jumpProfessor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent testForProPage = new Intent(Login.this, ProfessorMain.class);
                 startActivity(testForProPage);
+                finish();
             }
         });
 
@@ -71,6 +133,7 @@ public class Login extends AppCompatActivity
             public void onClick(View v) {
                 Intent testForTaPage = new Intent(Login.this, TaMain.class);
                 startActivity(testForTaPage);
+                finish();
             }
         });
 
@@ -79,6 +142,7 @@ public class Login extends AppCompatActivity
             public void onClick(View v) {
                 Intent testForStudentPage = new Intent(Login.this, StudentMain.class);
                 startActivity(testForStudentPage);
+                finish();
             }
         });
     }
@@ -200,8 +264,6 @@ public class Login extends AppCompatActivity
      */
     public void UIDtoClassSelection(final View view, String json){
 
-        System.out.println("UIDtoClassSelection: \n"+json);
-
         try{
             //JSON comes in the form of {"status":3,"UID":0}
             JSONObject jsonObj = new JSONObject(json);
@@ -217,10 +279,10 @@ public class Login extends AppCompatActivity
 
 
             //            http://cs309-sd-7.misc.iastate.edu:8080//users_class//{id}
-            String url = "http://cs309-sd-7.misc.iastate.edu:8080/users_class";    //Server-side url to receive list of classes for UID
+            String url = "http://cs309-sd-7.misc.iastate.edu:8080//users_class//";    //Server-side url to receive list of classes for UID
 
             //Add UID to path
-            url += "/" + UID;
+            url += UID;
 
 
 
@@ -370,68 +432,3 @@ public class Login extends AppCompatActivity
     */
 
 }
-
-
-
-/* Directly setting loginB onClick
-
-        loginB.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                emailInString = emailIn.getText().toString();//Get email String from input
-                passwordInString = passwordIn.getText().toString();//Get password String from input
-
-                if(isEmailValid(emailInString))//check if email is valid
-                {
-                    //use APICalls to send json
-                    sendRequest();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Invalid email, try again!", Toast.LENGTH_LONG).show();//display massage that email is invalid.
-                }
-
-                if(loginCondition)//check if login successful
-                {
-                    Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();//display massage that login is successful
-//                    Intent userPage = new Intent(Login.this, UserMain.class);//jump to user main page
-//                    startActivity(userPage);//start user main page
-                    if(userType == 0)//professor type is 0
-                    {
-                        Intent toProPage = new Intent(Login.this, ProfessorMain.class);
-                        toProPage.putExtra("UID", uID);
-                        startActivity(toProPage);
-                    }
-                    else if(userType == 1)//TA type is 1
-                    {
-                        Intent toTaPage = new Intent(Login.this, TaMain.class);
-                        toTaPage.putExtra("UID", uID);
-                        startActivity(toTaPage);
-                    }
-                    else//student type is 3, else
-                    {
-                        Intent toStudentPage = new Intent(Login.this, StudentMain.class);
-                        toStudentPage.putExtra("UID", uID);
-                        startActivity(toStudentPage);
-                    }
-                    finish();//kill this page
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Login fails, email or password is wrong!", Toast.LENGTH_SHORT).show();//return massage
-                }
-            }
-        });
-        */
-
-        /*
-        createB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent creationPage = new Intent(Login.this, AccCreation.class);
-                startActivity(creationPage);
-                finish();
-            }
-        });*/

@@ -25,7 +25,7 @@ public class AddUserToClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user_to_class);
 
-        SetUid(getIntent().getIntExtra("UID",0));
+        uid = getIntent().getIntExtra("UID",0);
         editInputClassName = findViewById(R.id.addToClassInput);
 
     }
@@ -56,7 +56,7 @@ public class AddUserToClass extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObj = new JSONObject(response);
-                    SetCid(jsonObj.getInt("CID"));
+                    cid = jsonObj.getInt("CID");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -112,18 +112,5 @@ public class AddUserToClass extends AppCompatActivity {
         }
     }
 
-    public void CancelAddToClass(View view) {
-        finish();
-    }
-
-    public void SetCid(int receivedInteger)
-    {
-        cid = receivedInteger;
-    }
-
-    public void SetUid(int receivedInteger)
-    {
-        uid = receivedInteger;
-    }
 
 }
