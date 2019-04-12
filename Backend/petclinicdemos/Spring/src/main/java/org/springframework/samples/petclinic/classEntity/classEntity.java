@@ -2,16 +2,16 @@ package org.springframework.samples.petclinic.classEntity;
 
 import java.util.List;
 
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.petclinic.lectureEntity.Lecture;
 import org.springframework.samples.petclinic.shoutout.Shoutout;
 import org.springframework.samples.petclinic.textbook.Textbook;
 import org.springframework.samples.petclinic.user.User;
-
-import lectureEntity.Lecture;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class classEntity {
     @OneToMany(mappedBy="classentity")
     private List<Textbook> textbook;
     
-    @OneToMany(mappedBy="classentity")
+    @OneToMany(mappedBy="classentity", cascade = CascadeType.ALL)
     private List<Lecture> lectures;
     
     @OneToMany(mappedBy="classentity")
@@ -76,6 +76,10 @@ public class classEntity {
 	
 	public void addUser(User u) {
 		users.add(u);
+	}
+	
+	public void addLecture(Lecture l) {
+		lectures.add(l);
 	}
 
 

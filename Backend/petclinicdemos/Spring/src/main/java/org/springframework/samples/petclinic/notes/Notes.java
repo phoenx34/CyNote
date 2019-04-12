@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.notes;
 
 import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.samples.petclinic.classEntity.classEntity;
-
-import lectureEntity.Lecture;
+import org.springframework.samples.petclinic.lectureEntity.Lecture;
 
 /**
  * 
@@ -36,11 +36,9 @@ public class Notes {
     @Column(name = "NID")
     private Integer NID;      // Note ID            
 	
-	@Column(name = "Class_number")
-    private Integer classNum;      // Class number
 
 	@Column(name = "Lecture_number")
-    private Integer lecNum;      // Lecture number
+    private Integer lecNum;     // Lecture number
 	
 	@Column(name = "Title")
     private String title;      // The title of the note
@@ -65,13 +63,6 @@ public class Notes {
 		NID = nID;
 	}
 
-	public Integer getClassNum() {
-		return classNum;
-	}
-
-	public void setClassNum(Integer classNum) {
-		this.classNum = classNum;
-	}
 
 	public Integer getLecNum() {
 		return lecNum;

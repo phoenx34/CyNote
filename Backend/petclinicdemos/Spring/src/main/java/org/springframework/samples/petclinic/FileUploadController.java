@@ -54,14 +54,14 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/{cid}/{lecnum}")
+    @PostMapping("/{nid}/{lecnum}")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes, @PathVariable("cid") Integer cid, @PathVariable("lecnum") Integer lid) {
+            RedirectAttributes redirectAttributes, @PathVariable("nid") Integer nid, @PathVariable("lecnum") Integer lid) {
     	
         storageService.store(file);
         Notes note = new Notes();
-        note.setClassNum(cid);
         note.setLecNum(lid);
+        note.setNID(nid);
         notes.saveNote(note);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");

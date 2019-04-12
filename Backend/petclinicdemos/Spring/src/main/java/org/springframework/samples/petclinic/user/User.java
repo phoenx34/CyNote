@@ -40,7 +40,7 @@ public class User {
 	private Preference preference;*/
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UID")        
     private Integer UID;
     
