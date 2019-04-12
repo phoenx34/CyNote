@@ -39,4 +39,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.1.0'
 
     implementation 'net.gotev:uploadservice:2.1'
+
+    // ... more entries
+    //testCompile 'junit:junit:4.12'
+
+    // required if you want to use Mockito for unit tests
+    testImplementation 'org.mockito:mockito-core:2.7.22'
+    // required if you want to use Mockito for Android tests
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
+
 }
