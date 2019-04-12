@@ -121,7 +121,6 @@ public class Login extends AppCompatActivity
     }
 
 
-
     /**
      * Upon submitting login form, call this method to send a get request to server
      * containing login information as url parameters, and receive a User ID with the
@@ -143,6 +142,9 @@ public class Login extends AppCompatActivity
         EditText editPassword = findViewById(R.id.passwordInput);
         String password = editPassword.getText().toString();
 
+        url = oof(url, screenname, password);
+
+        /*
         //Test for empty entries
         if(screenname == null || screenname.trim().length() == 0){
             Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
@@ -158,7 +160,7 @@ public class Login extends AppCompatActivity
         url += "/"+screenname+"/"+password;
 
 
-
+    */
 
         APICalls api = new APICalls(getApplicationContext());
 
@@ -197,6 +199,24 @@ public class Login extends AppCompatActivity
         }
     }
 
+    public String oof(String url, String screenname, String password){
+
+        //Test for empty entries
+        if(screenname == null || screenname.trim().length() == 0){
+            Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
+            return null;
+        }
+        if(password == null || password.trim().length() == 0){
+            Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        //Add login form data as parameters
+        //url += "?screenname="+screenname+"&password="+password;
+        url += "/"+screenname+"/"+password;
+
+        return url;
+    }
 
     /**
      * Upon successfully submitting login form and receiving a UserID, call this method
