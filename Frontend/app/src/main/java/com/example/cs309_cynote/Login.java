@@ -223,6 +223,26 @@ public class Login extends AppCompatActivity
         return url;
     }
 
+    public String oof(String url, String screenname, String password){
+
+        //Test for empty entries
+        if(screenname == null || screenname.trim().length() == 0){
+            //Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
+            return null;
+        }
+        if(password == null || password.trim().length() == 0){
+            //Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        //Add login form data as parameters
+        //url += "?screenname="+screenname+"&password="+password;
+        url += "/"+screenname+"/"+password;
+
+        return url;
+    }
+
+
     /**
      * Upon successfully submitting login form and receiving a UserID, call this method
      * (usually through a callback object) with current view and received UID to get
