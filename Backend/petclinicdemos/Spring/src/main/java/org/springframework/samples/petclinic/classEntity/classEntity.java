@@ -11,6 +11,8 @@ import org.springframework.samples.petclinic.shoutout.Shoutout;
 import org.springframework.samples.petclinic.textbook.Textbook;
 import org.springframework.samples.petclinic.user.User;
 
+import lectureEntity.Lecture;
+
 /**
  * 
  * @author Shen Chen and Marc Isaac
@@ -35,6 +37,9 @@ public class classEntity {
     
     @OneToMany(mappedBy="classentity")
     private List<Textbook> textbook;
+    
+    @OneToMany(mappedBy="classentity")
+    private List<Lecture> lectures;
     
     @OneToMany(mappedBy="classentity")
     private List<Shoutout> shoutout;

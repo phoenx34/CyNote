@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Space;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,79 +35,47 @@ public class ClassSelection extends AppCompatActivity {
         //The dummy space used for easier horizontal alignment here
         Space dummy = (Space) findViewById(R.id.dummy);
 
-
-        List<ClassObj> classes = new ArrayList<ClassObj>();
-
-
-
-        /*  Server response will come in this form:
-            {
-                "classes" : [
-                {
-                    "cid":"1",
-                    "name":"ComS 311"
-                },
-                {
-                    "cid":"2",
-                    "name":"ComS 309"
-                }
-                ]
-            }
+        /*
+        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         */
 
-        //Grab the extras passed through intent, received from the server upon login
-        Bundle extras = getIntent().getExtras();
+
+        List<String> classNames = new ArrayList<String>();
+
         String data = null;
+        Bundle extras = getIntent().getExtras();
+        //data = extras.getString("data");
 
+        //Sample data received from server
+        data = "{\"classes\":[\"ComS 309\",\"CprE 381\",\"ComS 311\"]}";
 
-        try{
+        if(data == null || data.trim().length() == 0){
+            System.out.println("No data received");
+            /*
+            //Sample Data
+            classNames.add("ComS 309");
+            classNames.add("CprE 381");
+            classNames.add("CprE 412");
+            */
+        }
+        else{
+            try{
+                JSONObject jsonObject = new JSONObject(data);
 
-            //----Ensuring the data actually exists----\\
-
-            //If the extras does not exist, big oof
-            if(extras == null)
-                throw new Exception("No data received");
-
-            //Try pulling data from extras
-            data = extras.getString("data");
-            //If data does not exist, big oof
-            if(data == null || data.trim().length() == 0) {
-                throw new Exception("No data received");
-            }
-            //-----------------------------------------\\
-
-
-            //Turn received JSON into an object
-            JSONObject jsonObject = new JSONObject(data);
-
-            //Grab the 'classes' array from the object
-            JSONArray arr = jsonObject.getJSONArray("classes");
-            for (int i = 0; i < arr.length(); i++) {
-
-                //Turn each index in the array into another object
-                String className = arr.get(i).toString();
-                JSONObject set = new JSONObject(className);
-
-                //Grab the cid and the className from that object
-                int cid = set.getInt("cid");
-                String name = set.getString("name");
-                //And create a ClassObj with them
-                ClassObj classObj = new ClassObj(cid, name);
-
-                //Add them to the array to be used with class button creation
-                classes.add(classObj);
+                JSONArray arr = jsonObject.getJSONArray("classes");
+                for (int i = 0; i < arr.length(); i++) {
+                    String className = arr.get(i).toString();;
+                    classNames.add(className);
+                }
+            }catch(JSONException e){
+                System.out.println(e.getMessage());
+            }catch(Exception e){
+                System.out.println(e.getMessage());
             }
 
-
-
-        }
-        catch(JSONException e) {
-            System.out.println("JSONException: ");
-            System.out.println(e.getMessage());
-        }
-        catch(Exception e){
-            System.out.println("Exception: ");
-            System.out.println(e.getMessage());
         }
 
 
@@ -114,8 +83,12 @@ public class ClassSelection extends AppCompatActivity {
 
 
 
-        //For every class received
-        for(int i = 0; i < classes.size(); i++){
+
+        //I'm using this to generate a random color, won't be needed later
+        Random rand = new Random();
+
+
+        for(int i = 0; i < classNames.size(); i++){
 
             Button btn = new Button(this);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -135,14 +108,16 @@ public class ClassSelection extends AppCompatActivity {
 
             // Now things start to change ------------------------------------------
 
-            //Create a random color for each button before preferences are implemented
-            btn.setBackgroundColor(randColor());
+            //Generating random color, will be included in data package from server detailing preferences later
+            //int color = 100000 + rand.nextInt(900000);        //Can generate dark colors
 
-            //Grab the current ClassObj
-            ClassObj currentClass = classes.get(i);
-            //Then change the name using that ClassObj
-            btn.setText(currentClass.getName());
-            //TODO pass currentClass.getCid() somewhere for something
+            //Generating a light color -
+            String R = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
+            String G = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
+            String B = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
+
+            btn.setBackgroundColor(Color.parseColor("#" + R+G+B));
+            btn.setText(classNames.get(i));
 
 
             //Every set of two buttons gets lower down
@@ -175,28 +150,6 @@ public class ClassSelection extends AppCompatActivity {
             layout.addView(btn, params);
 
         }
-    }
-
-    /**
-     * This method generates a random color for the class buttons, before preferences are implemented
-     *
-     * @return color
-     */
-    public int randColor(){
-      //Generating random color, will be included in data package from server detailing preferences later
-      //int color = 100000 + rand.nextInt(900000);        //Can generate dark colors
-
-        //I'm using this to generate a random color, won't be needed later
-        Random rand = new Random();
-
-
-        //Generating a light color -
-      String R = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
-      String G = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
-      String B = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
-
-      int color = Color.parseColor("#" + R+G+B);
-      return color;
     }
 
     /**
@@ -237,11 +190,8 @@ public class ClassSelection extends AppCompatActivity {
      * @param view
      */
     public void gotoLogin(View view){
-        finish();
-        /*
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
-        */
     }
 
     /**
@@ -269,16 +219,5 @@ public class ClassSelection extends AppCompatActivity {
         intent.putExtra("UID", uid);
         startActivity(intent);
 
-    }
-
-
-    public void addClass(){
-
-    }
-
-
-    public void gotoFileUploader(View view){
-        Intent intent = new Intent(this, FileSelector.class);
-        startActivity(intent);
     }
 }
