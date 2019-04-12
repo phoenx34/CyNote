@@ -1,3 +1,80 @@
+
+package org.springframework.samples.petclinic.classEntity;
+ 
+import java.io.Serializable;
+import java.util.Set;
+ 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.springframework.samples.petclinic.lectureEntity.Lecture;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+// CLEnt means a class entity
+@Entity
+@Table(name = "ClEnt")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
+public class ClEnt implements Serializable{
+  private static final long serialVersionUID = 1L;
+  
+  
+  @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  
+  @Column(name = "name")
+  private String name;
+  
+    @OneToMany(mappedBy = "ClEnt", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Lecture> lectures;
+  
+  public ClEnt() {}
+  
+  public ClEnt(String name) {
+    this.name = name;
+  }
+  
+  public void setId(Long id) {
+    this.id = id;
+  }
+  public Long getId() {
+    return this.id;
+  }
+  
+  public void setName(String name) {
+    this.name = name;
+  }
+  public String getName() {
+    return this.name;
+  }
+  
+  
+  public void setLectures(Set<Lecture> lectures) {
+    this.lectures = lectures;
+  }
+  
+  public Set<Lecture> getLectures(){
+    return this.lectures;
+  }
+}
+
+
+
+
+
+
+
+
+/*
+
 package org.springframework.samples.petclinic.classEntity;
 
 import java.util.List;
@@ -13,10 +90,7 @@ import org.springframework.samples.petclinic.shoutout.Shoutout;
 import org.springframework.samples.petclinic.textbook.Textbook;
 import org.springframework.samples.petclinic.user.User;
 
-/**
- * 
- * @author Shen Chen and Marc Isaac
- */
+
 
 
 
@@ -105,3 +179,5 @@ public class ClEnt {
 	
 	
 }
+
+*/
