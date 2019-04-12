@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.user.User;
 
 @Entity

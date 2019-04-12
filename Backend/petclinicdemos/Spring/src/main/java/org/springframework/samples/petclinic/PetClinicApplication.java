@@ -22,7 +22,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-
+import org.springframework.samples.petclinic.classEntity.ClEnt;
+import org.springframework.samples.petclinic.lectureEntity.Lecture;
+import org.springframework.samples.petclinic.lectureEntity.LectureController;
 import org.springframework.samples.petclinic.storage.*;
 
 /**
@@ -38,6 +40,7 @@ import org.springframework.samples.petclinic.user.UserController;
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
 public class PetClinicApplication {
+	
 	
 	
     public static void main(String[] args) throws Exception {

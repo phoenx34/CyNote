@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.classEntity.ClassController;
 import org.springframework.samples.petclinic.classEntity.ClassRepository;
-import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,16 +33,11 @@ public class UserController {
     UserRepository usersRepository;
     
     @Autowired
-    UserService userApplication;
-    
-    @Autowired
     ClassController classCont;
     
     @Autowired
     ClassRepository classRepo;
     
-    @Autowired
-    UserService userService;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -92,8 +87,8 @@ public class UserController {
         if(screenname == null || screenname.trim().length()==0)
             throw new IllegalArgumentException("The input screename is not valid");
         
-        List<User> results = userService.getUsers();
-       // List<User> results = usersRepository.findAll();       // list of users 
+        // List<User> results = userService.getUsers();
+        List<User> results = usersRepository.findAll();       // list of users 
 
 
         for(User user : results)
@@ -181,7 +176,7 @@ public class UserController {
     	if(results.isPresent() == false)
     		return null;
     	User user = results.get();
-    	List<classEntity> classes = user.getClasses();
+    	List<ClEnt> classes = user.getClasses();
     	logger.info("size of class list: " + classes.size());
     	//classes.toArray();
 
@@ -189,7 +184,7 @@ public class UserController {
 
     	for(int i=0; i < classes.size(); i++) {
 
-    	   result += "{\"cid\":\"" + classes.get(i).getCID()+"\",";
+    	   result += "{\"cid\":\"" + classes.get(i).getId()+"\",";
     	   result += "\"name\":\"" + classes.get(i).getName()+"\"},";
 
     	}
@@ -246,12 +241,12 @@ public class UserController {
         
         
     	
-    	classEntity classent = null;
+    	ClEnt classent = null;
     	
-    	List<classEntity> classes = classRepo.findAll();
+    	List<ClEnt> classes = classRepo.findAll();
     	
-    	for(classEntity classe : classes) {
-    		if(classe.getCID().equals(cid)) {
+    	for(ClEnt classe : classes) {
+    		if(classe.getId().equals(cid)) {
     			classent = classe;
     		}
     	}
