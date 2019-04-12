@@ -186,10 +186,16 @@ public class UserController {
     	//classes.toArray();
 
     	String result = "{\"classes\":[";
-    	
+
     	for(int i=0; i < classes.size(); i++) {
-    		result += classes.get(i).getName() + ", ";
+
+    	   result += "{\"cid\":\"" + classes.get(i).getCID()+"\",";
+    	   result += "\"name\":\"" + classes.get(i).getName()+"\"},";
+
     	}
+
+    	//Removes final comma
+    	result = result.replaceAll(", $", "");
     	result += "]}";
     	
     	

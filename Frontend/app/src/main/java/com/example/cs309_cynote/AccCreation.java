@@ -129,10 +129,7 @@ public class AccCreation extends AppCompatActivity {
      * @param view
      */
     public void gotoLogin(View view){
-        finish();
-        /*
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
-        */
     }
 }
