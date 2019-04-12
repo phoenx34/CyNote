@@ -31,12 +31,18 @@ public class UserController {
 
     @Autowired        // @Autowired means that the controller is connected with the database 
     UserRepository usersRepository;
+    
     @Autowired
     UserService userApplication;
+    
     @Autowired
     ClassController classCont;
+    
     @Autowired
     ClassRepository classRepo;
+    
+    @Autowired
+    UserService userService;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -86,7 +92,8 @@ public class UserController {
         if(screenname == null || screenname.trim().length()==0)
             throw new IllegalArgumentException("The input screename is not valid");
         
-        List<User> results = usersRepository.findAll();       // list of users 
+        List<User> results = userService.getUsers();
+       // List<User> results = usersRepository.findAll();       // list of users 
 
 
         for(User user : results)
