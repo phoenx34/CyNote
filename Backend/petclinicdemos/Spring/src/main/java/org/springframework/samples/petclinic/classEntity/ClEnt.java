@@ -22,6 +22,7 @@ import org.springframework.samples.petclinic.lectureEntity.Lecture;
 import org.springframework.samples.petclinic.user.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 // CLEnt means a class entity
 @Entity
@@ -39,11 +40,12 @@ public class ClEnt implements Serializable{
   private String name;
   
     @OneToMany(mappedBy = "ClEnt", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Lecture> lectures;
   
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="user_has_Class",
-    		joinColumns = @JoinColumn(name = "clEnt_id", referencedColumnName="id"),
+    		joinColumns = @JoinColumn(name = "ClEnt_id", referencedColumnName="id"),
     		inverseJoinColumns = @JoinColumn(name = "user_UID",
     		referencedColumnName = "UID"))
     private List<User> users;

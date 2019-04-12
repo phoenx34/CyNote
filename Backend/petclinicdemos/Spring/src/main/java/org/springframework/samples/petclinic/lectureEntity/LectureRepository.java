@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  
  
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
-  List<Lecture> findByClassId(Long ClEntID);  
+  //List<Lecture> findByClEntId(Long ClEntID);  
 }
 
 

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.springframework.samples.petclinic.classEntity.ClEnt;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  
@@ -38,9 +39,9 @@ public class Lecture implements Serializable{
   //Also need to add the note to this  
   
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "class_id", nullable = false)
-    @JsonIgnore
-    private ClEnt classEnt;
+    @JoinColumn(name = "ClEnt_id", nullable = false)
+    @JsonBackReference
+    private ClEnt ClEnt;
   
   public Lecture() {}
   
@@ -55,12 +56,13 @@ public class Lecture implements Serializable{
   
  
 
-  public void setClEnt(ClEnt classEnt) {
-    this.classEnt = classEnt;
+  public void setClEnt(ClEnt clEnt) {
+    this.ClEnt = clEnt;
   }
   
   public ClEnt getClEnt() {
-    return this.classEnt;
+    //return this.ClEnt;
+	  return null;
   }
 }
 

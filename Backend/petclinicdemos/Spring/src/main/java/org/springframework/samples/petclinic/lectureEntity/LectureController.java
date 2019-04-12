@@ -1,8 +1,11 @@
 package org.springframework.samples.petclinic.lectureEntity;
 
 import java.util.List;
+import java.util.Set;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.classEntity.ClassRepository;
 import org.springframework.samples.petclinic.exception.NotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
  
 @RestController
-@RequestMapping("/api")
 public class LectureController {
   @Autowired
   private LectureRepository lectureRepository;
@@ -25,15 +27,41 @@ public class LectureController {
   @Autowired
   private ClassRepository classRepository;
   
+  
     @GetMapping("/classes/{classId}/lecture")
-    public List<Lecture> getContactByClassId(@PathVariable Long classId) {
+    public Set<Lecture> getContactByClassId(@PathVariable Long classId) {
       
         if(!classRepository.existsById(classId)) {
             throw new NotFoundException("Class not found!");
         }
+        
+        ClEnt cur = classRepository.findById(classId).get();
+        return cur.getLectures();
       
-      return lectureRepository.findByClassId(classId);
+      //return lectureRepository.findByClEntId(classId);
     }
+    
+    /*
+     * @GetMapping("/classes/{classId}/lecture")
+    public String getContactByClassId(@PathVariable Long classId) {
+      
+        if(!classRepository.existsById(classId)) {
+            throw new NotFoundException("Class not found!");
+        }
+        
+        ClEnt cur = classRepository.findById(classId).get();
+        String a = new String();
+        Object[] i = cur.getLectures().toArray();
+        Lecture[] x = (Lecture[]) i;
+        for(int z = 0; z < x.length; z++)
+        {
+        	a.concat(x[z].getId().toString());
+        }
+        return a;
+      
+      //return lectureRepository.findByClEntId(classId);
+    }
+     */
     
     
     
