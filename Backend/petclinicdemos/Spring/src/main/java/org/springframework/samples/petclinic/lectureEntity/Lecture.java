@@ -15,6 +15,8 @@ import org.springframework.samples.petclinic.notes.Notes;
 @Entity
 @Table(name = "lectureEntity")
 public class Lecture {
+	
+	
 
 	  @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +32,7 @@ public class Lecture {
 
 	// This is a many to one relationship with the class
 	    @ManyToOne
-	    @JoinColumn(name="CID")
+	    @JoinColumn(name="class_id")
 	    private classEntity classentity;
 	    
 	    @OneToMany(mappedBy="lecture")
@@ -46,13 +48,11 @@ public class Lecture {
 		return Lid;
 	}
 	
-	public void setClass(classEntity cur) {
-		this.classentity = cur;
+	public classEntity getClassEnt() {
+		return classentity;
 	}
 	
-	public Integer getCid() {
-		return this.classentity.getCID();
-	}
+	
 	
 	public List<Notes> getNotes() {
 		return notes;

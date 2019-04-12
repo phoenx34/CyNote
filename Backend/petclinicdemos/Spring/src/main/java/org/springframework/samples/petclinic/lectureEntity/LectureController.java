@@ -76,15 +76,16 @@ public class LectureController {
 	 
 	@PostMapping("/lectures")
     public ResponseEntity<Object> saveClass(@RequestBody Lecture lecture) {
-		/*Integer cid = lecture.getCid();
-		classEntity curclass = classRepo.findById(cid).get();
-		curclass.addLecture(lecture);
-		classRepo.deleteById(cid);
-		classRepo.save(curclass);
-		lecture.setClass(classRepo.findById(cid).get());*/
 		
 		
+    	logger.info("1111111111");
     	Lecture savedClass = lectureRepository.save(lecture);
+    	logger.info("22222222");
+    	classEntity curclass = lecture.getClassEnt();
+    	logger.info("classid is: " + curclass.getCID());
+		curclass.addLecture(lecture);
+		classRepo.deleteById(curclass.getCID());
+		classRepo.save(curclass);
     	
     	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
     			.buildAndExpand(savedClass.getLid()).toUri();  	
