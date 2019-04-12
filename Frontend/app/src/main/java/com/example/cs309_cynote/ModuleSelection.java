@@ -135,6 +135,10 @@ public class ModuleSelection extends AppCompatActivity {
     }
 
 
+    public void fuckMockito(){
+        prepareListData();
+    }
+
     /**
      * This method is for testing. Later, when front and back end are
      * hooked up, this will use a get request to populate the list.
