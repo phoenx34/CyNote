@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.samples.petclinic.classEntity.classEntity;
 
 @Entity
 @Table(name = "LectureEntity")
@@ -25,7 +26,11 @@ public class Lecture {
 	    @Column(name = "shoutout_history")
 	    private Set<String> shoutout_history = new HashSet<>();   // stores all the chat history as string in the set 
 
-
+	// This is a many to one relationship with the class
+	    @ManyToOne
+	    @JoinColumn(name="Class_CID")
+	    private classEntity classentity;
+	    
 
 	  
 	  
