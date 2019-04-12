@@ -66,6 +66,10 @@ public class classEntity {
 		return shoutout;
 	}
 	
+	public List<Lecture> getLecture() {
+		return lectures;
+	}
+	
 	public List<User> getUsers() {
 		return users;
 	}

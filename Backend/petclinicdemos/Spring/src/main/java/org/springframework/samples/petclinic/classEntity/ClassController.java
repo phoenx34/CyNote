@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.shoutout.Shoutout;
 import org.springframework.samples.petclinic.textbook.Textbook;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import lectureEntity.Lecture;
 
 /**
  * 
@@ -68,6 +71,34 @@ public class ClassController {
     	}
     	
     	return textbooks;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/lecturelist/{id}")
+    public String getLecture(@PathVariable("id") Integer id) {
+    	logger.info("Entered into Controller Layer");
+    	logger.info("id: " + id);
+    	Optional<classEntity> results = classRepository.findById(id);
+    	logger.info("classid: " + results.get().getCID());
+    	if(results.isPresent() == false)
+    		return null;
+    	classEntity curr = results.get();
+    	List<Lecture> lectures = curr.getLecture();
+    	logger.info("size of class list: " + lectures.size());
+    	//classes.toArray();
+
+    	String result = "{\"lectures\":[";
+
+    	for(int i=0; i < lectures.size(); i++) {
+
+    	   result += "{\"cid\":\"" + lectures.get(i).getLid()+"\",";
+
+    	}
+
+    	//Removes final comma
+    	result = result.replaceAll(", $", "");
+    	result += "]}";
+    	logger.info("Result is: " + result);
+    	return result;
     }
     
     @RequestMapping(method = RequestMethod.GET, path = "/shoutoutlist/{id}")
