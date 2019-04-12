@@ -249,12 +249,14 @@ public class ClassSelection extends AppCompatActivity {
         */
     }
 
+
     /**
      * Upon clicking a 'Class' button, calls this function to change views
      * to the Module Selection page. This will send the class name selected.
      *
      * @param view
      */
+
     public void gotoModuleSelection(View view){
         Intent intent = new Intent(this, ModuleSelection.class);
 
@@ -267,6 +269,30 @@ public class ClassSelection extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+
+
+
+    /**
+     * Upon clicking a 'Class' button, calls this function to change views
+     * to the Module Selection page. This will send the class name selected.
+     *
+     * @param view
+     */
+    /*
+    public void gotoModuleSelection(View view){
+        Intent intent = new Intent(this, ModuleSelection.class);
+
+        //Adding "class name" data to intent
+        Button b = (Button)view;
+        String buttonText = b.getText().toString();     //Get button text
+
+        intent.putExtra("className", buttonText); //Add that to intent
+        //Note: When get-requesting later, will need section id as well for correct modules
+
+        startActivity(intent);
+    }
+    */
 
     public void goToAddNewClass(View view){
         Intent intent = new Intent(this, AddUserToClass.class);
@@ -287,3 +313,6 @@ public class ClassSelection extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
+
+

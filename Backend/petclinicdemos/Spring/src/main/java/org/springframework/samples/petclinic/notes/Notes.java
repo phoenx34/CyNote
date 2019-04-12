@@ -5,10 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.samples.petclinic.classEntity.classEntity;
+
+import lectureEntity.Lecture;
 
 /**
  * 
@@ -19,6 +24,11 @@ import org.hibernate.annotations.NotFoundAction;
 @Entity
 @Table(name = "notes")
 public class Notes {
+	
+	// This is a many to one relationship with the class
+    @ManyToOne
+    @JoinColumn(name="lid")
+    private Lecture lecture;
 	
 	
 	@Id

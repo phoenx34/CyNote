@@ -1,4 +1,5 @@
 package emailNotification;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 

@@ -75,7 +75,7 @@
         if ("WebSocket" in window) {
 //            alert("您的浏览器支持 WebSocket!");
             if (webSocket == null) {
-                var url = "ws://localhost:8080/webSocket/" + roomName;
+                var url = "ws://cs309-sd-7.misc.iastate.edu:8080/webSocket/" + roomName;
                 // 打开一个 web socket
                 webSocket = new WebSocket(url);
             } else {
