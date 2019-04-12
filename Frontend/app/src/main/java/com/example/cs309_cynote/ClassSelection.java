@@ -70,9 +70,9 @@ public class ClassSelection extends AppCompatActivity {
             //Try pulling data from extras
             data = extras.getString("data");
             //If data does not exist, big oof
-            if(data == null || data.trim().length() == 0)
+            if(data == null || data.trim().length() == 0) {
                 throw new Exception("No data received");
-
+            }
             //-----------------------------------------\\
 
 
@@ -268,7 +268,7 @@ public class ClassSelection extends AppCompatActivity {
         startActivity(intent);
 
     }
-}
+
 
     public void addClass(){
 
