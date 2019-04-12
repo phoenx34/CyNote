@@ -113,8 +113,6 @@ public class ClassSelection extends AppCompatActivity {
 
 
 
-        //I'm using this to generate a random color, won't be needed later
-        Random rand = new Random();
 
         //For every class received
         for(int i = 0; i < classes.size(); i++){
@@ -184,16 +182,20 @@ public class ClassSelection extends AppCompatActivity {
      *
      * @return color
      */
-    public Color randColor(){
+    public int randColor(){
       //Generating random color, will be included in data package from server detailing preferences later
       //int color = 100000 + rand.nextInt(900000);        //Can generate dark colors
 
-      //Generating a light color -
+        //I'm using this to generate a random color, won't be needed later
+        Random rand = new Random();
+
+
+        //Generating a light color -
       String R = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
       String G = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
       String B = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
 
-      Color color = Color.parseColor("#" + R+G+B));
+      int color = Color.parseColor("#" + R+G+B);
       return color;
     }
 
