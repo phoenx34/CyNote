@@ -96,6 +96,14 @@ public class Login extends AppCompatActivity
         return matcher.matches();
     }
 
+    public boolean isEmailValid1(String emailText)//method that check email valid
+    {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(emailText);
+        return matcher.matches();
+    }
+
     /**
      * Upon clicking "New user?" text view, calls this function to change views
      * to the account creation page.
