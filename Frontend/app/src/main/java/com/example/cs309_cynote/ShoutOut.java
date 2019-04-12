@@ -30,9 +30,11 @@ public class ShoutOut extends AppCompatActivity{
     /**
      * URL to open websocket on
      */
-    //private static final String SERVER = "ws://localhost:9999/";
+    //private static final String SERVER = "ws://cs309-sd-7.misc.iastate.edu:8080/websocket/1";
     /**
      * The timeout value in milliseconds for socket connection.
+     *
+     *
      */
     private static final int TIMEOUT = 5000;
 

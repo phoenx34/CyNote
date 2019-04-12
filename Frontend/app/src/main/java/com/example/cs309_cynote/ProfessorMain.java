@@ -41,7 +41,7 @@ public class ProfessorMain extends AppCompatActivity {
 
     public void AddClassT(View view) throws JSONException{
 
-        urlAddC = "http://cs309-sd-7.misc.iastate.edu:8080/classent";
+        urlAddC = "http://cs309-sd-7.misc.iastate.edu:8080/classes";
         String json = "{\"cid\":" + 1 + "," +
                 "\"name\":" + "\"TestClass1\"}";
 

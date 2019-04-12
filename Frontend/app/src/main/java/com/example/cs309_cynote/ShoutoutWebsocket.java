@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
-public class ShoutoutWebsocket extends AsyncTask<String, Void, String> {
+public class  ShoutoutWebsocket extends AsyncTask<String, Void, String> {
     /**
      * The websocket to be used
      */

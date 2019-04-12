@@ -120,6 +120,11 @@ public class Login extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void gotoShoutout(View view){
+        Intent intent = new Intent(this, ShoutOut.class);
+        startActivity(intent);
+    }
+
 
     /**
      * Upon submitting login form, call this method to send a get request to server
