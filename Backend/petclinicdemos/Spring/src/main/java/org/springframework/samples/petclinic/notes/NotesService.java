@@ -1,6 +1,10 @@
 package org.springframework.samples.petclinic.notes;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.textbook.Textbook;
 import org.springframework.samples.petclinic.user.UserController;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +13,7 @@ public class NotesService {
 	
 	@Autowired
 	NotesRepository notesRepository;
+	
 	
 	@Autowired
 	NotesController notesController;
@@ -87,6 +92,20 @@ public class NotesService {
  
         return start;
     }
+	
+    
+    
+	 
+	 public Notes findNotesById(Integer NID) 
+	 {
+		 return notesRepository.getNotesByID(NID);
+	 }
+	 
+	 
+	 public List<Notes> findAllNotes()
+	 {
+		 return notesRepository.findAll();
+	 }
 	
 	
 	

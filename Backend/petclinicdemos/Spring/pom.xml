@@ -51,6 +51,21 @@
       <scope>test</scope>
     </dependency>
 
+
+<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+<dependency>
+   <groupId>org.mockito</groupId>
+   <artifactId>mockito-core</artifactId>
+</dependency>
+
+
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.13-beta-1</version>
+</dependency>
+
+
     <!-- Databases - Uses MySQL-->
     <dependency>
       <groupId>mysql</groupId>
