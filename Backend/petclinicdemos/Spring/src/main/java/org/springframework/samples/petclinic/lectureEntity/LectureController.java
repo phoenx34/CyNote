@@ -3,12 +3,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.classEntity.ClassRepository;
-import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.notes.Notes;
 import org.springframework.samples.petclinic.notes.NotesRepository;
 import org.springframework.samples.petclinic.shoutout.Shoutout;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javassist.NotFoundException;
 
 
 // have to have a lecture first in the 
@@ -66,18 +70,26 @@ public class LectureController {
 	    	return result;
 	 }*/
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/lectures")
-    public List<Lecture> getAllLectures() {
-        logger.info("Entered into Controller Layer");
-        List<Lecture> results = lectureRepository.findAll();
-        logger.info("Number of Records Fetched:" + results.size());
-        return results;
-    }
+	@RequestMapping(method = RequestMethod.GET, path = "/classent/{clEntId}/lectures")
+	public List<Lecture> getLecturesByCID(@PathVariable Integer clEntId) throws NotFoundException {
+		if(!classRepo.existsById(clEntId)) {
+			throw new NotFoundException("Class not found!");
+		}
+		
+		return lectureRepository.findByClEntId(clEntId);
+	}
 	 
-	@PostMapping("/lectures")
-    public ResponseEntity<Object> saveClass(@RequestBody Lecture lecture) {
+	@PostMapping("/classent/{clEntId}/lectures")
+    public Lecture saveClass(@PathVariable Integer clEntId, @Valid @RequestBody Lecture lecture) throws NotFoundException {
 		
 		
+		return classRepo.findById(clEntId)
+				.map(classent -> {
+					lecture.setClassEnt(classent);
+					return lectureRepository.save(lecture);
+				}).orElseThrow(() -> new NotFoundException("Class not found!"));
+		
+		/*Lecture lecture = new Lecture(lid, cur);
     	logger.info("1111111111");
     	Lecture savedClass = lectureRepository.save(lecture);
     	logger.info("22222222");
@@ -89,7 +101,7 @@ public class LectureController {
     	
     	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
     			.buildAndExpand(savedClass.getLid()).toUri();  	
-    	return ResponseEntity.created(location).build();  
+    	return ResponseEntity.created(location).build();  */
 
     }
 	

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.classEntity.ClassController;
 import org.springframework.samples.petclinic.classEntity.ClassRepository;
-import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -176,7 +176,7 @@ public class UserController {
     	if(results.isPresent() == false)
     		return null;
     	User user = results.get();
-    	List<classEntity> classes = user.getClasses();
+    	List<ClEnt> classes = user.getClasses();
     	logger.info("size of class list: " + classes.size());
     	//classes.toArray();
 
@@ -241,11 +241,11 @@ public class UserController {
         
         
     	
-    	classEntity classent = null;
+    	ClEnt classent = null;
     	
-    	List<classEntity> classes = classRepo.findAll();
+    	List<ClEnt> classes = classRepo.findAll();
     	
-    	for(classEntity classe : classes) {
+    	for(ClEnt classe : classes) {
     		if(classe.getCID().equals(cid)) {
     			classent = classe;
     		}

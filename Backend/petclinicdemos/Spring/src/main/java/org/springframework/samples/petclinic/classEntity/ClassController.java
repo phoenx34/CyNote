@@ -35,8 +35,8 @@ public class ClassController {
     private final Logger logger = LoggerFactory.getLogger(ClassController.class);
 
     @PostMapping("/classent")
-    public ResponseEntity<Object> saveClass(@RequestBody classEntity oneClass) {
-    	classEntity savedClass = classRepository.save(oneClass);  	
+    public ResponseEntity<Object> saveClass(@RequestBody ClEnt oneClass) {
+    	ClEnt savedClass = classRepository.save(oneClass);  	
     	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
     			.buildAndExpand(savedClass.getCID()).toUri();  	
     	return ResponseEntity.created(location).build();  
@@ -44,9 +44,9 @@ public class ClassController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/classent")
-    public List<classEntity> getAllClasses() {
+    public List<ClEnt> getAllClasses() {
         logger.info("Entered into Controller Layer");
-        List<classEntity> results = (List<classEntity>) classRepository.findAll();
+        List<ClEnt> results = (List<ClEnt>) classRepository.findAll();
         logger.info("Number of Records Fetched:" + results.size());
         return results;
     }
@@ -54,13 +54,13 @@ public class ClassController {
     @RequestMapping(method = RequestMethod.GET, path = "/textbooklist/{id}")
     public List<String> getTextbook(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
-    	Optional<classEntity> thisClass = this.findClassById(id);
+    	Optional<ClEnt> thisClass = this.findClassById(id);
     	if(thisClass.isPresent() == false) {
     		return null;
     	}
     	
     	List<String> textbooks = null;
-    	classEntity temp = thisClass.get();
+    	ClEnt temp = thisClass.get();
     	List<Textbook> texts = temp.getTextbooks();
     	texts.toArray();
     	
@@ -72,7 +72,8 @@ public class ClassController {
     	return textbooks;
     }
     
-    @RequestMapping(method = RequestMethod.GET, path = "/lecturelist/{id}")
+    // Deprecated
+   /* @RequestMapping(method = RequestMethod.GET, path = "/lecturelist/{id}")
     public String getLecture(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller Layer");
     	logger.info("id: " + id);
@@ -98,18 +99,18 @@ public class ClassController {
     	result += "]}";
     	logger.info("Result is: " + result);
     	return result;
-    }
+    }*/
     
     @RequestMapping(method = RequestMethod.GET, path = "/shoutoutlist/{id}")
     public List<String> getShoutout(@PathVariable("id") Integer id) {
     	logger.info("Entered into Controller layer, poop");
-    	Optional<classEntity> thisClass = this.findClassById(id);
+    	Optional<ClEnt> thisClass = this.findClassById(id);
     	if(thisClass.isPresent() == false) {
     		return null;
     	}
     	
     	List<String> shoutouts = null;
-    	classEntity temp = thisClass.get();
+    	ClEnt temp = thisClass.get();
     	List<Shoutout> shouts = temp.getShoutouts();
     	shouts.toArray();
     	
@@ -122,9 +123,9 @@ public class ClassController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/classent/{id}")
-    public Optional<classEntity> findClassById(@PathVariable("id") Integer id) {
+    public Optional<ClEnt> findClassById(@PathVariable("id") Integer id) {
         logger.info("Entered into Controller Layer");
-        Optional<classEntity> results = classRepository.findById(id);
+        Optional<ClEnt> results = classRepository.findById(id);
         return results;
     }
 }

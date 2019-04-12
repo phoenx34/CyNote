@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class Textbook {
     // This is a many to one relationship with the class
     @ManyToOne
     @JoinColumn(name="Class_CID")
-    private classEntity classentity;
+    private ClEnt classentity;
     
 
     

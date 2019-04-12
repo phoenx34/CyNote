@@ -15,10 +15,10 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface ClassRepository extends CrudRepository<classEntity, Integer> {
-	classEntity save(classEntity persisted); 
-	Optional<classEntity> findById(Integer CID);
-	List<classEntity> findAll();
+public interface ClassRepository extends CrudRepository<ClEnt, Integer> {
+	ClEnt save(ClEnt persisted); 
+	Optional<ClEnt> findById(Integer CID);
+	List<ClEnt> findAll();
 	
 
 }

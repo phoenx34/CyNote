@@ -18,7 +18,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.preference.Preference;
 
 /**
@@ -32,7 +32,7 @@ import org.springframework.samples.petclinic.preference.Preference;
 public class User {
 	
 	@ManyToMany(mappedBy = "users")
-	private List<classEntity> classes;
+	private List<ClEnt> classes;
 	
 	/*@OneToOne
 	@JoinColumn(name="preference_PID")
@@ -100,7 +100,7 @@ public class User {
     	return password;
     }
     
-    public List<classEntity> getClasses(){
+    public List<ClEnt> getClasses(){
     	return classes;
     }
     
@@ -108,7 +108,7 @@ public class User {
     	this.password = password;
     }
     
-    public void addClass(classEntity classent) {
+    public void addClass(ClEnt classent) {
     	classes.add(classent);
     }
     

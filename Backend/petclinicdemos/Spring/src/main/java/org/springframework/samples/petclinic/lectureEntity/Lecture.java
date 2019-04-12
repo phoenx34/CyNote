@@ -9,8 +9,10 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.notes.Notes;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "lectureEntity")
@@ -31,13 +33,15 @@ public class Lecture {
 	    private Set<String> shoutout_history = new HashSet<>();   // stores all the chat history as string in the set 
 
 	// This is a many to one relationship with the class
-	    @ManyToOne
-	    @JoinColumn(name="class_id")
-	    private classEntity classentity;
+	    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+	    @JoinColumn(name = "ClEnt_id")
+	    @JsonIgnore
+	    private ClEnt classentity;
 	    
 	    @OneToMany(mappedBy="lecture")
 	    private List<Notes> notes;
 	    
+	   
 	    
 		 /* @Column(name = "leccid", nullable=false)
 		  private Integer leccid;*/
@@ -48,8 +52,12 @@ public class Lecture {
 		return Lid;
 	}
 	
-	public classEntity getClassEnt() {
-		return classentity;
+	public ClEnt getClassEnt() {
+		return this.classentity;
+	}
+	
+	public void setClassEnt(ClEnt classentity) {
+		this.classentity = classentity;
 	}
 	
 	
