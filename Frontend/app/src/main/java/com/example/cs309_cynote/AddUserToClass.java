@@ -120,6 +120,9 @@ public class AddUserToClass extends AppCompatActivity {
     {
         cid = receivedInteger;
     }
+    public int getCid(){
+        return cid;
+    }
 
     public int getCid(){
         return cid;

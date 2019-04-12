@@ -120,11 +120,14 @@ public class ClassSelection extends AppCompatActivity {
             Button btn = new Button(this);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
 
             //These are constant for each button
             btn.setId(ViewCompat.generateViewId());
-            btn.setWidth(dpToPx(165));
-            btn.setHeight(dpToPx(117));
+            btn.setWidth(dpToPx(165, metrics));
+            btn.setHeight(dpToPx(117, metrics));
             btn.setOnClickListener(new View.OnClickListener() {                //Weird roundabout stuff needed here
                 @Override
                 public void onClick(View v) {
@@ -136,7 +139,9 @@ public class ClassSelection extends AppCompatActivity {
             // Now things start to change ------------------------------------------
 
             //Create a random color for each button before preferences are implemented
-            btn.setBackgroundColor(randColor());
+            String randColor = randColor();
+            int color = Color.parseColor(randColor);
+            btn.setBackgroundColor(color);
 
             //Grab the current ClassObj
             ClassObj currentClass = classes.get(i);
@@ -146,9 +151,9 @@ public class ClassSelection extends AppCompatActivity {
 
 
             //Every set of two buttons gets lower down
-            int topMarg = (int)(i/2) * dpToPx(141);
+            int topMarg = (int)(i/2) * dpToPx(141, metrics);
             //Each button is always this far from the center, either left or right
-            int lrMargin = dpToPx(12);
+            int lrMargin = dpToPx(12, metrics);
 
             //Every button is always below dummy
             params.addRule(RelativeLayout.BELOW, dummy.getId());
@@ -182,7 +187,7 @@ public class ClassSelection extends AppCompatActivity {
      *
      * @return color
      */
-    public int randColor(){
+    public String randColor(){
       //Generating random color, will be included in data package from server detailing preferences later
       //int color = 100000 + rand.nextInt(900000);        //Can generate dark colors
 
@@ -195,7 +200,8 @@ public class ClassSelection extends AppCompatActivity {
       String G = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
       String B = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
 
-      int color = Color.parseColor("#" + R+G+B);
+        String color = "#" + R+G+B;
+
       return color;
     }
 
@@ -206,9 +212,8 @@ public class ClassSelection extends AppCompatActivity {
      * @param dp
      * @return pixels
      */
-    public int dpToPx(int dp){
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+    public int dpToPx(int dp, DisplayMetrics metrics){
+
         float logicalDensity = metrics.density;
 
         int pixels = (int) Math.ceil(dp * logicalDensity);
