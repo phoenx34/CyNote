@@ -184,7 +184,7 @@ public class UserController {
 
     	for(int i=0; i < classes.size(); i++) {
 
-    	   result += "{\"cid\":\"" + classes.get(i).getCID()+"\",";
+    	   result += "{\"cid\":\"" + classes.get(i).getId()+"\",";
     	   result += "\"name\":\"" + classes.get(i).getName()+"\"},";
 
     	}
@@ -246,7 +246,7 @@ public class UserController {
     	List<ClEnt> classes = classRepo.findAll();
     	
     	for(ClEnt classe : classes) {
-    		if(classe.getCID().equals(cid)) {
+    		if(classe.getId().equals(cid)) {
     			classent = classe;
     		}
     	}

@@ -2,8 +2,10 @@
 package org.springframework.samples.petclinic.classEntity;
  
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
- 
+
+import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,10 +13,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.samples.petclinic.lectureEntity.Lecture;
+import org.springframework.samples.petclinic.user.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -36,6 +41,16 @@ public class ClEnt implements Serializable{
     @OneToMany(mappedBy = "ClEnt", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Lecture> lectures;
   
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="user_has_Class",
+    		joinColumns = @JoinColumn(name = "clEnt_id", referencedColumnName="id"),
+    		inverseJoinColumns = @JoinColumn(name = "user_UID",
+    		referencedColumnName = "UID"))
+    private List<User> users;
+    
+    
+    
+    
   public ClEnt() {}
   
   public ClEnt(String name) {
@@ -60,11 +75,25 @@ public class ClEnt implements Serializable{
   public void setLectures(Set<Lecture> lectures) {
     this.lectures = lectures;
   }
-  
   public Set<Lecture> getLectures(){
     return this.lectures;
   }
+  
+	public List<User> getUsers() {
+		return users;
+	}
+	public void addUser(User u) {
+		users.add(u);
+	}
+  
+  
+  
+  
+  
+  
 }
+
+
 
 
 
