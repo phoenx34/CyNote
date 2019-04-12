@@ -203,11 +203,11 @@ public class Login extends AppCompatActivity
 
         //Test for empty entries
         if(screenname == null || screenname.trim().length() == 0){
-            Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
             return null;
         }
         if(password == null || password.trim().length() == 0){
-            Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
             return null;
         }
 

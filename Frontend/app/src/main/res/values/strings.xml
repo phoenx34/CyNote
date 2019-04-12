@@ -80,5 +80,7 @@
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
     <string name="send">Send</string>
+    <string name="addclass">AddClass</string>
+    <string name="addlecture">AddLecture</string>
 
 </resources>
