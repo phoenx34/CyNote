@@ -51,17 +51,6 @@
       <scope>test</scope>
     </dependency>
 
-
-
-    <!-- email -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-mail</artifactId>
-    <version>2.0.1.RELEASE</version>
-</dependency>
-
-
-
     <!-- Databases - Uses MySQL-->
     <dependency>
       <groupId>mysql</groupId>
