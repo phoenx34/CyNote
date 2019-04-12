@@ -51,6 +51,17 @@
       <scope>test</scope>
     </dependency>
 
+
+
+
+     <!-- email notification dependency -->
+<dependency>  
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+
+
+
     <!-- Databases - Uses MySQL-->
     <dependency>
       <groupId>mysql</groupId>

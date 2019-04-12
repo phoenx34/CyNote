@@ -127,7 +127,7 @@ public List<User> getUsers() {
 
 public User findUserByID(int id)
 {
-	User user = userRepository.getUserById(id);
+	User user = userRepository.findById(id).get();
 	return user;
 }
 	
