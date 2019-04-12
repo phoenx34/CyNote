@@ -1,6 +1,7 @@
 package lectureEntity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.samples.petclinic.classEntity.classEntity;
+import org.springframework.samples.petclinic.notes.Notes;
 
 @Entity
 @Table(name = "LectureEntity")
@@ -15,8 +17,7 @@ public class Lecture {
 
 	  @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "LectureID", nullable=false)    
-	    @NotFound(action = NotFoundAction.IGNORE)
+	    @Column(name = "lid", nullable=false) 
 	    private Integer Lid;   // The id of each one of the lecture
 	    
 	    
@@ -31,7 +32,8 @@ public class Lecture {
 	    @JoinColumn(name="Class_CID")
 	    private classEntity classentity;
 	    
-
+	    @OneToMany(mappedBy="lecture")
+	    private List<Notes> notes;
 	  
 	  
 	 // Gettters and Setters
