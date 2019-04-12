@@ -1,7 +1,8 @@
-
 package com.example.cs309_cynote;
 
-import org.json.JSONException;
+
+import android.util.DisplayMetrics;
+
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,16 +13,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @Author Sean Gordon
+ */
+public class MockitoTestBySGordon {
 
-public class PrepareListDataTest {
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Test
+    public void DptoPxTest_returnsValidInt() {
+        //The class we are trying to test
+        ClassSelection classSelection = new ClassSelection();
+
+        //Classes the above class uses
+        DisplayMetrics metrics = new DisplayMetrics();
+        metrics.density = 5;
+
+        int color = classSelection.dpToPx(40, metrics);
+
+        Assert.assertNotEquals(0, color);
+    }
+
+    
+    @Test
+    public void randColorTest_returnsValidInt() {
+        //The method we are trying to test
+        ClassSelection classSelection = new ClassSelection();
+
+        String color = classSelection.randColor();
+
+        Assert.assertNotEquals("#000000", color);
+    }
 
 
     @Test
     public void PrepareListDataWorks() {
-        //The sorter we are trying to test
+        //The method we are trying to test
         ModuleSelection moduleSelection = new ModuleSelection();
 
 
@@ -62,5 +90,4 @@ public class PrepareListDataTest {
 
         Assert.assertEquals(listDataChild,listData);
     }
-
 }

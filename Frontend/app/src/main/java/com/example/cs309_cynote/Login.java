@@ -96,6 +96,15 @@ public class Login extends AppCompatActivity
         return matcher.matches();
     }
 
+
+    public boolean isEmailValid1(String emailText)//method that check email valid
+    {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(emailText);
+        return matcher.matches();
+    }
+
     /**
      * Upon clicking "New user?" text view, calls this function to change views
      * to the account creation page.
@@ -135,6 +144,10 @@ public class Login extends AppCompatActivity
         EditText editPassword = findViewById(R.id.passwordInput);
         String password = editPassword.getText().toString();
 
+
+        url = oof(url, screenname, password);
+
+        /*
         //Test for empty entries
         if(screenname == null || screenname.trim().length() == 0){
             Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
@@ -149,7 +162,7 @@ public class Login extends AppCompatActivity
         //url += "?screenname="+screenname+"&password="+password;
         url += "/"+screenname+"/"+password;
 
-
+*/
 
 
         APICalls api = new APICalls(getApplicationContext());
@@ -187,6 +200,26 @@ public class Login extends AppCompatActivity
         catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+
+    public String oof(String url, String screenname, String password){
+
+        //Test for empty entries
+        if(screenname == null || screenname.trim().length() == 0){
+            //Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
+            return null;
+        }
+        if(password == null || password.trim().length() == 0){
+            //Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        //Add login form data as parameters
+        //url += "?screenname="+screenname+"&password="+password;
+        url += "/"+screenname+"/"+password;
+
+        return url;
     }
 
 
