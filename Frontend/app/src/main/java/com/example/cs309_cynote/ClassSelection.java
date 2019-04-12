@@ -137,15 +137,9 @@ public class ClassSelection extends AppCompatActivity {
 
             // Now things start to change ------------------------------------------
 
-            //Generating random color, will be included in data package from server detailing preferences later
-            //int color = 100000 + rand.nextInt(900000);        //Can generate dark colors
+            //Create a random color for each button before preferences are implemented
+            btn.setBackgroundColor(randColor());
 
-            //Generating a light color -
-            String R = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
-            String G = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
-            String B = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
-
-            btn.setBackgroundColor(Color.parseColor("#" + R+G+B));
             //Grab the current ClassObj
             ClassObj currentClass = classes.get(i);
             //Then change the name using that ClassObj
@@ -183,6 +177,24 @@ public class ClassSelection extends AppCompatActivity {
             layout.addView(btn, params);
 
         }
+    }
+
+    /**
+     * This method generates a random color for the class buttons, before preferences are implemented
+     *
+     * @return color
+     */
+    public Color randColor(){
+      //Generating random color, will be included in data package from server detailing preferences later
+      //int color = 100000 + rand.nextInt(900000);        //Can generate dark colors
+
+      //Generating a light color -
+      String R = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
+      String G = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
+      String B = Integer.toHexString(153 + rand.nextInt(102));     //Hex in range of 99 - FF
+
+      Color color = Color.parseColor("#" + R+G+B));
+      return color;
     }
 
     /**
