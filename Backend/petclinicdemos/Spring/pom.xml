@@ -58,6 +58,18 @@
         <version>2.3.0</version>
 </dependency>
 
+
+  <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>1</version>
+    </dependency>
+
+
+
+
+
+
     <!-- Databases - Uses MySQL-->
     <dependency>
       <groupId>mysql</groupId>

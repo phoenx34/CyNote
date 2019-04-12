@@ -103,6 +103,17 @@ public class LectureController {
     
     
     
+    @GetMapping("/shoutout/{lectureId}")
+    public List<String> getChatHistoryWithLectureID(@PathVariable Long lectureId) {
+      
+        if(!lectureRepository.existsById(lectureId)) {
+            throw new NotFoundException("Such Lecture not found!");
+        }
+        
+        Lecture lec = lectureRepository.findById(lectureId).get();
+        return lec.getShoutout_history();
+      
+    }
     
     
     
