@@ -13,9 +13,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.lectureEntity.LectureRepository;
 import org.springframework.stereotype.Component;
 
-import lectureEntity.LectureRepository;
 
 
 // roomName is the lecture number
@@ -76,8 +76,8 @@ public class socketServer {
     	// The roomName here is the lecture Id
     	// With the given Lecture Id, use the lecture repository to find the specific lecture
     	// get the chathistory and add the given message to the hashset 
-    	
-    	int result = Integer.parseInt(roomName);
+    	Long result = new Long(roomName);
+    	//int result = Integer.parseInt(roomName);
     	if(lectureRepository.findById(result)==null)
     	{
     		logger.info("没有这个lecture");

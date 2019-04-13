@@ -6,8 +6,8 @@ import java.util.Optional;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.classEntity.ClassRepository;
-import org.springframework.samples.petclinic.classEntity.classEntity;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserController;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,16 +40,16 @@ public class NotificationController {
 	    	logger.info("The method started");
 	    	logger.info("The given classID from html path is: " + id);
 	    	
-	    	
-	    	Optional<classEntity> result = classRepository.findById(id);
-	    	logger.info("The actual classID for the class is: " + result.get().getCID());
+	    	Long longID = new Long(id);
+	    	Optional<ClEnt> result = classRepository.findById(longID);
+	    	logger.info("The actual classID for the class is: " + result.get().getId());
 	    	logger.info("The actual className for the class is: " + result.get().getName());
 	    	
 	    	// What do you do when the class is not found 
 	    	if(result.isPresent() == false)
 	    		throw new IllegalArgumentException("The class can not be found");
 	    		
-	    	classEntity whichClass = result.get();
+	    	ClEnt whichClass = result.get();
 	    	
 	    	List<User> studentInTheClass = whichClass.getUsers();
 	    	logger.info("The size of class is: " + studentInTheClass.size());
