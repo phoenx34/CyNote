@@ -3,7 +3,14 @@ package org.springframework.samples.petclinic.lectureEntity;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,17 +38,21 @@ public class Lecture implements Serializable{
 
   
   
-//  @ElementCollection
-//  @CollectionTable(name = "lecture_shoutout_history", joinColumns = @JoinColumn(name = "LectureID"))
-//  @Column(name = "shoutout_history")
-//  private Set<String> shoutout_history = new HashSet<>();   // stores all the chat history as string in the set
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "lecture_shoutout_history", joinColumns = @JoinColumn(name = "LectureID"))
+  @Column(name = "shoutout_message")
+  private List<String> shoutout_history = new LinkedList<String>(); 
+//  private List<String> shoutout_history;   // stores all the chat history as string in the set
  
+  
+  
   //Also need to add the note to this  
   
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ClEnt_id", nullable = false)
     @JsonBackReference
     private ClEnt ClEnt;
+  
   
   public Lecture() {}
   
@@ -64,6 +75,27 @@ public class Lecture implements Serializable{
     //return this.ClEnt;
 	  return null;
   }
+
+
+public List<String> getShoutout_history() {
+	return shoutout_history;
+}
+
+public void addShoutout_TOLIst(String message)
+{
+	shoutout_history.add(message);
+}
+
+
+public void setShoutout_history(List<String> shoutout_history) {
+	this.shoutout_history = shoutout_history;
+}
+  
+  
+  
+  
+  
+  
 }
 
 
