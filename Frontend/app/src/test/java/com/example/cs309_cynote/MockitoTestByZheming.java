@@ -41,7 +41,7 @@ public class MockitoTestByZheming {
         Login testLogin = new Login();
 
         String emailTest = "test@gmail.com";
-        Assert.assertEquals(true, testLogin.isEmailValid1(emailTest));
+        Assert.assertEquals(true, testLogin.isEmailValid(emailTest));
     }
 
     @Test

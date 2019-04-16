@@ -83,57 +83,21 @@ public class Login extends AppCompatActivity
         });
     }
 
-    /**
-     * Boolean method used to check if the email is valid by checking if it contains @.
-     * @param emailText email input String.
-     * @return boolean, true if it contains @.
-     */
-    private boolean isEmailValid(String emailText)//method that check email valid
-    {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(emailText);
-        return matcher.matches();
-    }
 
-    public boolean isEmailValid1(String emailText)//method that check email valid
-    {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(emailText);
-        return matcher.matches();
-    }
+
+
 
     /**
-     * Upon clicking "New user?" text view, calls this function to change views
-     * to the account creation page.
+     * Upon entering login information and hitting submit, this method calls getClassList
+     * with the received UserID to make another get request for the list of classes
+     * tied to the user.
      *
-     * @param view
-     */
-    public void gotoAccCreation(View view){
-        Intent intent = new Intent(this, AccCreation.class);
-        startActivity(intent);
-    }
-
-    public void gotoClassSelection(View view){
-        Intent intent = new Intent(this, ClassSelection.class);
-        startActivity(intent);
-    }
-
-    public void gotoShoutout(View view){
-        Intent intent = new Intent(this, ShoutOut.class);
-        startActivity(intent);
-    }
-
-
-    /**
-     * Upon submitting login form, call this method to send a get request to server
-     * containing login information as url parameters, and receive a User ID with the
-     * specified callback object
+     * Screenname, password  -->  Server
+     *               UserID  <--  Server
      *
      * @param view  View selected to submit login form
      */
-    public void loginToUID(final View view){
+    public void getUID(final View view){
 
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";    //Server-side url to receive screenname and password as params
 
@@ -147,25 +111,23 @@ public class Login extends AppCompatActivity
         EditText editPassword = findViewById(R.id.passwordInput);
         String password = editPassword.getText().toString();
 
-        url = oof(url, screenname, password);
 
-        /*
         //Test for empty entries
-        if(screenname == null || screenname.trim().length() == 0){
+        if(!isScreennameValid(screenname)){
             Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
             return;
         }
-        if(password == null || password.trim().length() == 0){
+        if(!isPasswordValid(password)){
             Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
             return;
         }
+        //Possibly test for valid emails later
 
         //Add login form data as parameters
         //url += "?screenname="+screenname+"&password="+password;
         url += "/"+screenname+"/"+password;
 
 
-    */
 
         APICalls api = new APICalls(getApplicationContext());
 
@@ -174,13 +136,7 @@ public class Login extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 //Call another method to make another get request using the received stuff
-                UIDtoClassSelection(view, response);
-
-                /*
-                Intent intent = new Intent(view.getContext(), ClassSelection.class);
-                intent.putExtra("data", response);  //Link received data to ClassSelection intent
-                startActivity(intent);
-                */
+                getClassList(view, response);
             }
         };
 
@@ -204,54 +160,19 @@ public class Login extends AppCompatActivity
         }
     }
 
-    public String oof(String url, String screenname, String password){
-
-        //Test for empty entries
-        if(screenname == null || screenname.trim().length() == 0){
-            //Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
-            return null;
-        }
-        if(password == null || password.trim().length() == 0){
-            //Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
-            return null;
-        }
-
-        //Add login form data as parameters
-        //url += "?screenname="+screenname+"&password="+password;
-        url += "/"+screenname+"/"+password;
-
-        return url;
-    }
-
-    public String oof(String url, String screenname, String password){
-
-        //Test for empty entries
-        if(screenname == null || screenname.trim().length() == 0){
-            //Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
-            return null;
-        }
-        if(password == null || password.trim().length() == 0){
-            //Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
-            return null;
-        }
-
-        //Add login form data as parameters
-        //url += "?screenname="+screenname+"&password="+password;
-        url += "/"+screenname+"/"+password;
-
-        return url;
-    }
-
 
     /**
      * Upon successfully submitting login form and receiving a UserID, call this method
-     * (usually through a callback object) with current view and received UID to get
-     * request list of classes tied to UID
+     * (usually through a callback object) with received UID to get the list of classes
+     * tied to UID
+     *
+     *         UID  -->  Server
+     *  Class List  <--  Server
      *
      * @param view  View selected to submit login form
      * @param json  Received JSON string from login
      */
-    public void UIDtoClassSelection(final View view, String json){
+    public void getClassList(final View view, String json){
 
         System.out.println("UIDtoClassSelection: \n"+json);
 
@@ -324,167 +245,53 @@ public class Login extends AppCompatActivity
 
 
 
-    public void sendRequest(){
-        final RequestQueue ReqQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest loginReq = new JsonObjectRequest(Request.Method.POST,
-                loginURL, null,
-                new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            uID = response.getInt("UID");
-                            loginCondition = response.getBoolean("loginCondition");
-                            userType = response.getInt("userType");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Error: " + error.getMessage());
-            }
-        }) {
-
-            /**
-             * Passing some request headers
-             * */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email", emailInString);
-                params.put("password", passwordInString);
-                return params;
-            }
-
-        };
-        ReqQueue.add(loginReq);
-
+    /**
+     * Used to ensure the entered email is a valid one
+     *
+     * @param emailText
+     * @return
+     */
+    public boolean isEmailValid(String emailText)//method that check email valid
+    {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(emailText);
+        return matcher.matches();
+    }
+    public boolean isScreennameValid(String screenname){
+        if(screenname == null || screenname.trim().length() == 0){
+            return false;
+        }
+        return true;
+    }
+    public boolean isPasswordValid(String password){
+        if(password == null || password.trim().length() == 0){
+            return false;
+        }
+        return true;
     }
 
 
-    /*
-    public void testGet(final View view) throws IOException, JSONException {
 
-
-        String url = "http://webhook.site/aee170c8-ab5b-49d1-845c-b625a4768066";    //Server-side url to receive userID
-
-        EditText editEmail = findViewById(R.id.emailInput);
-        String email = editEmail.getText().toString();
-
-        EditText editPassword = findViewById(R.id.passwordInput);
-        String password = editPassword.getText().toString();
-
-        url += "?email="+email+"&password="+password;
-
-
-
-        APICalls api = new APICalls();
-
-        //Set up listener for success case
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println(response);
-                //Intent intent = new Intent(view.getContext(), ClassSelection.class);
-                //intent.putExtra("data", response);  //Link received data to ClassSelection intent
-                //startActivity(intent);
-            }
-        };
-
-        //Set up listener for error case
-        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("Login unsuccessful");
-                System.out.println(error.getMessage());
-            }
-        };
-
-
-        //Uses the APICalls generic volley get request
-        try{
-            api.volleyGet(url, responseListener, errorListener);
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+    /**
+     * Upon clicking "New user?" text view, calls this function to change views
+     * to the account creation page.
+     *
+     * @param view
+     */
+    public void gotoAccCreation(View view){
+        Intent intent = new Intent(this, AccCreation.class);
+        startActivity(intent);
     }
-    */
 
+    public void gotoClassSelection(View view){
+        Intent intent = new Intent(this, ClassSelection.class);
+        startActivity(intent);
+    }
+
+    public void gotoShoutout(View view){
+        Intent intent = new Intent(this, ShoutOut.class);
+        startActivity(intent);
+    }
 }
-
-
-
-/* Directly setting loginB onClick
-
-        loginB.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                emailInString = emailIn.getText().toString();//Get email String from input
-                passwordInString = passwordIn.getText().toString();//Get password String from input
-
-                if(isEmailValid(emailInString))//check if email is valid
-                {
-                    //use APICalls to send json
-                    sendRequest();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Invalid email, try again!", Toast.LENGTH_LONG).show();//display massage that email is invalid.
-                }
-
-                if(loginCondition)//check if login successful
-                {
-                    Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();//display massage that login is successful
-//                    Intent userPage = new Intent(Login.this, UserMain.class);//jump to user main page
-//                    startActivity(userPage);//start user main page
-                    if(userType == 0)//professor type is 0
-                    {
-                        Intent toProPage = new Intent(Login.this, ProfessorMain.class);
-                        toProPage.putExtra("UID", uID);
-                        startActivity(toProPage);
-                    }
-                    else if(userType == 1)//TA type is 1
-                    {
-                        Intent toTaPage = new Intent(Login.this, TaMain.class);
-                        toTaPage.putExtra("UID", uID);
-                        startActivity(toTaPage);
-                    }
-                    else//student type is 3, else
-                    {
-                        Intent toStudentPage = new Intent(Login.this, StudentMain.class);
-                        toStudentPage.putExtra("UID", uID);
-                        startActivity(toStudentPage);
-                    }
-                    finish();//kill this page
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Login fails, email or password is wrong!", Toast.LENGTH_SHORT).show();//return massage
-                }
-            }
-        });
-        */
-
-        /*
-        createB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent creationPage = new Intent(Login.this, AccCreation.class);
-                startActivity(creationPage);
-                finish();
-            }
-        });*/

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -15,6 +16,8 @@ import org.json.JSONException;
 import java.util.Random;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User creation page used to create new user.
@@ -60,6 +63,22 @@ public class AccCreation extends AppCompatActivity {
 
         Spinner ACDropdown = (Spinner) findViewById(R.id.ACDropdown);
         String accType = ACDropdown.getSelectedItem().toString().trim();
+
+
+        //Test for empty entries
+        if(!isScreennameValid(username)){
+            Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(isEmailValid(email)){
+            Toast.makeText(getApplicationContext(), "Invalid email, try again!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(!isPasswordValid(password)){
+            Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
 
         /*
         //Throw together the json
@@ -121,6 +140,34 @@ public class AccCreation extends AppCompatActivity {
 //        startActivity(goBackfromC2);
 
     }
+
+
+    /**
+     * Used to ensure the entered email is a valid one
+     *
+     * @param emailText
+     * @return
+     */
+    public boolean isEmailValid(String emailText)//method that check email valid
+    {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(emailText);
+        return matcher.matches();
+    }
+    public boolean isScreennameValid(String screenname){
+        if(screenname == null || screenname.trim().length() == 0){
+            return false;
+        }
+        return true;
+    }
+    public boolean isPasswordValid(String password){
+        if(password == null || password.trim().length() == 0){
+            return false;
+        }
+        return true;
+    }
+
 
     /**
      * Upon clicking "Back" text view, calls this function to change views
