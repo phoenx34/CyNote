@@ -3,6 +3,12 @@ package org.springframework.samples.petclinic.classEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
  
  
+/**
+ * The ClassRepository connect to the database 
+ * @author Shen Chen 
+ * @author Marc Issac 
+ *
+ */
 public interface ClassRepository extends JpaRepository<ClEnt, Long> {
 }
 

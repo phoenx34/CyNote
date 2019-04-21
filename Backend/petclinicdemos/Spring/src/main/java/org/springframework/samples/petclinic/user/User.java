@@ -22,11 +22,10 @@ import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.preference.Preference;
 
 /**
- * 
+ * The User is the object that stores all the information of a user
  * @author Shen Chen
  * @author Marc Issac
  */
-
 @Entity       // @Entitiy means that we are adding a new table 
 @Table(name = "user")
 public class User {
@@ -60,6 +59,9 @@ public class User {
     @Column(name = "type")
     private String type;
     
+    /**
+     * Default constructor 
+     */
     public User() {
     	this.UID = 123456789;
     	this.screenname = "defaultconstructor";
@@ -69,6 +71,15 @@ public class User {
     	this.type = "user";
     }
     
+    /**
+     * Constructor with all input 
+     * @param UID User ID 
+     * @param screenname Username
+     * @param password Password
+     * @param create_time The time of creation 
+     * @param email Email of the user 
+     * @param type The type of user
+     */
     public User(Integer UID, String screenname, String password, String create_time, String email, String type) {
     	this.UID = UID;
     	this.screenname = screenname;
@@ -79,64 +90,123 @@ public class User {
     }
 
     
-    
+    /**
+     * Getter for UID
+     * @return UID 
+     */
     public Integer getUID() {
         return UID;
     }
 
+    /**
+     * Setter for UID 
+     * @param UID User ID
+     */
     public void setUID(Integer UID) {
     	this.UID = UID;
     }
     
+    /**
+     * Getter for screenname
+     * @return screenname
+     */
     public String getScreenname() {
     	return screenname;
     }
     
+    /**
+     * Setter for screenname
+     * @param screenname Screenname of the user 
+     */
     public void setScreenname(String screenname) {
     	this.screenname = screenname;
     }
     
+    /**
+     * Getter for password
+     * @return password
+     */
     public String getPassword() {
     	return password;
     }
     
+    /**
+     * Getter for classList
+     * @return classes
+     */
     public List<ClEnt> getClasses(){
     	return classes;
     }
     
+    /**
+     * Setter for password
+     * @param password password of the user 
+     */
     public void setPassword(String password) {
     	this.password = password;
     }
     
+    /**
+     * Add a class to a user 
+     * @param classent the class objcet 
+     */
     public void addClass(ClEnt classent) {
     	classes.add(classent);
     }
     
+    /**
+     * Getter for the create time 
+     * @return
+     */
     public String getCreate_time() {
     	return create_time;
     }
     
+    /**
+     * The method check if the user is a new user 
+     * @return if the user is new 
+     */
     public boolean isNew() {
         return this.UID == null;
     }
     
     
+    /**
+     * Getter for email 
+     * @return email
+     */
     public String getEmail() {
     	return email;
     }
     
+    /**
+     * Setter for email 
+     * @param email Email of a user 
+     */
     public void setEmail(String email) {
     	this.email = email;
     }
     
+    /**
+     * Getter for type
+     * @return type
+     */
     public String getType() {
-    	return screenname;
+    	return type;
     }
     
+    /**
+     * Setter for type 
+     * @param type What type of user
+     */
     public void setType(String type) {
     	this.type = type;
     }
     
+    
+    /**
+     * This is a toString method of all the variabales of a user
+     */
     @Override
     public String toString() {
         return new ToStringCreator(this)

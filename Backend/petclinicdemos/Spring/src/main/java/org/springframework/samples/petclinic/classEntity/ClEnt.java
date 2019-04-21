@@ -25,6 +25,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 // CLEnt means a class entity
+/**
+ * CLEnt means a class entity with all the information of a class 
+ * @author Shen Chen
+ * @author Marc Issac
+ *
+ */
 @Entity
 @Table(name = "ClEnt")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
@@ -52,38 +58,82 @@ public class ClEnt implements Serializable{
     
     
     
-    
+   /**
+    * Empty Constructor  
+    */
   public ClEnt() {}
   
+  /**
+   * Constructor with input name 
+   * @param name The name of the client 
+   */
   public ClEnt(String name) {
     this.name = name;
   }
   
+  /**
+   * Setter for ID 
+   * @param id ID to set 
+   */
   public void setId(Long id) {
     this.id = id;
   }
+  
+  /**
+   * Getter for ID
+   * @return ID for the client 
+   */
   public Long getId() {
     return this.id;
   }
   
+  /**
+   * Setter for Name
+   * @param name Name to set 
+   */
   public void setName(String name) {
     this.name = name;
   }
+  
+  /**
+   * Getter for Name
+   * @return Name of the client 
+   */
   public String getName() {
     return this.name;
   }
   
-  
+  /**
+   * Setters for lectures 
+   * @param lectures The list of lectures 
+   */
   public void setLectures(Set<Lecture> lectures) {
     this.lectures = lectures;
   }
+  
+  /**
+   * Getters for lectures 
+   * @return the list of lectures 
+   */
   public Set<Lecture> getLectures(){
     return this.lectures;
   }
   
+  
+  
+  /**
+   * The method returns the list of all users 
+   * @return The list of all users 
+   */
 	public List<User> getUsers() {
 		return users;
 	}
+	
+	
+	/**
+	 * Add the user to the lecture 
+	 * @param u The given user object to be added to the userList 
+	 */
 	public void addUser(User u) {
 		users.add(u);
 	}

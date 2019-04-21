@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
+/**
+ * The userController direct all the json request to specific methods
+ * @author Shen Chen
+ * @author Marc Issac
+ */
 // You write all the functions in the controller's class
 // Every method is paired with a path
 // The path direct the request from the users to the specific method
@@ -49,13 +53,13 @@ public class UserController {
     
 
    
-    /**
-     *  This is a login method, it first check if the input userName exist and then check to see if it matches with the password
-     *  In the jason request body, gives only the password
-     * @param username Obtained from the Jason request link
-     * @param password Obtained from the Jason request link
-     * @return If the login is successful
-     */
+//    /**
+//     *  This is a login method, it first check if the input userName exist and then check to see if it matches with the password
+//     *  In the jason request body, gives only the password
+//     * @param username Obtained from the Jason request link
+//     * @param password Obtained from the Jason request link
+//     * @return If the login is successful
+//     */
     /*@RequestMapping(method = RequestMethod.GET, path = "/usersLogin")
     public String loginWithUsername(@RequestBody String username, @RequestBody String password)throws IllegalArgumentException 
     {
@@ -82,6 +86,22 @@ public class UserController {
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * This is login method, which takes in the password and username and the method will tell you if the login method is successful
+     * @param screenname The screen name of a user 
+     * @param password The password the user typed as input 
+     * @return Whether if the password and username match with the record in the database.
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/userLogin/{screenname}/{password}", headers = "Accept=application/json")
     public String loginUserPass(@PathVariable("screenname") String screenname, @PathVariable("password") String password){
         if(screenname == null || screenname.trim().length()==0)
@@ -112,11 +132,7 @@ public class UserController {
     
     
     
-    
-    
-    
-    
-    
+   
     
 
    /**
@@ -219,6 +235,16 @@ public class UserController {
 		return result;
     }
     
+    
+    
+    
+    
+   /**
+    * The method adds one user to a specific class 
+    * @param uid The user ID that matches the user we want to add to a specific class 
+    * @param cid The class ID that matches the class we want to add the user to
+    * @return if the addition process is successful 
+    */
     @RequestMapping(method = RequestMethod.GET, path = "/addclass/{uid}/{cid}")
     public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Integer cid) {
 		
@@ -254,19 +280,12 @@ public class UserController {
     	if(classent == null) {
     		return false;
     	}
-    	
     	classent.addUser(u);
     	u.addClass(classent);
     	logger.info("classlist size: " + classent.getUsers().size());
     	logger.info("user class list size: " + u.getClasses().size());
-    	
     	this.deleteUser(uid);
     	this.createStudent(u);
-    	
-    	
-    	
-    	
-    	
     	return true;
     	
     }
@@ -296,11 +315,11 @@ public class UserController {
 
 
 
-    /**
-     * Create a new user
-     * @param user The user object obtained from the Jason request
-     * @return
-     */
+//    /**
+//     * Create a new user
+//     * @param user The user object obtained from the Jason request
+//     * @return
+//     */
     /*@PostMapping("/users/new")
     public String createStudent(@RequestBody User user) {
         /*if(userApplication.usernamelAlreadyExisted(user.getScreenname())==true)
@@ -311,6 +330,15 @@ public class UserController {
         return "{\"status\":2,\"UID\":savedUser.getUID().toString()}";
     }*/
     
+    
+    
+    
+    
+    /**
+     * The method creates a new user 
+     * @param user The new user created 
+     * @return If the user is created successfully
+     */
     @PostMapping("/users") 
     public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
     	User savedUser = usersRepository.save(user);  	

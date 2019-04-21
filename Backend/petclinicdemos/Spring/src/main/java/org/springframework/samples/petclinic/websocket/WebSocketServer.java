@@ -75,6 +75,13 @@ public class WebSocketServer {
         System.out.println("a client has disconnected!");
     }
  
+    
+    
+    
+    
+    
+    
+    
  // roomName is constructed as below xxxxx_xx
     @OnMessage
     public void receiveMsg(@PathParam("roomName") String roomName,

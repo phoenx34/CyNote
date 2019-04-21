@@ -17,18 +17,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
  
 
-
+/**
+ * The ClassController direct all the json request to specific methods
+ * @author Shen Chen
+ * @author Marc Issac
+ */
 @RestController
 public class ClassController {
   
   @Autowired
   private ClassRepository classRepository;
   
+  
+  
+  
+  
+  	/**
+  	 * The method return all the classes in the database
+  	 * @return all the classes in the database
+  	 */
     @GetMapping("/classes")
     public List<ClEnt> getAllClasses() {
       return classRepository.findAll();
     }
     
+    
+    /**
+     * The method return a class object with a given class ID
+     * @param id The given class ID
+     * @return The class object if found that matches the given class ID
+     */
     @GetMapping("/classes/{id}")
     public ClEnt getClassByID(@PathVariable Long id) {
       Optional<ClEnt> optClass = classRepository.findById(id);
@@ -40,6 +58,11 @@ public class ClassController {
     }
     
     
+    /**
+     * The method creates a new class and save to the database 
+     * @param classEnt The given class object given to be created 
+     * @return If the class is successfully saved onto the database 
+     */
     @PostMapping("/classes")
     public ClEnt createClass(@Valid @RequestBody ClEnt classEnt) {
         return classRepository.save(classEnt);
@@ -47,7 +70,12 @@ public class ClassController {
     
     
     
-    
+    /**
+     * The method updates the classList 
+     * @param id The given class ID
+     * @param classUpdated The class object given
+     * @return the class object 
+     */
     @PutMapping("/classes/{id}")
     public ClEnt updateStudent(@PathVariable Long id,
                                    @Valid @RequestBody ClEnt classUpdated) {
@@ -60,7 +88,11 @@ public class ClassController {
     
     
     
-    
+    /**
+     * The method deletes a specific class with given class ID
+     * @param id The given class ID that matches the class to be deleted 
+     * @return Whether the class has been deleted successfully.
+     */
     @DeleteMapping("/classes/{id}")
     public String deleteClass(@PathVariable Long id) {
         return classRepository.findById(id)

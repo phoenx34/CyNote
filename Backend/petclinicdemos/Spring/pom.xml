@@ -15,13 +15,19 @@
   <name>petclinic</name>
 
   <properties>
-
     <!-- Generic properties -->
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+    
+    
+    
+      <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
   </properties>
+  
+
+
 
   <dependencies>
     <!-- Spring and Spring Boot dependencies -->
@@ -83,6 +89,7 @@
       <scope>runtime</scope>
     </dependency>
     
+    
     <!-- Below the dependency for the websocket  -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -123,8 +130,15 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
+       </plugins>
+       
+       
+       
+       
   </build>
+
+
+
 
   <!-- Apache 2 license -->
   <licenses>
@@ -171,5 +185,6 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+
 
 </project>
