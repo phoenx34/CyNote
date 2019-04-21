@@ -68,25 +68,11 @@ public class Login extends AppCompatActivity
     }
 
 
-
-
-
     /**
-     * Upon entering login information and hitting submit, this method calls getClassList
-     * with the received UserID to make another get request for the list of classes
-     * tied to the user.
-     *
-     * Screenname, password  -->  Server
-     *               UserID  <--  Server
-     *
-     * @param view  View selected to submit login form
+     * Used to grab entered login form data and kick off login process
+     * @param view
      */
-    public void getUID(final View view){
-
-        String url = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";    //Server-side url to receive screenname and password as params
-
-
-
+    public void formDatatoLogin(final View view){
         //Grab entered screenname
         EditText editScreenname = findViewById(R.id.screennameInput);
         String screenname = editScreenname.getText().toString();
@@ -95,6 +81,29 @@ public class Login extends AppCompatActivity
         EditText editPassword = findViewById(R.id.passwordInput);
         String password = editPassword.getText().toString();
 
+        getUID(view, screenname, password);
+    }
+
+
+
+
+
+
+    /**
+     * Given correct login information, this method calls the server for a UserID.
+     * This method then calls getClassList with the received UserID to make another
+     * get request for the list of classes tied to the user.
+     *
+     * Screenname, password  -->  Server
+     *               UserID  <--  Server
+     *
+     * @param view  View selected to submit login form
+     * @param screenname Screenname/Username to submit
+     * @param password Password to submit
+     */
+    public void getUID(final View view, String screenname, String password){
+
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";    //Server-side url to receive screenname and password as params
 
         //Test for empty entries
         if(!isScreennameValid(screenname)){
@@ -119,8 +128,33 @@ public class Login extends AppCompatActivity
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //Call another method to make another get request using the received stuff
-                getClassList(view, response);
+                //Parse the received Json and call getClassList
+                try{
+                    //JSON comes in the form of
+                    // {"status":3,"UID":0}
+                    JSONObject jsonObj = new JSONObject(response);
+
+                    int status = jsonObj.getInt("status");
+                    int UID = jsonObj.getInt("UID");
+
+                    switch(status){
+                        case 3: throw new Exception("Username is incorrect");
+                            //case 4: Case 4 clears, no need to throw an exception
+                        case 5: throw new Exception("Password is incorrect");
+                    }
+
+                    //Call another method to make another get request using the received stuff
+                    getClassList(view, UID);
+                }
+                catch(JSONException e){
+                    System.out.println(e.getMessage());
+                    return;
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                    //Toast this
+                    return;
+                }
             }
         };
 
@@ -154,25 +188,13 @@ public class Login extends AppCompatActivity
      *  Class List  <--  Server
      *
      * @param view  View selected to submit login form
-     * @param json  Received JSON string from login
+     * @param UID  Received ID from login
      */
-    public void getClassList(final View view, String json){
+    public void getClassList(final View view, int UID){
 
-        System.out.println("UIDtoClassSelection: \n"+json);
+        System.out.println("getClassList: \n"+UID);
 
         try{
-            //JSON comes in the form of {"status":3,"UID":0}
-            JSONObject jsonObj = new JSONObject(json);
-
-            int status = jsonObj.getInt("status");
-            int UID = jsonObj.getInt("UID");
-
-            switch(status){
-                case 3: throw new Exception("Username is incorrect");
-                    //case 4: Case 4 clears, no need to throw an exception
-                case 5: throw new Exception("Password is incorrect");
-            }
-
 
             //            http://cs309-sd-7.misc.iastate.edu:8080//users_class//{id}
             String url = "http://cs309-sd-7.misc.iastate.edu:8080/users_class";    //Server-side url to receive list of classes for UID
@@ -216,10 +238,8 @@ public class Login extends AppCompatActivity
                 System.out.println(e.getMessage());
             }
 
-
-        }catch(JSONException e){
-            System.out.println(e.getMessage());
-        }catch (Exception e){
+        }
+        catch (Exception e){
             System.out.println(e.getMessage());
         }
 

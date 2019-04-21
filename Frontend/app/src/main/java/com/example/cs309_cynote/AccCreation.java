@@ -38,17 +38,17 @@ public class AccCreation extends AppCompatActivity {
     * adds them to a post request body, then sends them to the server. Receives success or faiure state and acts
     * accordingly.
     */
-    public void submitForm(View view) throws JSONException {
+    public void submitForm(final View view) throws JSONException {
         //System.out.println("Submit pressed - ");
 
         EditText ACUsername = (EditText) findViewById(R.id.ACUsername); //Find the specific EditText
-        String username = ACUsername.getText().toString().trim();       //Get string, and trim for trailing whitespace
+        final String username = ACUsername.getText().toString().trim();       //Get string, and trim for trailing whitespace
 
         EditText ACEmail = (EditText) findViewById(R.id.ACEmail);
         String email = ACEmail.getText().toString().trim();
 
         EditText ACPassword = (EditText) findViewById(R.id.ACPassword);
-        String password = ACPassword.getText().toString().trim();
+        final String password = ACPassword.getText().toString().trim();
 
         Spinner ACDropdown = (Spinner) findViewById(R.id.ACDropdown);
         String accType = ACDropdown.getSelectedItem().toString().trim();
@@ -104,9 +104,12 @@ public class AccCreation extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 System.out.println(response);
-                //Intent intent = new Intent(view.getContext(), ClassSelection.class);
-                //intent.putExtra("data", response);  //Link received data to ClassSelection intent
-                //startActivity(intent);
+
+
+                //Assuming data is correct each time...
+                Login login = new Login();
+                login.getUID(view, username, password);
+
             }
         };
 
