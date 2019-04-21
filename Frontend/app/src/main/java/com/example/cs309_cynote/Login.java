@@ -65,22 +65,6 @@ public class Login extends AppCompatActivity
                 startActivity(testForProPage);
             }
         });
-
-        jumpTA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent testForTaPage = new Intent(Login.this, TaMain.class);
-                startActivity(testForTaPage);
-            }
-        });
-
-        jumpStudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent testForStudentPage = new Intent(Login.this, StudentMain.class);
-                startActivity(testForStudentPage);
-            }
-        });
     }
 
 
@@ -249,8 +233,8 @@ public class Login extends AppCompatActivity
     /**
      * Used to ensure the entered email is a valid one
      *
-     * @param emailText
-     * @return
+     * @param emailText Email String from input
+     * @return boolean value about if the email is valid
      */
     public boolean isEmailValid(String emailText)//method that check email valid
     {
@@ -278,7 +262,7 @@ public class Login extends AppCompatActivity
      * Upon clicking "New user?" text view, calls this function to change views
      * to the account creation page.
      *
-     * @param view
+     * @param view View selected to go to account creation page.
      */
     public void gotoAccCreation(View view){
         Intent intent = new Intent(this, AccCreation.class);

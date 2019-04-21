@@ -14,6 +14,11 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * AddUserToClass page, this page is used to add the student or TA type user into specific class.
+ *
+ * @author Zheming Fan
+ */
 public class AddUserToClass extends AppCompatActivity {
 
     private EditText editInputClassName;
@@ -112,22 +117,44 @@ public class AddUserToClass extends AppCompatActivity {
         }
     }
 
+    /**
+     * Cancel the adding action and go back to ClassSelection page.
+     * @param view View selected to cancel action.
+     */
     public void CancelAddToClass(View view) {
         finish();
     }
 
+    /**
+     * Set CID as int
+     * @param receivedInteger int number for setting CID
+     */
     public void SetCid(int receivedInteger)
     {
         cid = receivedInteger;
     }
+
+    /**
+     * Get CID
+     * @return Return CID as int
+     */
     public int getCid(){
         return cid;
     }
 
+    /**
+     * Set UID as int
+     * @param receivedInteger int number for setting UID
+     */
     public void SetUid(int receivedInteger)
     {
         uid = receivedInteger;
     }
+
+    /**
+     * Get UID
+     * @return Return UID as int
+     */
     public int getUid(){
         return uid;
     }
