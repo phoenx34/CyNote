@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 /**
  * Login page, this should be the initial page that shows up in APP
  *
- * @Author Zheming Fan
+ * @Author Zheming Fan, Sean Gordon
  * @Since 2019-02-17
  */
 public class Login extends AppCompatActivity
