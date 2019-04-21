@@ -19,13 +19,24 @@ package org.springframework.samples.petclinic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.lectureEntity.Lecture;
 import org.springframework.samples.petclinic.lectureEntity.LectureController;
 import org.springframework.samples.petclinic.storage.*;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+import net.gjerull.etherpad.client.EPLiteClient;
+import org.json.simple.JSONArray;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import org.json.simple.JSONObject; 
 
 /**
  * PetClinic Spring Boot Application.
@@ -39,9 +50,13 @@ import org.springframework.samples.petclinic.user.UserController;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
-public class PetClinicApplication {
+@EnableScheduling
+public class PetClinicApplication extends SpringBootServletInitializer {
 	
-	
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(PetClinicApplication.class);
+	}
 	
     public static void main(String[] args) throws Exception {
         SpringApplication.run(PetClinicApplication.class, args);
