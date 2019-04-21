@@ -21,6 +21,12 @@ import java.util.List;
 import java.util.Random;
 
 
+/**
+ * Hub page where user can select classes they are enrolled in, add more, or change settings.
+ * Upon moving to this page, application will attempt to grab a list of classes from 'intent',
+ * and if successful will display any classes as a series of buttons.
+ * If unsuccessful will display a page with no buttons.
+ */
 public class ClassSelection extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,7 +189,8 @@ public class ClassSelection extends AppCompatActivity {
     }
 
     /**
-     * This method generates a random color for the class buttons, before preferences are implemented
+     * This method generates a random color for the class buttons.
+     * In use because preferences are not implemented (adds some flair).
      *
      * @return color
      */
@@ -207,9 +214,10 @@ public class ClassSelection extends AppCompatActivity {
 
     /**
      * This method is used to convert the specified number of dp to the appropriate
-     * number of pixels.
+     * number of pixels based on the current screen DisplayMetrics.
      *
-     * @param dp
+     * @param dp Specified number of dp
+     * @param metrics Current screens display metrics
      * @return pixels
      */
     public int dpToPx(int dp, DisplayMetrics metrics){
@@ -294,6 +302,11 @@ public class ClassSelection extends AppCompatActivity {
     }
     */
 
+    /**
+     * Upon selecting the add new class button, this method will change the currently active
+     * page to the add new class page.
+     * @param view
+     */
     public void goToAddNewClass(View view){
         Intent intent = new Intent(this, AddUserToClass.class);
         int uid = 4;//need received
@@ -302,12 +315,7 @@ public class ClassSelection extends AppCompatActivity {
 
     }
 
-
-    public void addClass(){
-
-    }
-
-
+    //Purely for testing purposes
     public void gotoFileUploader(View view){
         Intent intent = new Intent(this, FileSelector.class);
         startActivity(intent);

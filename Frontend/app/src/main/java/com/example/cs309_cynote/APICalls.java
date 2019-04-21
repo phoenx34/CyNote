@@ -23,35 +23,65 @@ public class APICalls{
     private RequestQueue requestQueue;
     private Context applicationContext;
 
+    /**
+     * Default constructor for APICalls. DO NOT USE! Pass the constructor the
+     * current applicationContext instead when creating this object
+     */
     public APICalls(){
         //DO NOT USE
         //Android needs this for its reflection process
         //Debating making this throw an error
     }
 
+    /**
+     * Use this constructor when creating an APICalls object
+     *
+     * @param applicationContext
+     */
     public APICalls(Context applicationContext){
         //Found using getApplicationContext()
         this.applicationContext = applicationContext;
     }
 
+    /**
+     * Returns the current request queue for this object
+     *
+     * @return requestQueue
+     */
     public RequestQueue getRequestQueue() {
         if (requestQueue == null)
             requestQueue = Volley.newRequestQueue(applicationContext);
         return requestQueue;
     }
 
+    /**
+     * Adds the request alongside the given tag to the request queue for this object
+     *
+     * @param request
+     * @param tag
+     */
     public void addToRequestQueue(Request request, String tag) {
         // set the default tag if tag is empty
         request.setTag(TextUtils.isEmpty(tag) ? APICalls.class.getSimpleName() : tag);
         getRequestQueue().add(request);
     }
 
+    /**
+     * Adds the request alongside a default tag to the request queue for this object
+     *
+     * @param request
+     */
     public void addToRequestQueue(Request request) {
         // set the default tag
         request.setTag(APICalls.class.getSimpleName());
         getRequestQueue().add(request);
     }
 
+    /**
+     * Removes all requests with the given tag from the request queue for this object
+     *
+     * @param tag
+     */
     public void cancelAllRequests(String tag) {
         if (requestQueue != null)
             getRequestQueue().cancelAll(tag);

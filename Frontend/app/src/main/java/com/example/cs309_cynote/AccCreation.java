@@ -31,24 +31,13 @@ public class AccCreation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acc_creation);
-
-        /*==
-        setContentView(R.layout.activity_main);
-        goBackToLogin = findViewById(R.id.goBackBut);
-
-        goBackToLogin.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent goBackfromC = new Intent(MainActivity.this, Login.class);
-                startActivity(goBackfromC);
-                finish();
-            }
-        });
-        */
     }
 
+    /**
+    * Used to submit login form info to server. Takes current state of Username, Email, Password, and AccType,
+    * adds them to a post request body, then sends them to the server. Receives success or faiure state and acts
+    * accordingly.
+    */
     public void submitForm(View view) throws JSONException {
         //System.out.println("Submit pressed - ");
 
@@ -155,12 +144,20 @@ public class AccCreation extends AppCompatActivity {
         Matcher matcher = pattern.matcher(emailText);
         return matcher.matches();
     }
+    /**
+     * Ensures the input username/screenname is valid
+     * @param screenname
+     */
     public boolean isScreennameValid(String screenname){
         if(screenname == null || screenname.trim().length() == 0){
             return false;
         }
         return true;
     }
+    /**
+    * Ensures the input password is valid
+    * @param password
+    */
     public boolean isPasswordValid(String password){
         if(password == null || password.trim().length() == 0){
             return false;

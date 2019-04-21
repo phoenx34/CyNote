@@ -29,7 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Login page, this should be the initial page that show up in APP
+ * Login page, this should be the initial page that shows up in APP
  *
  * @Author Zheming Fan
  * @Since 2019-02-17
