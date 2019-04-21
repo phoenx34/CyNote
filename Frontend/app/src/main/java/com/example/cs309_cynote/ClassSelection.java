@@ -28,6 +28,8 @@ import java.util.Random;
  * If unsuccessful will display a page with no buttons.
  */
 public class ClassSelection extends AppCompatActivity {
+    private static int UID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,7 @@ public class ClassSelection extends AppCompatActivity {
 
             //Try pulling data from extras
             data = extras.getString("data");
+            UID = extras.getInt("UID");
             //If data does not exist, big oof
             if(data == null || data.trim().length() == 0) {
                 throw new Exception("No data received");
@@ -309,8 +312,7 @@ public class ClassSelection extends AppCompatActivity {
      */
     public void goToAddNewClass(View view){
         Intent intent = new Intent(this, AddUserToClass.class);
-        int uid = 4;//need received
-        intent.putExtra("UID", uid);
+        intent.putExtra("UID", UID);
         startActivity(intent);
 
     }
@@ -320,6 +322,9 @@ public class ClassSelection extends AppCompatActivity {
         Intent intent = new Intent(this, FileSelector.class);
         startActivity(intent);
     }
+
+
+
 }
 
 

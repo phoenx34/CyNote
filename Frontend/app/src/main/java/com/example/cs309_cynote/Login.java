@@ -163,6 +163,7 @@ public class Login extends AppCompatActivity
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println("Get UID error");
                 System.out.println("Login unsuccessful");
                 System.out.println(error.getMessage());
             }
@@ -190,7 +191,7 @@ public class Login extends AppCompatActivity
      * @param view  View selected to submit login form
      * @param UID  Received ID from login
      */
-    public void getClassList(final View view, int UID){
+    public void getClassList(final View view, final int UID){
 
         System.out.println("getClassList: \n"+UID);
 
@@ -215,6 +216,7 @@ public class Login extends AppCompatActivity
 
                     Intent intent = new Intent(view.getContext(), ClassSelection.class);
                     intent.putExtra("data", response);  //Link received data to ClassSelection intent
+                    intent.putExtra("UID", UID);//Link UID to ClassSelection intent
                     startActivity(intent);
                 }
             };
@@ -224,6 +226,7 @@ public class Login extends AppCompatActivity
             Response.ErrorListener errorListener = new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    System.out.println("Get classList error");
                     System.out.println("Login unsuccessful");
                     System.out.println(error.getMessage());
                 }

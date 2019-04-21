@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Random;
 import java.text.SimpleDateFormat;
@@ -59,7 +60,7 @@ public class AccCreation extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
             return;
         }
-        if(isEmailValid(email)){
+        if(!isEmailValid(email)){
             Toast.makeText(getApplicationContext(), "Invalid email, try again!", Toast.LENGTH_LONG).show();
             return;
         }
@@ -107,8 +108,7 @@ public class AccCreation extends AppCompatActivity {
 
 
                 //Assuming data is correct each time...
-                Login login = new Login();
-                login.getUID(view, username, password);
+                getUID(view, username, password);
 
             }
         };
@@ -118,8 +118,11 @@ public class AccCreation extends AppCompatActivity {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("Login unsuccessful");
+                System.out.println("Account creation unsuccessful");
                 System.out.println(error.getMessage());
+
+                //Assuming data is correct each time...
+                getUID(view, username, password);
             }
         };
 
@@ -135,10 +138,174 @@ public class AccCreation extends AppCompatActivity {
 
 
     /**
+     * Given correct login information, this method calls the server for a UserID.
+     * This method then calls getClassList with the received UserID to make another
+     * get request for the list of classes tied to the user.
+     *
+     * Screenname, password  -->  Server
+     *               UserID  <--  Server
+     *
+     * @param view  View selected to submit login form
+     * @param screenname Screenname/Username to submit
+     * @param password Password to submit
+     */
+    public void getUID(final View view, String screenname, String password){
+
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";    //Server-side url to receive screenname and password as params
+
+        //Test for empty entries
+        if(!isScreennameValid(screenname)){
+            Toast.makeText(getApplicationContext(), "Invalid username, try again!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(!isPasswordValid(password)){
+            Toast.makeText(getApplicationContext(), "Invalid password, try again!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        //Possibly test for valid emails later
+
+        //Add login form data as parameters
+        //url += "?screenname="+screenname+"&password="+password;
+        url += "/"+screenname+"/"+password;
+
+
+
+        APICalls api = new APICalls(getApplicationContext());
+
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Parse the received Json and call getClassList
+                try{
+                    //JSON comes in the form of
+                    // {"status":3,"UID":0}
+                    JSONObject jsonObj = new JSONObject(response);
+
+                    int status = jsonObj.getInt("status");
+                    int UID = jsonObj.getInt("UID");
+
+                    switch(status){
+                        case 3: throw new Exception("Username is incorrect");
+                            //case 4: Case 4 clears, no need to throw an exception
+                        case 5: throw new Exception("Password is incorrect");
+                    }
+
+                    //Call another method to make another get request using the received stuff
+                    getClassList(view, UID);
+                }
+                catch(JSONException e){
+                    System.out.println(e.getMessage());
+                    return;
+                }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                    //Toast this
+                    return;
+                }
+            }
+        };
+
+        //Set up listener for error case
+        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Get UID error");
+                System.out.println("Login unsuccessful");
+                System.out.println(error.getMessage());
+            }
+        };
+
+
+        //Uses the APICalls generic volley get request
+        try{
+            api.volleyGet(url, responseListener, errorListener);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Upon successfully submitting login form and receiving a UserID, call this method
+     * (usually through a callback object) with received UID to get the list of classes
+     * tied to UID
+     *
+     *         UID  -->  Server
+     *  Class List  <--  Server
+     *
+     * @param view  View selected to submit login form
+     * @param UID  Received ID from login
+     */
+    public void getClassList(final View view, final int UID){
+
+        System.out.println("getClassList: \n"+UID);
+
+        try{
+
+            //            http://cs309-sd-7.misc.iastate.edu:8080//users_class//{id}
+            String url = "http://cs309-sd-7.misc.iastate.edu:8080/users_class";    //Server-side url to receive list of classes for UID
+
+            //Add UID to path
+            url += "/" + UID;
+
+
+
+            APICalls api = new APICalls(getApplicationContext());
+
+            //Set up listener for success case
+            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    System.out.println("ClassList received:\n");
+                    System.out.println(response);
+
+                    Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                    intent.putExtra("data", response);  //Link received data to ClassSelection intent
+                    intent.putExtra("UID", UID);//Link UID to ClassSelection intent
+                    startActivity(intent);
+                }
+            };
+
+            //Set up listener for error case
+            //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("Get classList error");
+                    System.out.println("Login unsuccessful");
+                    System.out.println(error.getMessage());
+                }
+            };
+
+
+            //Uses the APICalls generic volley get request
+            try{
+                api.volleyGet(url, responseListener, errorListener);
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+
+
+
+
+
+    /**
      * Used to ensure the entered email is a valid one
      *
-     * @param emailText
-     * @return
+     * @param emailText Email String from input
+     * @return boolean value about if the email is valid
      */
     public boolean isEmailValid(String emailText)//method that check email valid
     {
@@ -147,26 +314,19 @@ public class AccCreation extends AppCompatActivity {
         Matcher matcher = pattern.matcher(emailText);
         return matcher.matches();
     }
-    /**
-     * Ensures the input username/screenname is valid
-     * @param screenname
-     */
     public boolean isScreennameValid(String screenname){
         if(screenname == null || screenname.trim().length() == 0){
             return false;
         }
         return true;
     }
-    /**
-    * Ensures the input password is valid
-    * @param password
-    */
     public boolean isPasswordValid(String password){
         if(password == null || password.trim().length() == 0){
             return false;
         }
         return true;
     }
+
 
 
     /**

@@ -30,7 +30,29 @@ public class AddUserToClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user_to_class);
 
-        SetUid(getIntent().getIntExtra("UID",0));
+        Bundle extras = getIntent().getExtras();
+
+
+        try{
+
+            //----Ensuring the data actually exists----\\
+
+            //If the extras does not exist, big oof
+            if(extras == null)
+                throw new Exception("No data received");
+
+            //Try pulling data from extras
+            SetUid(extras.getInt("UID"));
+            //If data does not exist, big oof
+
+            }
+        catch(JSONException e) {
+            System.out.println("JSONException: ");
+            System.out.println(e.getMessage());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         editInputClassName = findViewById(R.id.addToClassInput);
 
     }
@@ -85,9 +107,12 @@ public class AddUserToClass extends AppCompatActivity {
         }
     }
 
+    /**
+     * This still has error with getting classList to ClassSelection page
+     */
     public void AddUserToClass() {
 
-        String url = "http://cs309-sd-7.misc.iastate.edu:8080/users_class/";
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080/addclass/";
         url += uid + "/" + cid;
         APICalls api = new APICalls(getApplicationContext());
 
