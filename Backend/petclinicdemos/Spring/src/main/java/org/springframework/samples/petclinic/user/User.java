@@ -209,6 +209,8 @@ public class User {
      */
     @Override
     public String toString() {
+    
+    	
         return new ToStringCreator(this)
 
                 .append("id", this.getUID())
@@ -218,5 +220,6 @@ public class User {
                 .append("address", this.getEmail())
                 .append("address", this.getType())
                 .append("telephone", this.getCreate_time()).toString();
+                
     }
 }

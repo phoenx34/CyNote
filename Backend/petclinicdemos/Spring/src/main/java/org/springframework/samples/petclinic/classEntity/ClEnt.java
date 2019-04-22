@@ -137,9 +137,16 @@ public class ClEnt implements Serializable{
 	public void addUser(User u) {
 		users.add(u);
 	}
+
+	@Override
+	public String toString() {
+		return "ClEnt [id=" + id + ", name=" + name + ", lectures=" + lectures + ", users size=" + users.size() + "]";
+	}
   
   
   
+	
+	
   
   
   

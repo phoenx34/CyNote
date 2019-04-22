@@ -246,12 +246,14 @@ public class UserController {
     * @return if the addition process is successful 
     */
     @RequestMapping(method = RequestMethod.GET, path = "/addclass/{uid}/{cid}")
-    public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Integer cid) {
+    public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Long cid) {
 		
     	User u = null;
     	 
         List<User> results = usersRepository.findAll();       // list of users 
 
+        logger.info("The nuber of users: " + results.size());
+        
 
         for(User user : results)
     	{
@@ -260,6 +262,11 @@ public class UserController {
     			u = user;
     		}
     	}
+        
+        boolean a = u == null;
+        logger.info("Is the user null: " + a);
+
+        
         
         if(u == null) {
         	return false;
@@ -270,12 +277,17 @@ public class UserController {
     	ClEnt classent = null;
     	
     	List<ClEnt> classes = classRepo.findAll();
-    	
+        logger.info("The nuber of classes: " + classes.size());
+
     	for(ClEnt classe : classes) {
     		if(classe.getId().equals(cid)) {
     			classent = classe;
     		}
     	}
+    	
+    	   
+        boolean b = classent == null;
+        logger.info("Is the user null: " + b);
     	
     	if(classent == null) {
     		return false;
@@ -287,6 +299,7 @@ public class UserController {
     	this.deleteUser(uid);
     	this.createStudent(u);
     	return true;
+    	
     	
     }
     
