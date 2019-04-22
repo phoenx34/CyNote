@@ -40,6 +40,8 @@ dependencies {
 
     implementation 'net.gotev:uploadservice:2.1'
 
+    implementation files('libs/java_websocket.jar')
+
     // ... more entries
     //testCompile 'junit:junit:4.12'
 

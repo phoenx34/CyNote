@@ -24,13 +24,13 @@ public class ShoutOut extends AppCompatActivity{
     /**
      * The echo server on websocket.org.
      */
-    private static final String SERVER = "ws://echo.websocket.org";
+    //private static final String SERVER = "ws://echo.websocket.org";
 
 
     /**
      * URL to open websocket on
      */
-    //private static final String SERVER = "ws://cs309-sd-7.misc.iastate.edu:8080/websocket/1";
+    private static final String SERVER = "ws://cs309-sd-7.misc.iastate.edu:8080/webSocket/1";
     /**
      * The timeout value in milliseconds for socket connection.
      *
@@ -42,7 +42,8 @@ public class ShoutOut extends AppCompatActivity{
     /**
      * Create the websocket for use later
      */
-    ShoutoutWebsocket SOWS = null;
+    //ShoutoutWebsocket SOWS = null;
+    ShoutoutWebsocketUpdated SOWS = null;
 
 
     /**
@@ -92,7 +93,8 @@ public class ShoutOut extends AppCompatActivity{
 
 
 
-        SOWS = new ShoutoutWebsocket(SERVER, TIMEOUT, callbacks);
+        //SOWS = new ShoutoutWebsocket(SERVER, TIMEOUT, callbacks);
+        SOWS = new ShoutoutWebsocketUpdated(SERVER, callbacks);
     }
 
     /**
