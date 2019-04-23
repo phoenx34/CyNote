@@ -29,6 +29,7 @@ import java.util.Random;
  */
 public class ClassSelection extends AppCompatActivity {
     private static int UID;
+    List<ClassObj> classes = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,6 @@ public class ClassSelection extends AppCompatActivity {
 
         //The dummy space used for easier horizontal alignment here
         Space dummy = (Space) findViewById(R.id.dummy);
-
-
-        List<ClassObj> classes = new ArrayList<ClassObj>();
 
 
 
@@ -64,32 +62,36 @@ public class ClassSelection extends AppCompatActivity {
 
         //Grab the extras passed through intent, received from the server upon login
         Bundle extras = getIntent().getExtras();
-        String data = null;
 
 
+        classes = new ArrayList<ClassObj>();
+
+        //To add sample data:
+        classes.add(new ClassObj(1, "SampleClass"));
+
+
+        //--------------------------------------------------------------------
+        // Grabbing data passed through intent and parsing it
+        //--------------------------------------------------------------------
         try{
-
-            //----Ensuring the data actually exists----\\
-
-            //If the extras does not exist, big oof
-            if(extras == null)
-                throw new Exception("No data received");
-
-            //Try pulling data from extras
-            data = extras.getString("data");
-            UID = extras.getInt("UID");
-            //If data does not exist, big oof
-            if(data == null || data.trim().length() == 0) {
-                throw new Exception("No data received");
-            }
-            //-----------------------------------------\\
+            if(extras.isEmpty())
+                throw new Exception("No extras received in ClassSelection");
 
 
-            //Turn received JSON into an object
-            JSONObject jsonObject = new JSONObject(data);
+
+            String classList = extras.getString("classList");
+            if(classList == null || classList.isEmpty())
+                throw new Exception("No classList received in ClassSelection");
+
+            //No need to check for invalid UID, that is done in the prior API calls
+            this.UID = extras.getInt("UID");
+
+
+            //Turn received classList from JSON into an object
+            JSONObject classListJSON = new JSONObject(classList);
 
             //Grab the 'classes' array from the object
-            JSONArray arr = jsonObject.getJSONArray("classes");
+            JSONArray arr = classListJSON.getJSONArray("classes");
             for (int i = 0; i < arr.length(); i++) {
 
                 //Turn each index in the array into another object
@@ -97,7 +99,7 @@ public class ClassSelection extends AppCompatActivity {
                 JSONObject set = new JSONObject(className);
 
                 //Grab the cid and the className from that object
-                int cid = set.getInt("cid");
+                int cid = set.getInt("id");
                 String name = set.getString("name");
                 //And create a ClassObj with them
                 ClassObj classObj = new ClassObj(cid, name);
@@ -105,9 +107,6 @@ public class ClassSelection extends AppCompatActivity {
                 //Add them to the array to be used with class button creation
                 classes.add(classObj);
             }
-
-
-
         }
         catch(JSONException e) {
             System.out.println("JSONException: ");
@@ -262,23 +261,26 @@ public class ClassSelection extends AppCompatActivity {
 
 
     /**
-     * Upon clicking a 'Class' button, calls this function to change views
-     * to the Module Selection page. This will send the class name selected.
+     * Upon clicking a 'Class' button, calls this function to get request for the list
+     * of modules and changes views to the Module Selection page.
      *
      * @param view
      */
 
     public void gotoModuleSelection(View view){
-        Intent intent = new Intent(this, ModuleSelection.class);
-
-        //Adding "class name" data to intent
         Button b = (Button)view;
-        String buttonText = b.getText().toString();     //Get button text
+        String className = b.getText().toString();     //Get className from button text
 
-        intent.putExtra("className", buttonText); //Add that to intent
-        //Note: When get-requesting later, will need section id as well for correct modules
+        //Check through the list of classes to find the ID that matches this className
+        int CID = 0;
+        for(ClassObj clazz : classes){
+            if(clazz.getName() == className)
+                CID = clazz.getCid();
+        }
 
-        startActivity(intent);
+        //Get the list of modules and transfer to ModuleSelection
+        APICalls apiCalls = new APICalls(this.getApplicationContext());
+        apiCalls.getModuleList(view, className, CID);
     }
 
 

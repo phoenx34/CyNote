@@ -7,58 +7,53 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoutOut extends AppCompatActivity{
 
-    /**
-     * Interface defined to create callbacks for WebSocket textMessages
-     */
+    /** Interface defined to create callbacks for WebSocket textMessages */
     public interface WebsocketCallbacks {
         void onTextMessage(String message);
     }
 
 
-    /**
-     * The echo server on websocket.org.
-     */
+    /* An echo server for testing. */
     //private static final String SERVER = "ws://echo.websocket.org";
 
-
-    /**
-     * URL to open websocket on
-     */
+    /** URL to open websocket on */
     private static final String SERVER = "ws://cs309-sd-7.misc.iastate.edu:8080/webSocket/1";
-    /**
-     * The timeout value in milliseconds for socket connection.
-     *
-     *
-     */
-    private static final int TIMEOUT = 5000;
 
 
-    /**
-     * Create the websocket for use later
-     */
+    /** Create the websocket for use later */
     //ShoutoutWebsocket SOWS = null;
     ShoutoutWebsocketUpdated SOWS = null;
 
+    /** The timeout value in milliseconds for socket connection. */
+    private static final int TIMEOUT = 5000;
 
-    /**
-     * Create the list of messages to be displayed
-     */
-    List<String> messageList = new ArrayList<String>();
 
-    /**
-     * Create an arrayAdapter to help update the listView with new messages
-     */
+    /** List of messages to be displayed */
+    List<String> messageList;
+
+    /** Name of the selected lecture */
+    String lecName;
+
+    /** ID of the selected lecture */
+    int LID;
+
+
+    /** Create an arrayAdapter to help update the listView with new messages */
     ArrayAdapter<String> arrayAdapter = null;
 
-    /**
-     * Get reference of widgets from XML layout
-     */
+    /** Get reference of widgets from XML layout */
+    TextView nameDisp = null;
     ListView lv = null;
     EditText edTxt = null;
     Button send = null;
@@ -70,10 +65,69 @@ public class ShoutOut extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shout_out);
 
+        nameDisp = (TextView) findViewById(R.id.lecName);
         lv = (ListView) findViewById(R.id.msg_list_view);
         edTxt = (EditText) findViewById(R.id.input_text);
         send = (Button) findViewById(R.id.send);
         conn = (Button) findViewById(R.id.connectButton);
+
+
+
+        //Grab the extras passed through intent, received from the server upon login
+        Bundle extras = getIntent().getExtras();
+
+        //Initialize the list of messages
+        messageList = new ArrayList<String>();
+        lecName = "";
+        LID = 0;
+
+
+        //--------------------------------------------------------------------
+        // Grabbing data passed through intent and parsing it
+        //--------------------------------------------------------------------
+        try {
+            if (extras.isEmpty())
+                throw new Exception("No extras received in ModuleSelection");
+
+            //No need to check for invalid className, in order to get here you need one
+            this.lecName = extras.getString("lecName");
+
+            String history = extras.getString("history");
+            if (history == null || history.isEmpty())
+                throw new Exception("No history received in ShoutOut");
+
+            //No need to check for invalid CID, in order to get here you need one
+            this.LID = extras.getInt("LID");
+
+
+            //Set the lecture name display to the received name
+            nameDisp.setText(lecName);
+
+
+            //Turn received moduleList into an array
+            JSONArray arr = new JSONArray(history);
+            //For every message in the array, add it to the message list
+            for (int i = 0; i < arr.length(); i++) {
+
+                //Grab the next lecture object
+                String message = arr.get(i).toString();
+
+                //Add this message to the list
+                messageList.add(message);
+
+            }
+        }
+        catch(JSONException e) {
+            System.out.println("JSONException: ");
+            System.out.println(e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Exception: ");
+            System.out.println(e.getMessage());
+        }
+
+
+
 
         //Create an ArrayAdapter to facilitate ListView updates
         arrayAdapter = new ArrayAdapter<String>
@@ -81,6 +135,9 @@ public class ShoutOut extends AppCompatActivity{
 
         //Set the ListView adapter to the one created above
         lv.setAdapter(arrayAdapter);
+
+        //Select the bottom-most message to scroll to the bottom of a long line of text
+        lv.setSelection(arrayAdapter.getCount() - 1);
 
         //Do not allow these widgets to be used until WebSocket is connected
         send.setClickable(false);

@@ -78,6 +78,7 @@ public class ShoutoutWebsocketUpdated extends AsyncTask<String, Void, String> {
             Log.d("Exception on connect", e.getMessage().toString());
         }
     }
+    //Will be called upon leaving the Shoutout page as well even if socket was never opened just to be sure
     public void disconnect(){
         System.out.println("Websocket disconnecting...");
         ws.close();

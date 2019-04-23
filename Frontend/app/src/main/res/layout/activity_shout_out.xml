@@ -6,50 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".ShoutOut">
 
+
+    <TextView
+        android:id="@+id/cynoteTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginRight="16dp"
+        android:gravity="top"
+        android:text="@string/shoutout"
+        android:textColor="@color/ISURed"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        app:fontFamily="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lecName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Lecture Name"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="395dp"
-        android:layout_height="530dp"
+        android:layout_height="450dp"
+
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="60dp"
+
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
 
-        <TextView
-            android:id="@+id/cynoteTitle2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="160dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:gravity="top"
-            android:text="@string/shoutout"
-            android:textColor="@color/ISURed"
-            android:textSize="45sp"
-            android:textStyle="bold"
-            app:fontFamily="serif"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
-            android:layout_height="400dp" >
+            android:layout_height="400dp"
+            android:orientation="vertical">
+
             <ListView
                 android:id="@+id/msg_list_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:drawSelectorOnTop="false"
-                />
+                android:drawSelectorOnTop="false" />
         </LinearLayout>
         <!--
         <ListView
@@ -89,25 +109,29 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="@string/connect"
+        android:layout_marginBottom="8dp"
         android:onClick="connectButton"
+        android:text="@string/connect"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="8dp"
         android:onClick="gotoModuleSelection"
         android:text="@string/goback"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
 </android.support.constraint.ConstraintLayout>
