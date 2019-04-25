@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 /**
  * User main page used to display user main information after login successfully.
- *
- * @Author Zheming Fan
- * @Since 2019-02-16
  */
 public class UserMain extends AppCompatActivity {
 

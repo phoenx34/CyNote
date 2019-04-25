@@ -16,6 +16,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * API used by the shoutout view to communicate with the server, DEPRECATED
+ */
 public class  ShoutoutWebsocket extends AsyncTask<String, Void, String> {
     /**
      * The websocket to be used
@@ -32,8 +35,17 @@ public class  ShoutoutWebsocket extends AsyncTask<String, Void, String> {
      */
     private static ShoutOut.WebsocketCallbacks callbackObj;
 
+    /**
+     * Default constructor of ShoutoutWebsocket
+     */
     public ShoutoutWebsocket(){}
 
+    /**
+     * Constructor for ShoutoutWebsocket
+     * @param server
+     * @param timeout
+     * @param callbacks
+     */
     public ShoutoutWebsocket(String server, int timeout, ShoutOut.WebsocketCallbacks callbacks){
         callbackObj = callbacks;
 
@@ -51,6 +63,9 @@ public class  ShoutoutWebsocket extends AsyncTask<String, Void, String> {
         }
     }
 
+    /**
+     * Upon selecting 'connect', attempts to connect the websocket to the server
+     */
     public void connect(){
         try{
             System.out.println("Websocket connecting...");
@@ -97,12 +112,20 @@ public class  ShoutoutWebsocket extends AsyncTask<String, Void, String> {
         }
         */
     }
+
+    /**
+     * Upon selecting 'disconnect' or exiting view, attempts to disconnect any existing websocket from server
+     */
     public void disconnect(){
         System.out.println("Websocket disconnecting...");
         ws.disconnect();
         active = false;
     }
 
+    /**
+     * Returns the active status of the websocket
+     * @return active
+     */
     public boolean getActive(){
         return active;
     }
@@ -153,7 +176,11 @@ public class  ShoutoutWebsocket extends AsyncTask<String, Void, String> {
     protected void onProgressUpdate(Void... values) {}
 
 
-
+    /**
+     * Sends a message to the server
+     * @param message
+     * @throws IllegalStateException
+     */
     public void sendMessage(String message) throws IllegalStateException{
         if(!active)
             throw new IllegalStateException("Websocket is not connected!");

@@ -13,6 +13,9 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 
+/**
+ * Testing class to display the Professor view
+ */
 public class ProfessorMain extends AppCompatActivity {
 
     private TextView msgShow;
@@ -39,6 +42,11 @@ public class ProfessorMain extends AppCompatActivity {
         });
     }
 
+    /**
+     * Adds a class to the list of classes, needs professor or higher permission
+     * @param view
+     * @throws JSONException
+     */
     public void AddClassT(View view) throws JSONException{
 
         urlAddC = "http://cs309-sd-7.misc.iastate.edu:8080/classes";
@@ -68,6 +76,11 @@ public class ProfessorMain extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Class Add!", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Adds a lecture to the list of lectures, requires professor or higher permission
+     * @param view
+     * @throws JSONException
+     */
     public void AddLectureT(View view) throws JSONException{
 
         urlAddL = "http://cs309-sd-7.misc.iastate.edu:8080/lectures";

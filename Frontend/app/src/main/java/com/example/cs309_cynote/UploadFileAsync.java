@@ -14,6 +14,9 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Testing class for uploading a file in a background thread
+ */
 public class UploadFileAsync extends AsyncTask<String, Void, String> {
 
     @Override

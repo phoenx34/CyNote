@@ -30,9 +30,6 @@ import java.util.regex.Pattern;
 
 /**
  * Login page, this should be the initial page that shows up in APP
- *
- * @Author Zheming Fan, Sean Gordon
- * @Since 2019-02-17
  */
 public class Login extends AppCompatActivity
 {
@@ -98,6 +95,11 @@ public class Login extends AppCompatActivity
     }
 
     //Purely for testing purposes
+
+    /**
+     * Purely for testing
+     * @param view
+     */
     public void gotoClassSelection(View view){
         String sampleResponse = "{\"classes\":[{\"cid\":\"1\",\"name\":\"ComS 311\"},{\"cid\":\"2\",\"name\":\"ComS 309\"}]}";
         int sampleUID = 1;
@@ -108,6 +110,10 @@ public class Login extends AppCompatActivity
         startActivity(intent);
     }
 
+    /**
+     * Moves intent to ShoutOut view
+     * @param view
+     */
     public void gotoShoutout(View view){
         Intent intent = new Intent(this, ShoutOut.class);
         startActivity(intent);

@@ -195,6 +195,19 @@ public class APICalls{
     }
 
     //Identical to above, but returns a JSONArray rather than a JSONObject
+    /**
+     * Volley-based get request, used to send get requests to any formatted urlString and receive
+     * data using Response listeners. This particular method returns an array.
+     *
+     * @param urlString        String representing the url to send request to, must include all parameters in the form
+     *                         "sampleUrl.com/endpoint"    or    "sampleUrl.com/endpoint?data1=12345&data2=something"
+     * @param responseListener Response.Listener, used to handle success responses.
+     *                         Object must be initialized with desired methods before being passed as parameter.
+     *                         Example in Class 'Login', method 'loginToUID'
+     * @param errorListener    Response.ErrorListener, used to handle error responses.
+     *                         Object must be initialized with desired methods before being passed as parameter.
+     *                         Example in Class 'Login', method 'loginToUID'
+     */
     public void volleyGetArray(String urlString, final Response.Listener<String> responseListener, final Response.ErrorListener errorListener) throws IllegalArgumentException {
 
         if (responseListener == null)
@@ -538,7 +551,7 @@ public class APICalls{
      * Used to ensure the entered email is a valid one
      *
      * @param emailText Email String from input
-     * @return boolean value about if the email is valid
+     * @return Boolean value: Is the email valid
      */
     public boolean isEmailValid(String emailText)//method that check email valid
     {
@@ -547,12 +560,26 @@ public class APICalls{
         Matcher matcher = pattern.matcher(emailText);
         return matcher.matches();
     }
+
+    /**
+     * Used to ensure the entered screenname is a valid one
+     *
+     * @param screenname
+     * @return Boolean value: Is the screenname valid
+     */
     public boolean isScreennameValid(String screenname){
         if(screenname == null || screenname.trim().length() == 0){
             return false;
         }
         return true;
     }
+
+    /**
+     * Used to ensure the entered password is a valid one
+     *
+     * @param password
+     * @return Boolean value: Is the password valid
+     */
     public boolean isPasswordValid(String password){
         if(password == null || password.trim().length() == 0){
             return false;

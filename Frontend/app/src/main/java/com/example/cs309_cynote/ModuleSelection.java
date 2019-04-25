@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Hub for module/lecure selection, accessed by selecting a class. Shows individual lectures and their components.
+ */
 public class ModuleSelection extends AppCompatActivity {
 
     ExpandableListView expListView;                                     //Object that represents the list of modules
@@ -234,9 +237,12 @@ public class ModuleSelection extends AppCompatActivity {
     }
 
 
+    //Lol
+    /*
     public void fuckMockito(){
         prepareListData();
     }
+    */
 
     /**
      * This method is for testing. Later, when front and back end are

@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Testing class for the student view
+ */
 public class StudentMain extends AppCompatActivity {
     private Button studentLogout;
 

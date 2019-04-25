@@ -16,6 +16,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main ShoutOut view, hooked up to the websocket to allow chat between individuals
+ */
 public class ShoutOut extends AppCompatActivity{
 
     /** Interface defined to create callbacks for WebSocket textMessages */
@@ -169,6 +172,10 @@ public class ShoutOut extends AppCompatActivity{
     };
 
 
+    /**
+     * Upon selecting 'connect' attempts to connect to the server websocket
+     * @param view
+     */
     public void connectButton(View view){
         //If the websocket is disconnected...
         if(!SOWS.getActive()){
@@ -196,6 +203,10 @@ public class ShoutOut extends AppCompatActivity{
 
     }
 
+    /**
+     * Sends a message to the server
+     * @param view
+     */
     public void sendMessage(View view){
         String message = edTxt.getText().toString();
         edTxt.setText("");
@@ -203,6 +214,11 @@ public class ShoutOut extends AppCompatActivity{
         SOWS.sendMessage(message);
         addMessage(message);
     }
+
+    /**
+     * Adds a message to the list of current viewable messages
+     * @param message
+     */
     public void addMessage(String message){
         messageList.add(message);
         arrayAdapter.notifyDataSetChanged();
@@ -211,8 +227,10 @@ public class ShoutOut extends AppCompatActivity{
     }
 
 
-
-
+    /**
+     * Moves intent to ModuleSelection view
+     * @param view
+     */
     public void gotoModuleSelection(View view){
         //Make sure websocket is disconnected
         SOWS.disconnect();

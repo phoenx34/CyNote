@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Testing class for the TA view
+ */
 public class TaMain extends AppCompatActivity {
     private Button TaLogout;
 

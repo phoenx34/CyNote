@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+/**
+ * Helper file to upload a file/image to the server notes directory
+ */
 public class UploadNote extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,9 @@ public class UploadNote extends AppCompatActivity {
     }
 
 
+    /**
+     * Grabs a file to upload to the server
+     */
     public void uploadFile(){
         //TODO actually get a file here
         File file = saveBitmapToFile(new File(""));
@@ -28,6 +34,10 @@ public class UploadNote extends AppCompatActivity {
 
     }
 
+    /**
+     * Uploads a file to the server
+     * @param file
+     */
     public void sendFile(File file){
         //TODO update with correct URL
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";    //Server-side url to send file
@@ -69,7 +79,7 @@ public class UploadNote extends AppCompatActivity {
      * Save an image to a file to post to server
      *
      * @param file  The image to compress and  save
-     * @return
+     * @return file or null
      */
     public File saveBitmapToFile(File file){
         try {
@@ -115,7 +125,10 @@ public class UploadNote extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Moves intent to the ModuleSelection view
+     * @param view
+     */
     public void gotoModuleSelection(View view){
         finish();
     }

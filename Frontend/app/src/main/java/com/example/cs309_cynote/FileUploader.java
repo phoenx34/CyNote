@@ -17,14 +17,20 @@ import java.io.FileOutputStream;
     https://www.bugsee.com/blog/android-file-upload-doesnt-have-to-be-hard/
  */
 
+/**
+ * Testing class to upload a file to a server
+ */
 public class FileUploader  extends FirebaseMessagingService {
+    /**
+     * Default constructor for the file uploader
+     */
     public FileUploader(){}
 
     /**
      * Save an image to a file to post to server
      *
      * @param file  The image to compress and  save
-     * @return
+     * @return file or null
      */
     public File convertBitmapToFile(File file)
     {
@@ -71,12 +77,12 @@ public class FileUploader  extends FirebaseMessagingService {
     }
 
     //TODO update this with the complete list of permissions (able to pass it as a parameter)
-    public void checkPermissions(){
+    //public void checkPermissions(){
         /*
         if (ContextCompat.checkSelfPermission(FileUploader, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
         }
         */
-    }
+    //}
 }

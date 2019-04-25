@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Space;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,7 +68,7 @@ public class ClassSelection extends AppCompatActivity {
         classes = new ArrayList<ClassObj>();
 
         //To add sample data:
-        classes.add(new ClassObj(1, "SampleClass"));
+        //classes.add(new ClassObj(1, "SampleClass"));
 
 
         //--------------------------------------------------------------------
@@ -188,6 +189,14 @@ public class ClassSelection extends AppCompatActivity {
             layout.addView(btn, params);
 
         }
+
+
+
+
+
+        //To add some flair if the user has no classes...
+        addFlair(classes.size(), false);
+
     }
 
     /**
@@ -244,6 +253,38 @@ public class ClassSelection extends AppCompatActivity {
         app:layout_constraintTop_toTopOf="@+id/view2"
         android:onClick="gotoModuleSelection"/>
      */
+
+
+    /**
+     * To add some flair if the user has no classes
+     *
+     * @param classListSize
+     */
+    public void addFlair(int classListSize, boolean useEmoji){
+        //Grab the "You have no classes" textview and make it initially invisible
+        TextView noClass = findViewById(R.id.noClassMessage);
+        noClass.setVisibility(View.GONE);
+
+        //If there are no classes
+        if(classListSize == 0){
+
+            //Switch between using an ellipsis or an emoji
+            String thinkingEmoji = "...";
+            if(useEmoji)
+                thinkingEmoji = " " + new String(Character.toChars(0x1F914));
+
+            String noClassMessage = "Hmm, you don't appear to\n" +
+                    "be in any classes"+thinkingEmoji+"\n\n"+
+                    "Try adding some below";
+
+            //Set the new message and make visible
+            noClass.setText(noClassMessage);
+            noClass.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+
 
     /**
      * Upon clicking "Back" text view, calls this function to change views
@@ -319,7 +360,10 @@ public class ClassSelection extends AppCompatActivity {
 
     }
 
-    //Purely for testing purposes
+    /**
+     * Purely for testing purposes
+     * @param view
+     */
     public void gotoFileUploader(View view){
         Intent intent = new Intent(this, FileSelector.class);
         startActivity(intent);

@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 /**
  * User creation page used to create new user.
  *
- * @author Sean Gordon
+ * @author Sean Gordon, Zheming Fan
  * @since  2019-02-15
  */
 public class AccCreation extends AppCompatActivity {
@@ -125,7 +125,7 @@ public class AccCreation extends AppCompatActivity {
      * @param emailText Email String from input
      * @return boolean value about if the email is valid
      */
-    public boolean isEmailValid(String emailText)//method that check email valid
+    private boolean isEmailValid(String emailText)//method that check email valid
     {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);

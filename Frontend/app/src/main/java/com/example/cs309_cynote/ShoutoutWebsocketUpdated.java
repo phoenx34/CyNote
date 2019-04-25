@@ -14,6 +14,9 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * API used by the shoutout view to communicate with the server
+ */
 public class ShoutoutWebsocketUpdated extends AsyncTask<String, Void, String> {
     /**
      * The websocket to be used
@@ -30,8 +33,16 @@ public class ShoutoutWebsocketUpdated extends AsyncTask<String, Void, String> {
      */
     private static ShoutOut.WebsocketCallbacks callbackObj;
 
+    /**
+     * Default constructor of ShoutoutWebsocket
+     */
     public ShoutoutWebsocketUpdated(){}
 
+    /**
+     * Constructor for ShoutoutWebsocket
+     * @param url
+     * @param callbacks
+     */
     public ShoutoutWebsocketUpdated(String url, ShoutOut.WebsocketCallbacks callbacks){
         callbackObj = callbacks;
 
@@ -68,6 +79,9 @@ public class ShoutoutWebsocketUpdated extends AsyncTask<String, Void, String> {
         }
     }
 
+    /**
+     * Upon selecting 'connect', attempts to connect the websocket to the server
+     */
     public void connect(){
         try{
             Log.d("Socket:", "Trying socket");
@@ -79,12 +93,19 @@ public class ShoutoutWebsocketUpdated extends AsyncTask<String, Void, String> {
         }
     }
     //Will be called upon leaving the Shoutout page as well even if socket was never opened just to be sure
+    /**
+     * Upon selecting 'disconnect' or exiting view, attempts to disconnect any existing websocket from server
+     */
     public void disconnect(){
         System.out.println("Websocket disconnecting...");
         ws.close();
         active = false;
     }
 
+    /**
+     * Returns the active status of the websocket
+     * @return active
+     */
     public boolean getActive(){
         return active;
     }
@@ -139,7 +160,11 @@ public class ShoutoutWebsocketUpdated extends AsyncTask<String, Void, String> {
     protected void onProgressUpdate(Void... values) {}
 
 
-
+    /**
+     * Sends a message to the server
+     * @param message
+     * @throws IllegalStateException
+     */
     public void sendMessage(String message) throws IllegalStateException{
         if(!active)
             throw new IllegalStateException("Websocket is not connected!");

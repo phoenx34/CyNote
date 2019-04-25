@@ -107,8 +107,10 @@ public class AddUserToClass extends AppCompatActivity {
         }
     }
 
+
+    //This still has error with getting classList to ClassSelection page
     /**
-     * This still has error with getting classList to ClassSelection page
+     * Method used to add current user to a class
      */
     public void AddUserToClass() {
 

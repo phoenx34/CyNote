@@ -30,6 +30,9 @@ package com.example.cs309_cynote;
         import java.io.IOException;
         import java.util.UUID;
 
+/**
+ * Testing class to select file for upload to a server
+  */
 public class FileSelector extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -83,6 +86,10 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
      * This is the method responsible for image upload
      * We need the full image path and the name for the image in this method
      * */
+
+    /**
+     * Upload the selected multipart file
+     */
     public void uploadMultipart() {
         //getting name for the image
         String name = editText.getText().toString().trim();
@@ -134,6 +141,10 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Returns current context
+     * @return context
+     */
     public static Context getContext() {
         return context;
     }
@@ -344,6 +355,13 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
 
 
     //This method will be called when the user will tap on allow or deny
+
+    /**
+     * Callback for requesting security permissions
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -362,6 +380,10 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    /**
+     * Upon selecting a button, call this to modify view
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         if (v == buttonChoose) {
