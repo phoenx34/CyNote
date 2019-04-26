@@ -1,18 +1,14 @@
 package com.example.cs309_cynote;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+//import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * AddUserToClass page, this page is used to add the student or TA type user into specific class.
@@ -22,9 +18,10 @@ import org.json.JSONObject;
 public class AddUserToClass extends AppCompatActivity {
 
     private EditText editInputClassCode;
-    private Button cancelFromAddToClass, updateFromAddToClass;
+//    private Button cancelFromAddToClass, updateFromAddToClass;
     private int uid, cid;
     private APICalls api;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
