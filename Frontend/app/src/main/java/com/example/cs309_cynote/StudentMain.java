@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 /**
- * Testing class for the student view
+ * Testing class for the student view, NOT IN USED ANY MORE
  */
 public class StudentMain extends AppCompatActivity {
     private Button studentLogout;

@@ -71,7 +71,7 @@
     <string name="notes_collab">Notes(Collaborative)</string>
     <string name="shoutout">Shoutout</string>
     <string name="select_class">Select class</string>
-    <string name="type_class_name">Type class name</string>
+    <string name="type_class_code">Type Class Code</string>
     <string name="update">Update</string>
     <string name="add_new_class">Add New Class</string>
     <string name="go_uploader">Go to Uploader</string>

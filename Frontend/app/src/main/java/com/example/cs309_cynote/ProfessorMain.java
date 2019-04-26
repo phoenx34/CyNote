@@ -14,7 +14,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 
 /**
- * Testing class to display the Professor view
+ * Testing class to display the Professor view, TEST USED ONLY, NOT USED IN GENERAL APP ANY MORE
  */
 public class ProfessorMain extends AppCompatActivity {
 
