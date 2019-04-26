@@ -4,6 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.user.UserController;
 import org.springframework.stereotype.Service;
 
+/**
+ * NotesService contains most of the functions work with notes object
+ * @author Shen Chen
+ * @author Marc Issac
+ */
 @Service
 public class NotesService {
 	
@@ -16,13 +21,21 @@ public class NotesService {
 	
 	
 	
-	
+	/**
+	 * Sort the Notes 
+	 * @param arr The given Notes array to be sorted 
+	 * @return A sorted array of Notes 
+	 */
 	public Notes[] sortNote(Notes[] arr)
 	{
 		 sort(arr, arr.length);
 		 return arr;
 	}
-	
+	/**
+	 * Insertions sort algorithm
+	 * @param s input list 
+	 * @param n starting from where to sort
+	 */
 	// insertion sort
 	static void sort(Notes []s, int n) 
 	{ 
@@ -49,7 +62,8 @@ public class NotesService {
 	
 	
 	
-	public Notes[] quicksortNote(Notes[] arr)
+	
+	 Notes[] quicksortNote(Notes[] arr)
 	{
 		quickSort(arr, 0, arr.length-1);
 		 return arr;
@@ -57,7 +71,7 @@ public class NotesService {
 	
 	
 	// quick sort according to the rating
-    public static void quickSort(Notes[] arr, int start, int end){
+    static void quickSort(Notes[] arr, int start, int end){
     	 
         int partition = partition(arr, start, end);
  
@@ -69,7 +83,8 @@ public class NotesService {
         }
     }
  
-    public static int partition(Notes[] arr, int start, int end){
+    
+    static int partition(Notes[] arr, int start, int end){
         Notes pivot = arr[end];
  
         for(int i=start; i<end; i++){

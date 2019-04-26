@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 
+ * ShoutoutController direct all the json request to specific methods
  * @author Shen Chen
  * @author Marc Issac
  */ 
-
-
 @RestController
 public class ShoutoutController {
 
@@ -26,12 +24,21 @@ public class ShoutoutController {
 
     private final Logger logger = LoggerFactory.getLogger(ShoutoutController.class);
 
+    /**
+     * Saving a new shoutout in the database  
+     * @param shoutout The shoutout to be added to the database 
+     * @return Whether the shoutout was saved 
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/shoutout/new")
     public String saveShoutout(Shoutout shoutout) {
     	shoutoutrepository.save(shoutout);
         return "New Shoutout "+ shoutout.getSID() + " Saved";
     }
 
+    /**
+     * List all the shoutout
+     * @return The list of shoutouts 
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/shoutout")
     public List<Shoutout> getAllShoutouts() {
         logger.info("Entered into Controller Layer");

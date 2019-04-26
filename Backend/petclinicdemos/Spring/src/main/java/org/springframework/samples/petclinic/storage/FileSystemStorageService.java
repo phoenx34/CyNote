@@ -17,16 +17,29 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * FileSystemStorageService deals with how we handles file upload
+ * @author Shen Chen 
+ * @author Marc Issac 
+ */
 @Service
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
 
+    /**
+     * Constructor of FileSystemStorageService
+     * @param properties input StorageProperties
+     */
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
+    
+    /**
+     * Store the file 
+     */
     @Override
     public void store(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
@@ -50,6 +63,9 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+    /**
+     * Read stored files 
+     */
     @Override
     public Stream<Path> loadAll() {
         try {
@@ -63,11 +79,17 @@ public class FileSystemStorageService implements StorageService {
 
     }
 
+    /**
+     * load the file 
+     */
     @Override
     public Path load(String filename) {
         return rootLocation.resolve(filename);
     }
 
+    /**
+     * Read file 
+     */
     @Override
     public Resource loadAsResource(String filename) {
         try {
@@ -87,11 +109,17 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+    /**
+     * Delte all files 
+     */
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
 
+    /**
+     * Initialize the storage
+     */
     @Override
     public void init() {
         try {

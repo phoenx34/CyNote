@@ -19,6 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
  
 
  
+/**
+ * The LectureController direct all the json request to specific methods 
+ * @author Shen Chen
+ * @author Marc Issac
+ *
+ */
 @RestController
 public class LectureController {
   @Autowired
@@ -28,6 +34,12 @@ public class LectureController {
   private ClassRepository classRepository;
   
   
+  
+  /**
+   * Get the set of lecture of a class with given class ID 
+   * @param classId The given class ID 
+   * @return The set of the lectures of the class 
+   */
     @GetMapping("/classes/{classId}/lecture")
     public Set<Lecture> getContactByClassId(@PathVariable Long classId) {
       
@@ -66,6 +78,13 @@ public class LectureController {
     
     
     
+    
+    /**
+     * Add a specific lecture to a class 
+     * @param classId The class we want the lecture to be added to 
+     * @param lecture The lecture to be added 
+     * @return if it is added successfully 
+     */
     @PostMapping("/classes/{classId}/lecture")
     public Lecture addLecture(@PathVariable Long classId,
                             @Valid @RequestBody Lecture lecture) {
@@ -76,10 +95,15 @@ public class LectureController {
                 }).orElseThrow(() -> new NotFoundException("Class not found!"));
     }
     
+  
     
-    
-    
-    
+    /**
+     * Update a specific lecture of a specific class  
+     * @param classId The class ID
+     * @param lectureId The lecture Id to be modified 
+     * @param lectureUpdated The updated lecture 
+     * @return Whether the lecture is updated successfully
+     */
     @PutMapping("/classes/{classId}/lecture/{lectureId}")
     public Lecture updateLecture(@PathVariable Long classId,
                     @PathVariable Long lectureId,
@@ -103,6 +127,11 @@ public class LectureController {
     
     
     
+    /**
+     * The the chat history a specific lecture 
+     * @param lectureId The lecture Id 
+     * @return The chat history in the form of list of strings 
+     */
     @GetMapping("/shoutout/{lectureId}")
     public List<String> getChatHistoryWithLectureID(@PathVariable Long lectureId) {
       
@@ -121,7 +150,12 @@ public class LectureController {
     
     
     
-    
+    /**
+     * Delete a specific lecture from a class 
+     * @param classId The class Id 
+     * @param lectureId The lecture ID 
+     * @return If the deletion is successfully
+     */
     @DeleteMapping("/classes/{classId}/lecture/{lectureId}")
     public String deleteLecture(@PathVariable Long classId,
                      @PathVariable Long lectureId) {

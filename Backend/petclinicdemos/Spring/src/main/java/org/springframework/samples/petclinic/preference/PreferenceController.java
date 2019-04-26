@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 
+ * PreferenceController direct all the json request to specific methods 
  * @author Shen Chen
  * @author Marc Issac
  */
-
 @RestController
 public class PreferenceController {
 	
@@ -28,6 +27,11 @@ public class PreferenceController {
     
     
     // ????????This is problematic since we don't have a preferenceID
+    /**
+     * Create a new preference 
+     * @param preference given preference to be posted to the database 
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/preference/new")
     public String saveNote(Preference preference) {
     	preferenceRepository.save(preference);
@@ -37,6 +41,10 @@ public class PreferenceController {
     
     
     
+    /**
+     * List all the preferences
+     * @return A list of preferences 
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/preference")
     public List<Preference> getAllPreferences() {
         logger.info("Entered into Controller Layer");

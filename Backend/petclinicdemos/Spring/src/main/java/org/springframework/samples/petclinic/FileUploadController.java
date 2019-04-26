@@ -23,17 +23,33 @@ import org.springframework.samples.petclinic.storage.StorageFileNotFoundExceptio
 import org.springframework.samples.petclinic.storage.StorageService;
 import org.springframework.samples.petclinic.notes.*;
 
+/**
+ * This is a flle upload controller 
+ * @author Shen Chen
+ * @author Marc Issac
+ *
+ */
 @Controller
 public class FileUploadController {
 
     private final StorageService storageService;
     public NotesController notes;
 
+    /**
+     * Getter for storageService
+     * @param storageService The StorageService object we used 
+     */
     @Autowired
     public FileUploadController(StorageService storageService) {
         this.storageService = storageService;
     }
 
+    /**
+     * The method lists all of the files 
+     * @param model The input Model object 
+     * @return "uploadForm"
+     * @throws IOException Input Output exception 
+     */
     @GetMapping("/")
     public String listUploadedFiles(Model model) throws IOException {
 
@@ -45,6 +61,14 @@ public class FileUploadController {
         return "uploadForm";
     }
 
+    
+    
+    
+    /**
+     * The method serves a specific file 
+     * @param filename The given file name obatined from the path variable 
+     * @return ResponseEntity<Resource>
+     */
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -54,6 +78,18 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
+    
+    
+    
+    
+    /**
+     * The method handles the uploading of a file 
+     * @param file The given file 
+     * @param redirectAttributes
+     * @param nid The note ID
+     * @param lid The Lecture ID
+     * @return "redirect:/"
+     */
     @PostMapping("/{nid}/{lecnum}")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes, @PathVariable("nid") Integer nid, @PathVariable("lecnum") Integer lid) {
@@ -69,6 +105,12 @@ public class FileUploadController {
         return "redirect:/";
     }
 
+    
+    /**
+     *  The methods handles the file not found exception 
+     * @param exc the StorageFileNotFoundException object 
+     * @return The build of not found 
+     */
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();

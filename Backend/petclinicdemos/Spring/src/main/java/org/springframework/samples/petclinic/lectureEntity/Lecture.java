@@ -26,6 +26,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  
+/**
+ * Lecture means a lecture entity with all the information of a lecture 
+ * @author Shen Chen
+ * @author Marc Issac
+ *
+ */
 @Entity
 @Table(name = "Lecture")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
@@ -54,39 +60,70 @@ public class Lecture implements Serializable{
     private ClEnt ClEnt;
   
   
+  /**
+   * Default construcot of the lecture class 
+   */
   public Lecture() {}
   
   
+  /**
+   * Setter for ID 
+   * @param id The lecture ID 
+   */
   public void setId(Long id) {
     this.id = id;
   }
   
+  /**
+   * Getter for ID 
+   * @return The Id
+   */
   public Long getId() {
     return this.id;
   }
   
  
-
+  
+  /**
+   * Setter for class entity
+   * @param clEnt The input class entity
+   */
   public void setClEnt(ClEnt clEnt) {
     this.ClEnt = clEnt;
   }
   
+  /**
+   * Getter for class entity 
+   * @return null since we don't really need this information
+   */
   public ClEnt getClEnt() {
     //return this.ClEnt;
 	  return null;
   }
 
 
+  /**
+   * Getter for chat history 
+   * @return The chat history 
+   */
 public List<String> getShoutout_history() {
 	return shoutout_history;
 }
 
+/**
+ * Add a chat message from the lecture's shout out section to the chat history 
+ * @param message The chat message 
+ */
 public void addShoutout_TOLIst(String message)
 {
 	shoutout_history.add(message);
 }
 
 
+/**
+ * Setter for the shout out history 
+ * @param shoutout_history The given shout out history 
+ */
 public void setShoutout_history(List<String> shoutout_history) {
 	this.shoutout_history = shoutout_history;
 }

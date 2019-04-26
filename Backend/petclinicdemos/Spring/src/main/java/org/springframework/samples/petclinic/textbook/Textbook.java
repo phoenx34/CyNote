@@ -14,13 +14,10 @@ import org.hibernate.annotations.NotFoundAction;
 import org.springframework.samples.petclinic.classEntity.ClEnt;
 
 /**
- * 
+ * Textbook represent the textbook object with all the information of a textbook
  * @author Shen Chen
  * @author Marc Issac
  */
-
-
-
 @Entity
 @Table(name = "textbook")
 public class Textbook {
@@ -49,27 +46,54 @@ public class Textbook {
     
     
     // Getters and Setters 
+    
+    
+    
+    /**
+     * Getter for TID
+     * @return TID
+     */
 	public Integer getTID() {
 		return TID;
 	}
 
+	/**
+	 * Setter for TID
+	 * @param tID given Id
+	 */
 	public void setTID(Integer tID) {
 		TID = tID;
 	}
 
 	
+	/**
+	 * Getter for bookLink
+	 * @return bookLink
+	 */
 	public String getBookLink() {
 		return bookLink;
 	}
 
+	/**
+	 * Setter for bookLink
+	 * @param bookLink given booklink
+	 */
 	public void setBookLink(String bookLink) {
 		this.bookLink = bookLink;
 	}
 
+	/**
+	 * Getter for rating 
+	 * @return rating
+	 */
 	public int getRating() {
 		return rating;
 	}
 
+	/**
+	 * Setter for rating 
+	 * @param rating Given rating 
+	 */
 	public void setRating(int rating) {
 		this.rating = rating;
 	}

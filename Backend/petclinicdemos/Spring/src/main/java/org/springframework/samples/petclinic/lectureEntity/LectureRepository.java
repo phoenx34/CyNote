@@ -7,6 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
  
  
+
+
+/**
+ * The LectureRepository connects with the database 
+ * @author Shen Chen
+ * @author Marc Issac
+ *
+ */
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
 
 

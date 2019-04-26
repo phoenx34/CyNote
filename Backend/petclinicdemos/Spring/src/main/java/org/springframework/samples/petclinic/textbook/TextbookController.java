@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 
+ * TextbookController direct all the json request to specific methods
  * @author Shen Chen
  * @author Marc Issac
  */
-
 @RestController
 public class TextbookController {
 
@@ -25,12 +24,21 @@ public class TextbookController {
 
     private final Logger logger = LoggerFactory.getLogger(TextbookController.class);
 
+    /**
+     * Save a new textbook in the database 
+     * @param textbook the new to be saved 
+     * @return Whether the textbook has been saved 
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/textbook/new")
     public String saveTextbook(Textbook textbook) {
     	textbookRepository.save(textbook);
         return "New Textbook "+ textbook.getTID() + " Saved";
     }
 
+    /**
+     * Return a list of textbook
+     * @return a list of textbook
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/textbook")
     public List<Textbook> getAllTextbooks() {
         logger.info("Entered into Controller Layer");

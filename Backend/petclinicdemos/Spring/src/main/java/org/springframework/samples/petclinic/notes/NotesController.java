@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 
+ * The NotesController direct all the json request to specific methods 
  * @author Shen Chen
  * @author Marc Issac
  **/
-
 @RestController
 public class NotesController {
 
@@ -28,12 +27,21 @@ public class NotesController {
 	
     private final Logger logger = LoggerFactory.getLogger(NotesController.class);
 
+    /**
+     * Posting a new note 
+     * @param note New note to be added to the database 
+     * @return if it's saved
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/notes/new")
     public String saveNote(Notes note) {
     	noteRepository.save(note);
         return "New Note "+ note.getNID() + " Saved";
     }
 
+    /**
+     * Getting all the notes 
+     * @return Array of notes 
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/notes")
     public Notes[] getAllNotes() {
         logger.info("Entered into Controller Layer");
@@ -45,6 +53,11 @@ public class NotesController {
     
     
     
+    /**
+     * Find the note by note ID 
+     * @param id The given Id 
+     * @return The desired Note object 
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/notes/{noteId}")
     public Optional<Notes> findNoteById(@PathVariable("noteId") int id) {
         logger.info("Entered into Controller Layer");

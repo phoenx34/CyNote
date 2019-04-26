@@ -37,6 +37,12 @@ import org.springframework.samples.petclinic.storage.*;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.user.UserController;
 
+/**
+ *  The  Main method 
+ * @author Shen Chen
+ * @author Marc Issac
+ *
+ */
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
 public class PetClinicApplication {

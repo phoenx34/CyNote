@@ -15,6 +15,12 @@ import org.hibernate.annotations.NotFoundAction;
 import org.springframework.samples.petclinic.classEntity.ClEnt;
 import org.springframework.samples.petclinic.user.User;
 
+
+/**
+ * Preference represents the Preference object with all the information of a Preference 
+ * @author Shen Chen
+ * @author Marc Issac
+ */
 @Entity
 @Table(name = "preference")
 public class Preference {
@@ -49,6 +55,10 @@ public class Preference {
     
     // Getters and Setters
 
+    /**
+     * Getter for PID
+     * @return PID
+     */
 	public int getPID() {
 		return PID;
 	}
@@ -56,6 +66,10 @@ public class Preference {
 
 
 
+	/**
+	 * Setter for PID
+	 * @param pID Given PID
+	 */
 	public void setPID(int pID) {
 		PID = pID;
 	}
@@ -63,6 +77,10 @@ public class Preference {
 
 
 
+	/**
+	 * Getter for startPage
+	 * @return startPage
+	 */
 	public String getStartPage() {
 		return startPage;
 	}
@@ -70,6 +88,10 @@ public class Preference {
 
 
 
+	/**
+	 * Setter for startPage
+	 * @param startPage Given startPage
+	 */
 	public void setStartPage(String startPage) {
 		this.startPage = startPage;
 	}
@@ -77,6 +99,10 @@ public class Preference {
 
 
 
+	/**
+	 * Getter for favorites
+	 * @return favorites
+	 */
 	public String getFavorites() {
 		return favorites;
 	}
@@ -84,6 +110,10 @@ public class Preference {
 
 
 
+	/**
+	 * Setter for favorites
+	 * @param favorites Given favorites
+	 */
 	public void setFavorites(String favorites) {
 		this.favorites = favorites;
 	}
@@ -91,6 +121,10 @@ public class Preference {
 
 
 
+	/**
+	 * Getter for colorPreferences
+	 * @return colorPreferences
+	 */
 	public String getColorPreferences() {
 		return colorPreferences;
 	}
@@ -98,6 +132,10 @@ public class Preference {
 
 
 
+	/**
+	 * Setter for colorPreferences
+	 * @param colorPreferences Given colorPreferences
+	 */
 	public void setColorPreferences(String colorPreferences) {
 		this.colorPreferences = colorPreferences;
 	}
@@ -110,6 +148,9 @@ public class Preference {
 	
 	// toString method 
 	// ???????? need the UID to be in the String
+	/**
+	 * To string method
+	 */
 	@Override
 	public String toString() {
 		return "Preference [startPage=" + startPage + ", favorites=" + favorites + ", colorPreferences="
