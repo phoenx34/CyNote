@@ -12,9 +12,9 @@ stages:
 maven-build:
   stage: mavenbuild
   tags:
-    - shell
+    - Spring_tag
   script:
-    - cd Spring
+    - cd Backend/petclinicdemos/Spring
     - mvn package -B
   
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
@@ -22,9 +22,9 @@ maven-build:
 maven-test:
   stage: maventest
   tags:
-    - shell
+    - Spring_tag
   script:
-    - cd Spring
+    - cd Backend/petclinicdemos/Spring
     - mvn test
   artifacts:
     paths:
@@ -35,9 +35,9 @@ maven-test:
 autoDeploy:
   stage: autodeploy
   tags:
-   - shell
+   - Spring_tag
   script:
-    - cd Spring
+    - cd Backend/petclinicdemos/Spring
     - mvn package
     - sudo mv target/*.jar /target/web-demo.jar 
     - sudo systemctl stop systemd-web-demo
