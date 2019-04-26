@@ -57,15 +57,15 @@ android-build:
   stage: androidbuild
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Android_test/gradlew
+    - chmod +x ./Frontend/gradlew
   tags:
    - android_tag1
   script:
-    - cd Android_test
+    - cd Frontend
     - ./gradlew assemble
   artifacts:
     paths:
-    - Android_test/app/build/outputs/
+    - Frontend/app/build/outputs/
     
 # To run Android unit tests.   
 unitTests:
@@ -73,9 +73,9 @@ unitTests:
   stage: androidtest
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Android_test/gradlew
+    - chmod +x ./Frontend/gradlew
   tags:
    - android_tag1
   script:
-    - cd Android_test
+    - cd Frontend
     - ./gradlew test
