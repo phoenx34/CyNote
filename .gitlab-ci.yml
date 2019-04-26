@@ -40,9 +40,13 @@ autoDeploy:
     - cd Backend/petclinicdemos/Spring
     - mvn package
     - sudo mv target/*.jar /target/web-demo.jar 
-    - sudo systemctl stop systemd-web-demo
-    - sudo systemctl start systemd-web-demo
+    - sudo systemctl stop system-web-demo
+    - sudo systemctl start system-web-demo 
+    
+#    - sudo systemctl stop systemd-web-demo
+#    - sudo systemctl start systemd-web-demo
 
+    
     
 # To build android projects
 # Notice that we cd into Android_test folder which contains all Android files before building apk.    
