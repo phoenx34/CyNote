@@ -58,7 +58,7 @@
         android:layout_marginBottom="335dp"
         android:text="@string/update"
 
-        android:onClick="findCID"
+        android:onClick="addUserToClass"
 
         app:layout_constraintBottom_toTopOf="@+id/cancelAddToClassBut"
         app:layout_constraintEnd_toEndOf="parent" />
