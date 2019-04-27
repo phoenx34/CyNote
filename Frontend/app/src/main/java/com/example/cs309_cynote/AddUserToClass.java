@@ -123,78 +123,8 @@ public class AddUserToClass extends AppCompatActivity {
             api.volleyGet(url, responseListener, errorListener);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-//
-//        url += inputClassCode;
-//        APICalls api = new APICalls(getApplicationContext());
-//
-//
-//        Response.Listener<String> responseListener = new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                System.out.println("Class ID received");
-//                System.out.println(response);
-//
-//                try {
-//                    JSONObject jsonObj = new JSONObject(response);
-//                    setCid(jsonObj.getInt("CID"));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                AddUserToClass();
-//            }
-//        };
-//
-//        Response.ErrorListener errorListener = new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                System.out.println("Cannot receive class ID");
-//                System.out.println(error.getMessage());
-//            }
-//        };
-//
-//        try {
-//            api.volleyGet(url, responseListener, errorListener);
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//
-//        }
-    }
+        }
 
-
-//    //This still has error with getting classList to ClassSelection page
-//    /**
-//     * Method used to add current user to a class
-//     */
-//    public void AddUserToClass() {
-//
-//        String url = "http://cs309-sd-7.misc.iastate.edu:8080/addclass/";
-//        url += uid + "/" + cid;
-//        APICalls api = new APICalls(getApplicationContext());
-//
-//
-//        Response.Listener<String> responseListener = new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Intent goToClassSelection = new Intent(AddUserToClass.this, ClassSelection.class);
-//                goToClassSelection.putExtra("UID", uid);
-//                startActivity(goToClassSelection);
-//            }
-//        };
-//
-//        Response.ErrorListener errorListener = new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                System.out.println("Cannot add user to this class");
-//                System.out.println(error.getMessage());
-//            }
-//        };
-//
-//        try {
-//            api.volleyGet(url, responseListener, errorListener);
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//
-//        }
     }
 
     /**

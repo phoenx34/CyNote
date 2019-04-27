@@ -6,11 +6,9 @@
     <uses-permission android:name="android.permission.INTERNET" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-    <!-- Used for file upload in UploadNote.java -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- Used for file upload in UploadNote.java -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="ExtraText,GoogleAppIndexingWarning">
-        <activity android:name=".AddUserToClass"></activity>
+        <activity android:name=".AddNewLecture"></activity>
+        <activity android:name=".AddUserToClass" />
         <activity android:name=".TextbookSelection" />
         <activity android:name=".AddTextbook" />
         <activity android:name=".ShoutOut" />
@@ -49,7 +48,7 @@
 
         <service
             android:name=".FileUploader"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

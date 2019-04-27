@@ -276,6 +276,11 @@ public class ModuleSelection extends AppCompatActivity {
         lectureChildren.put(lectureList.get(2), lec6);
     }
 
+
+    public void goToAddNewLecture(View view){
+
+    }
+
     /**
      * Upon clicking "Back" button, calls this function to change views
      * to the Class Selection page.
