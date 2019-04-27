@@ -42,6 +42,8 @@ public class UserController {
     @Autowired
     ClassRepository classRepo;
     
+    @Autowired
+    UserService userService;
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -116,7 +118,8 @@ public class UserController {
     		if(user.getScreenname().equals(screenname))
     		{
     			if(user.getPassword().equals(password)) {
-    	            return "{\"status\":4,\"UID\":" + user.getUID().toString() + "}";
+    	            return "{\"status\":4,\"UID\":" + user.getUID().toString() + 
+    	            		"\"userType\":" + user.getType() + "}";
     			} else {
     				return "{\"status\":5,\"UID\":0}"; 
     			}
@@ -302,6 +305,11 @@ public class UserController {
     	
     	
     }
+    
+    
+    
+    
+    
     
     
     

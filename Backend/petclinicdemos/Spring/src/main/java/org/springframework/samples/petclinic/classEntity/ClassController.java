@@ -70,6 +70,9 @@ public class ClassController {
     
     
     
+    
+    
+    
     /**
      * The method updates the classList 
      * @param id The given class ID
@@ -85,6 +88,10 @@ public class ClassController {
                     return classRepository.save(classEnt);
                 }).orElseThrow(() -> new NotFoundException("Class not found with id " + id));
     }
+    
+    
+    
+    
     
     
     
