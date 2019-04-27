@@ -61,9 +61,9 @@
             android:layout_toLeftOf="@+id/addClass"
 
             android:onClick="goToAddNewLecture"
-            android:visibility="invisible"
+            android:text="@string/add_new_lecture"
 
-            android:text="@string/button"
+            android:visibility="invisible"
             tools:layout_marginRight="50dp" />
 
     </RelativeLayout>

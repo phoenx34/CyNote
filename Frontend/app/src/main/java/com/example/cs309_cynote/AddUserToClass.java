@@ -31,10 +31,7 @@ public class AddUserToClass extends AppCompatActivity {
         setContentView(R.layout.activity_add_user_to_class);
 
         Bundle extras = getIntent().getExtras();
-
-
         try{
-
             //----Ensuring the data actually exists----\\
 
             //If the extras does not exist, big oof
@@ -45,7 +42,6 @@ public class AddUserToClass extends AppCompatActivity {
             setUid(extras.getInt("UID"));//get UID
             setUserType(extras.getString("userType"));//get userType
             //If data does not exist, big oof
-
             }
         catch(JSONException e) {
             System.out.println("JSONException: ");
@@ -85,16 +81,16 @@ public class AddUserToClass extends AppCompatActivity {
      */
     public void addUserToClass(final View view) {
 
-//        String url = "http://cs309-sd-7.misc.iastate.edu:8080/";//waiting for backend path /*****
-        int inputClassCode = Integer.parseInt(editInputClassCode.getText().toString());//record class code from input
-        String inputStringCheck = editInputClassCode.getText().toString();
-        final APICalls api = new APICalls(getApplicationContext());//new APICalls
-
+        String inputStringCheck = editInputClassCode.getText().toString();//record input as String
         //check if the Code is null
         if(inputStringCheck == null || inputStringCheck.trim().length() == 0) {
             Toast.makeText(getApplicationContext(), "Invalid class name, try again!", Toast.LENGTH_LONG).show();
             return;
         }
+        int inputClassCode = Integer.parseInt(editInputClassCode.getText().toString());//record class code from input as int
+
+        final APICalls api = new APICalls(getApplicationContext());//new APICalls
+
         this.setCid(inputClassCode);//set CID from input
 
         //create url link with UID and CID
@@ -133,6 +129,11 @@ public class AddUserToClass extends AppCompatActivity {
     public void CreateNewClass(final View view) throws JSONException {
 
         newClassName = editInputClassName.toString();//record class name from input
+        if(newClassName == null || newClassName.trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Invalid class name, try again!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         String url= "http://cs309-sd-7.misc.iastate.edu:8080/classes";//create url
         //create json String for request body
         String json = "{\"cid\":\"" + 0 + "\"," +

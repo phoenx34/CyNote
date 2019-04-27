@@ -276,8 +276,16 @@ public class ModuleSelection extends AppCompatActivity {
         lectureChildren.put(lectureList.get(2), lec6);
     }
 
-
+    /**
+     * Upon "Add New Lecture" button, calls this function to change views
+     * to the AddNewLecture page.
+     * @param view
+     */
     public void goToAddNewLecture(View view){
+        Intent intent = new Intent(this, AddNewLecture.class);
+        intent.putExtra("CID", CID);
+        intent.putExtra("className", className);
+        startActivity(intent);
 
     }
 
