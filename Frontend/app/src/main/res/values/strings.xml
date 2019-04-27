@@ -82,5 +82,7 @@
     <string name="send">Send</string>
     <string name="addclass">AddClass</string>
     <string name="addlecture">AddLecture</string>
+    <string name="create">Create</string>
+    <string name="type_class_name">Type Class Name</string>
 
 </resources>

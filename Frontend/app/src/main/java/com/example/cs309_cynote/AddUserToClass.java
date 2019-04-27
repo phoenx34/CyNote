@@ -11,7 +11,8 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 
 /**
- * AddUserToClass page, this page is used to add the student or TA type user into specific class.
+ * AddUserToClass page, this page is used to add the student or TA type user into specific class,
+ * or create new class by Professor type user.
  *
  * @author Zheming Fan
  */
@@ -171,6 +172,14 @@ public class AddUserToClass extends AppCompatActivity {
 //
 //        }
     }
+
+    /**
+     * Create new class, this method only used by Professor type user.
+     */
+    public void CreateNewClass() {
+
+    }
+
 
     /**
      * Cancel the adding action and go back to ClassSelection page.
