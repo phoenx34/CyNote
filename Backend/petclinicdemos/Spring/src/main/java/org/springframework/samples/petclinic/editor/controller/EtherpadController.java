@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/notepad")
+@RequestMapping("/")
 public class EtherpadController {
     String sessionID = null;
     String authorID = null;

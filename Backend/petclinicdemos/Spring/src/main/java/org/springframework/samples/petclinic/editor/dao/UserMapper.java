@@ -3,9 +3,12 @@ package org.springframework.samples.petclinic.editor.dao;
 import org.springframework.samples.petclinic.editor.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
+@Mapper
+@Repository
 public interface UserMapper {
 	
 	@Select("select * from t_user")
