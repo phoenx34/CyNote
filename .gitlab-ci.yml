@@ -77,6 +77,8 @@ lintDebug:
   - yes | android-sdk-linux/tools/bin/sdkmanager --licenses
   - set -o pipefail
   
+  tags:
+   - android_tag
   script:
     - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
 
@@ -99,6 +101,8 @@ assembleDebug:
   - yes | android-sdk-linux/tools/bin/sdkmanager --licenses
   - set -o pipefail
   
+  tags:
+   - android_tag
   script:
     - ./gradlew assembleDebug
   artifacts:
@@ -124,6 +128,8 @@ debugTests:
   - yes | android-sdk-linux/tools/bin/sdkmanager --licenses
   - set -o pipefail
   
+  tags:
+   - android_tag
   script:
     - ./gradlew -Pci --console=plain :app:testDebug
     
