@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 //import android.widget.Button;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.android.volley.Response;
@@ -18,10 +19,10 @@ import org.json.JSONException;
  */
 public class AddUserToClass extends AppCompatActivity {
 
-    private EditText editInputClassCode;
+    private EditText editInputClassCode, editInputClassName;
 //    private Button cancelFromAddToClass, updateFromAddToClass;
     private int uid, cid;
-    private APICalls api;
+    private String userType, newClassName;
 
 
     @Override
@@ -41,7 +42,8 @@ public class AddUserToClass extends AppCompatActivity {
                 throw new Exception("No data received");
 
             //Try pulling data from extras
-            SetUid(extras.getInt("UID"));
+            setUid(extras.getInt("UID"));//get UID
+            setUserType(extras.getString("userType"));//get userType
             //If data does not exist, big oof
 
             }
@@ -53,7 +55,27 @@ public class AddUserToClass extends AppCompatActivity {
             e.printStackTrace();
         }
         editInputClassCode = findViewById(R.id.addToClassInput);
+        editInputClassName = findViewById(R.id.NewClassNameInput);
 
+        //check user type and visible corresponding button
+        if(userType.equalsIgnoreCase("Professor") || userType.contains("test"))
+        {
+            //visible add class TextView and Button
+            editInputClassCode.setVisibility(View.VISIBLE);
+            Button classCodeInputBut = findViewById(R.id.CreateClassBut);
+            classCodeInputBut.setVisibility(View.VISIBLE);
+            //visible create class TextView and Button
+            editInputClassName.setVisibility(View.VISIBLE);
+            Button classNameInputBut = findViewById(R.id.addUserToClassBut);
+            classNameInputBut.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            //visible add class TextView and Button
+            editInputClassCode.setVisibility(View.VISIBLE);
+            Button classCodeInputBut = findViewById(R.id.CreateClassBut);
+            classCodeInputBut.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -64,14 +86,16 @@ public class AddUserToClass extends AppCompatActivity {
     public void addUserToClass(final View view) {
 
 //        String url = "http://cs309-sd-7.misc.iastate.edu:8080/";//waiting for backend path /*****
-        String inputClassCode = editInputClassCode.getText().toString();//record class code from input
-        api = new APICalls(getApplicationContext());//new APICalls
+        int inputClassCode = Integer.parseInt(editInputClassCode.getText().toString());//record class code from input
+        String inputStringCheck = editInputClassCode.getText().toString();
+        final APICalls api = new APICalls(getApplicationContext());//new APICalls
 
         //check if the Code is null
-        if(inputClassCode == null || inputClassCode.trim().length() == 0) {
+        if(inputStringCheck == null || inputStringCheck.trim().length() == 0) {
             Toast.makeText(getApplicationContext(), "Invalid class name, try again!", Toast.LENGTH_LONG).show();
             return;
         }
+        this.setCid(inputClassCode);//set CID from input
 
         //create url link with UID and CID
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/addclass/";
@@ -82,7 +106,7 @@ public class AddUserToClass extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //call API to get class list and go to ClassSelection page
-                api.getClassList(view, getUid());
+                api.getClassList(view, getUid(), userType);
             }
         };
 
@@ -112,7 +136,7 @@ public class AddUserToClass extends AppCompatActivity {
 //
 //                try {
 //                    JSONObject jsonObj = new JSONObject(response);
-//                    SetCid(jsonObj.getInt("CID"));
+//                    setCid(jsonObj.getInt("CID"));
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }
@@ -176,8 +200,45 @@ public class AddUserToClass extends AppCompatActivity {
     /**
      * Create new class, this method only used by Professor type user.
      */
-    public void CreateNewClass() {
+    public void CreateNewClass(final View view) throws JSONException {
 
+        newClassName = editInputClassName.toString();//record class name from input
+        String url= "http://cs309-sd-7.misc.iastate.edu:8080/classes";//create url
+        //create json String for request body
+        String json = "{\"cid\":\"" + 0 + "\"," +
+                "\"name\":\"" + newClassName + "\"}";
+
+        //create new api
+        final APICalls api = new APICalls(getApplicationContext());
+
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println(response);
+
+                //Toast massage
+                Toast.makeText(getApplicationContext(),"Class created!", Toast.LENGTH_LONG).show();
+
+                //call APICalls.getClassList to get class list and go to ClassSelection page
+                api.getClassList(view, getUid(), userType);
+            }
+        };
+
+        //Set up listener for error case
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Class created fails");
+                //Toast massage
+                Toast.makeText(getApplicationContext(),"Class creation FAILS!", Toast.LENGTH_LONG).show();
+                System.out.println(error.getMessage());
+
+            }
+        };
+
+        System.out.println("Calling API");
+        api.volleyPost(url, json, responseListener, errorListener);//send JSON request
     }
 
 
@@ -193,7 +254,7 @@ public class AddUserToClass extends AppCompatActivity {
      * Set CID as int
      * @param receivedInteger int number for setting CID
      */
-    public void SetCid(int receivedInteger)
+    public void setCid(int receivedInteger)
     {
         cid = receivedInteger;
     }
@@ -207,20 +268,34 @@ public class AddUserToClass extends AppCompatActivity {
     }
 
     /**
-     * Set UID as int
+     * Set UID as int.
      * @param receivedInteger int number for setting UID
      */
-    public void SetUid(int receivedInteger)
+    public void setUid(int receivedInteger)
     {
         uid = receivedInteger;
     }
 
     /**
-     * Get UID
+     * Get UID.
      * @return Return UID as int
      */
     public int getUid(){
         return uid;
     }
+
+
+    public void setUserType(String inputUserType){
+        userType = inputUserType;
+    }
+
+    /**
+     * Get user type.
+     * @return Return user type as String
+     */
+    public String getUserType(){
+        return userType;
+    }
+
 
 }

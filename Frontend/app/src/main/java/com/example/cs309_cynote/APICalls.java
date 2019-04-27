@@ -290,6 +290,7 @@ public class APICalls{
 
                     int status = jsonObj.getInt("status");
                     int UID = jsonObj.getInt("UID");
+                    String userType = jsonObj.getString("userType");
 
                     switch(status){
                         case 3: throw new Exception("Invalid username, try again!");
@@ -298,7 +299,7 @@ public class APICalls{
                     }
 
                     //Call another method to make another get request using the received stuff
-                    getClassList(view, UID);
+                    getClassList(view, UID, userType);
                 }
                 catch(JSONException e){
                     System.out.println(e.getMessage());
@@ -345,7 +346,7 @@ public class APICalls{
      * @param view  View selected to submit login form
      * @param UID  Received ID from login
      */
-    public void getClassList(final View view, final int UID){
+    public void getClassList(final View view, final int UID, final String UserType){
 
         System.out.println("getClassList: \n"+UID);
 
@@ -369,6 +370,7 @@ public class APICalls{
                     Intent intent = new Intent(view.getContext(), ClassSelection.class);
                     intent.putExtra("classList", response);         //Add classList to ClassSelection intent
                     intent.putExtra("UID", UID);                    //Add UID to ClassSelection intent
+                    intent.putExtra("userType", UserType);         //Add user type to classSelection intent
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);       //We are starting an intent outside of an activity context, so this is needed
                     applicationContext.startActivity(intent);
                 }
