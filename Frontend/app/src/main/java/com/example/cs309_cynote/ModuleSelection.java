@@ -12,6 +12,9 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.objects.ClEnt;
+import com.example.objects.Lecture;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,12 +31,12 @@ public class ModuleSelection extends AppCompatActivity {
     ExpandableListView expListView;                                     //Object that represents the list of modules
     com.example.expandablelistview.ExpandableListAdapter listAdapter;   //Helper object to handle data for expListView
 
-    List<String> lectureList;                       //List that contains all the lecture headers and references their children
-    List<Integer> idList;                           //Parallel list to hold lectureIDs (don't want to mess with this list api)
-    HashMap<String, List<String>> lectureChildren;  //Map of children for every lecture
+    private List<String> dropdownHeaders;                       //List that contains all the lecture headers and references their children
+    private List<Integer> idList;                           //Parallel list to hold lectureIDs (don't want to mess with this list api)
+    private HashMap<String, List<String>> dropdownMap;  //Map of children for every lecture
 
-    String className;   //Name of the selected class
-    int CID;            //CID of the selected class
+    private ClEnt clEnt;                    //Class selected to get here
+    private List<Lecture> lectures;         //List of lectures for that class
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,90 +67,76 @@ public class ModuleSelection extends AppCompatActivity {
             ]
         */
 
-        //Grab the extras passed through intent, received from the server upon login
-        Bundle extras = getIntent().getExtras();
+
+        /*
+        Toast.makeText(applicationContext, "There was an error retrieving the lecture list", Toast.LENGTH_LONG).show();
+                    System.out.println("Get moduleList error");
+                    System.out.println(error.getMessage());
+         */
+
+        //Grab the android intent
+        Intent intent = getIntent();
 
 
-        lectureList = new ArrayList<String>();
-        idList = new ArrayList<Integer>();
-        lectureChildren = new HashMap<String, List<String>>();
+        //Initialize empty array of lectures
+        lectures = new ArrayList<Lecture>();
+
+        //To add sample data:
+        //lectures.add(new Lecture(1, "Lecture 1", new ArrayList<String>()));
 
 
-        //--------------------------------------------------------------------
-        // Grabbing data passed through intent and parsing it
-        //--------------------------------------------------------------------
-        try {
-            //To use sample data
-            if(sampleData)
-                throw new Exception("Using sample data, skipping try/catch");
+        // Grab ClEnt passed through intent
+        try{
+            //Grab the received User
+            ClEnt clEnt = (ClEnt)intent.getSerializableExtra("Class");
+            if(clEnt == null || clEnt.getLectureList() == null || clEnt.getLectureList().isEmpty())
+                throw new Exception("No dropdownHeaders received in ModuleSelection");
 
 
-            if (extras.isEmpty())
-                throw new Exception("No extras received in ModuleSelection");
-
-
-            //No need to check for invalid className, in order to get here you need one
-            this.className = extras.getString("className");
-
-            String moduleList = extras.getString("moduleList");
-            if (moduleList == null || moduleList.isEmpty())
-                throw new Exception("No moduleList received in ModuleSelection");
-
-            //No need to check for invalid CID, in order to get here you need one
-            this.CID = extras.getInt("CID");
-
-
-            //Turn received moduleList into an array
-            JSONArray arr = new JSONArray(moduleList);
-            //For every lecture object in the array (they are sent backwards, so iterate backwards)
-            for (int i = arr.length()-1; i >= 0;  i--) {
-
-                //Grab the next lecture object
-                String lectureStr = arr.get(i).toString();
-                JSONObject lecture = new JSONObject(lectureStr);
-
-                //Grab the lecture ID
-                int LID = lecture.getInt("id");
-
-                //Add this lecture to the main list
-                String lecString = "Lecture " + LID;
-                lectureList.add(lecString);
-                idList.add(LID);
-
-
-                //Adding child data
-                List<String> childData = new ArrayList<String>();
-                //Every lecture has a Shoutout, so this can be added unconditionally
-                childData.add("Shoutout");
-
-                //If there are any notes included, we would add them here
-                //However, that is not set up on back end yet
-
-                //Add this to the main child list
-                lectureChildren.put(lecString, childData); // Header, Child data
-            }
-        }
-        catch(JSONException e) {
-            System.out.println("JSONException: ");
-            System.out.println(e.getMessage());
+            this.clEnt = clEnt;
+            this.lectures = clEnt.getLectureList();
         }
         catch(Exception e){
             System.out.println("Exception: ");
             System.out.println(e.getMessage());
         }
 
-        if(sampleData)
-            prepareListData();
 
 
-        listAdapter = new com.example.expandablelistview.ExpandableListAdapter(this, lectureList, lectureChildren);
+
+
+        //Initialize various lists
+        dropdownMap = new HashMap<String, List<String>>();
+        dropdownHeaders = new ArrayList<String>();
+
+        //For every lecture received
+        for(int i = 0; i < lectures.size(); i++){
+            //Grab the Lecture and its name from the list
+            Lecture lecture = lectures.get(i);
+            String lectureName = lecture.getLectureName();
+
+            //Create a new dropdown header with lectureName
+            dropdownHeaders.add(lectureName);
+
+            //Create the dropdown menu for this lecture header
+            List<String> dropdown = new ArrayList<String>();
+            dropdown.add("Shoutout");
+            dropdown.add("Notes(Collaborative)");
+            //TODO get the list of static notes and add them here in order of rating
+
+            //Map this lecture header to its dropdown menu
+            dropdownMap.put(lectureName, dropdown);     //Header, Child data
+        }
+
+
+        listAdapter = new com.example.expandablelistview.ExpandableListAdapter(this, dropdownHeaders, dropdownMap);
         //Setting list adapter
         expListView.setAdapter(listAdapter);
 
 
         //Update the "class_name" TextView with new String
         TextView classNameField = findViewById(R.id.textView9);
-        classNameField.setText(className);
+        classNameField.setText(clEnt.getClassName());
 
 
 
@@ -175,7 +164,7 @@ public class ModuleSelection extends AppCompatActivity {
             public void onGroupExpand(int groupPosition) {
                 /*//Printing that selected view was expanded
                 Toast.makeText(getApplicationContext(),
-                        lectureList.get(groupPosition) + " Expanded",
+                        dropdownHeaders.get(groupPosition) + " Expanded",
                         Toast.LENGTH_SHORT).show();
                         */
             }
@@ -188,7 +177,7 @@ public class ModuleSelection extends AppCompatActivity {
             public void onGroupCollapse(int groupPosition) {
                 /*//Printing that selected view was collapsed
                 Toast.makeText(getApplicationContext(),
-                        lectureList.get(groupPosition) + " Collapsed",
+                        dropdownHeaders.get(groupPosition) + " Collapsed",
                         Toast.LENGTH_SHORT).show();
                         */
 
@@ -203,14 +192,21 @@ public class ModuleSelection extends AppCompatActivity {
                                         int groupPosition, int childPosition, long id) {
 
                 // Get the selected child String, contained in HashMap<String, List<String>>
-                String data = lectureChildren.get(lectureList.get(groupPosition)).get(childPosition);
+                String data = dropdownMap.get(dropdownHeaders.get(groupPosition)).get(childPosition);
 
 
                 if(data.equals("Shoutout")) {
-                    String lecName = lectureList.get(groupPosition);
-                    int lid = idList.get(groupPosition);
+                    String lecName = dropdownHeaders.get(groupPosition);
 
-                    gotoShoutout(v, lid, lecName);
+                    //Check through the list of lectures to find the Lecture that matches this lectureName
+                    Lecture lecture = new Lecture();
+                    for(Lecture lec : lectures){
+                        if(lec.getLectureName() == lecName)
+                            lecture = lec;
+                    }
+
+                    //TODO pass the entire lecture, going to bed tho
+                    gotoShoutout(v, lecture.getLID(), lecName);
                 }
                 //There is no system set up for notes so we just go to a generic notes page
                 else
@@ -249,13 +245,13 @@ public class ModuleSelection extends AppCompatActivity {
      * hooked up, this will use a get request to populate the list.
      */
     private void prepareListData() {
-        lectureChildren = new HashMap<String, List<String>>();
-        lectureList = new ArrayList<String>();
+        dropdownMap = new HashMap<String, List<String>>();
+        dropdownHeaders = new ArrayList<String>();
 
         // Adding child data
-        lectureList.add("Lecture 4");
-        lectureList.add("Lecture 5");
-        lectureList.add("Lecture 6");
+        dropdownHeaders.add("Lecture 4");
+        dropdownHeaders.add("Lecture 5");
+        dropdownHeaders.add("Lecture 6");
 
         // Adding child data
         List<String> lec4 = new ArrayList<String>();
@@ -271,9 +267,9 @@ public class ModuleSelection extends AppCompatActivity {
         lec6.add("Shoutout");
         lec6.add("Notes(Collaborative)");
 
-        lectureChildren.put(lectureList.get(0), lec4); // Header, Child data
-        lectureChildren.put(lectureList.get(1), lec5);
-        lectureChildren.put(lectureList.get(2), lec6);
+        dropdownMap.put(dropdownHeaders.get(0), lec4); // Header, Child data
+        dropdownMap.put(dropdownHeaders.get(1), lec5);
+        dropdownMap.put(dropdownHeaders.get(2), lec6);
     }
 
     /**
@@ -282,9 +278,10 @@ public class ModuleSelection extends AppCompatActivity {
      * @param view
      */
     public void goToAddNewLecture(View view){
+        //TODO pass the whole clEnt, going to bed tho
         Intent intent = new Intent(this, AddNewLecture.class);
-        intent.putExtra("CID", CID);
-        intent.putExtra("className", className);
+        intent.putExtra("CID", clEnt.getCID());
+        intent.putExtra("className", clEnt.getClassName());
         startActivity(intent);
 
     }

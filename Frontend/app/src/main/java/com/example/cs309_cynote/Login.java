@@ -1,32 +1,17 @@
 package com.example.cs309_cynote;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.objects.ClEnt;
+import com.example.objects.User;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 /**
  * Login page, this should be the initial page that shows up in APP
@@ -78,8 +63,43 @@ public class Login extends AppCompatActivity
         EditText editPassword = findViewById(R.id.passwordInput);
         String password = editPassword.getText().toString();
 
-        APICalls apiCalls = new APICalls(this.getApplicationContext());
-        apiCalls.getUID(view, screenname, password);
+        final APICalls apiCalls = new APICalls(this.getApplicationContext());
+
+
+        //Define callbacks for call to getClassList
+        final APICallbacks classCallbacks = new APICallbacks<User>() {
+            @Override
+            public void onResponse(User user) {
+                //Now that this user is completed, move to ClassSelection as login is complete
+                Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                intent.putExtra("User", user);         //Add User to ClassSelection intent
+                startActivity(intent);
+            }
+
+            @Override
+            public void onVolleyError(VolleyError error) {
+                System.out.println(error.getMessage());
+            }
+        };
+
+
+        //Define callbacks for call to getUserNoClassList
+        APICallbacks userCallbacks = new APICallbacks<User>() {
+            @Override
+            //getUserNoClasses returns a User object with an empty classList
+            public void onResponse(User user) {
+                //Received User is missing its classList, let's get that
+                apiCalls.getClassList(user, classCallbacks);
+            }
+
+            @Override
+            public void onVolleyError(VolleyError error) {
+                System.out.println(error.getMessage());
+            }
+        };
+
+        //Begin the magic
+        apiCalls.getUserNoClassList(screenname, password, userCallbacks);
     }
 
 

@@ -13,6 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.example.objects.ClEnt;
+import com.example.objects.User;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,8 +33,8 @@ import java.util.Random;
  * If unsuccessful will display a page with no buttons.
  */
 public class ClassSelection extends AppCompatActivity {
-    private static int UID;
-    List<ClassObj> classes = null;
+    private User user = null;
+    private List<ClEnt> classes = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,7 @@ public class ClassSelection extends AppCompatActivity {
         setContentView(R.layout.activity_class_selection);
 
 
-        //the layout on which you are working
+        //The layout on which we are working
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.relLayout);
 
         //The dummy space used for easier horizontal alignment here
@@ -46,72 +50,27 @@ public class ClassSelection extends AppCompatActivity {
 
 
 
-        /*  Server response will come in this form:
-            {
-                "classes" : [
-                {
-                    "cid":"1",
-                    "name":"ComS 311"
-                },
-                {
-                    "cid":"2",
-                    "name":"ComS 309"
-                }
-                ]
-            }
-        */
-
-        //Grab the extras passed through intent, received from the server upon login
-        Bundle extras = getIntent().getExtras();
+        //Grab the android intent
+        Intent intent = getIntent();
 
 
-        classes = new ArrayList<ClassObj>();
+        //Initialize empty list of classes
+        classes = new ArrayList<ClEnt>();
 
         //To add sample data:
-        //classes.add(new ClassObj(1, "SampleClass"));
+        //classes.add(new ClEnt(1, "SampleClass"));
 
 
-        //--------------------------------------------------------------------
-        // Grabbing data passed through intent and parsing it
-        //--------------------------------------------------------------------
+        // Grab User passed through intent
         try{
-            if(extras.isEmpty())
-                throw new Exception("No extras received in ClassSelection");
-
-
-
-            String classList = extras.getString("classList");
-            if(classList == null || classList.isEmpty())
+            //Grab the received User
+            User user = (User)intent.getSerializableExtra("User");
+            if(user == null || user.getClassList() == null || user.getClassList().isEmpty())
                 throw new Exception("No classList received in ClassSelection");
 
-            //No need to check for invalid UID, that is done in the prior API calls
-            this.UID = extras.getInt("UID");
 
-
-            //Turn received classList from JSON into an object
-            JSONObject classListJSON = new JSONObject(classList);
-
-            //Grab the 'classes' array from the object
-            JSONArray arr = classListJSON.getJSONArray("classes");
-            for (int i = 0; i < arr.length(); i++) {
-
-                //Turn each index in the array into another object
-                String className = arr.get(i).toString();
-                JSONObject set = new JSONObject(className);
-
-                //Grab the cid and the className from that object
-                int cid = set.getInt("id");
-                String name = set.getString("name");
-                //And create a ClassObj with them
-                ClassObj classObj = new ClassObj(cid, name);
-
-                //Add them to the array to be used with class button creation
-                classes.add(classObj);
-            }
-        }
-        catch(JSONException e) {
-            System.out.println("JSONException: ");
-            System.out.println(e.getMessage());
+            this.user = user;
+            this.classes = user.getClassList();
         }
         catch(Exception e){
             System.out.println("Exception: ");
@@ -153,10 +112,9 @@ public class ClassSelection extends AppCompatActivity {
             btn.setBackgroundColor(color);
 
             //Grab the current ClassObj
-            ClassObj currentClass = classes.get(i);
+            ClEnt currentClass = classes.get(i);
             //Then change the name using that ClassObj
-            btn.setText(currentClass.getName());
-            //TODO pass currentClass.getCid() somewhere for something
+            btn.setText(currentClass.getClassName());
 
 
             //Every set of two buttons gets lower down
@@ -308,20 +266,42 @@ public class ClassSelection extends AppCompatActivity {
      * @param view
      */
 
-    public void gotoModuleSelection(View view){
+    public void gotoModuleSelection(final View view){
         Button b = (Button)view;
         String className = b.getText().toString();     //Get className from button text
 
-        //Check through the list of classes to find the ID that matches this className
-        int CID = 0;
-        for(ClassObj clazz : classes){
-            if(clazz.getName() == className)
-                CID = clazz.getCid();
+        //Check through the list of classes to find the ClEnt that matches this className
+        ClEnt clazz = new ClEnt();
+        for(ClEnt claz : classes){
+            if(claz.getClassName() == className)
+                clazz = claz;
         }
 
-        //Get the list of modules and transfer to ModuleSelection
+
+        //Define callbacks for call to getModuleList
+        APICallbacks moduleCallbacks = new APICallbacks<ClEnt>() {
+            @Override
+            public void onResponse(ClEnt clEnt) {
+                //Now that this ClEnt is completed, move to ModuleSelection
+                Intent intent = new Intent(view.getContext(), ModuleSelection.class);
+                intent.putExtra("Class", clEnt);         //Add User to ClassSelection intent
+                startActivity(intent);
+            }
+
+            @Override
+            public void onVolleyError(VolleyError error) {
+                System.out.println(error.getMessage());
+            }
+        };
+
+        //Make the call
         APICalls apiCalls = new APICalls(this.getApplicationContext());
-        apiCalls.getModuleList(view, className, CID);
+        apiCalls.getModuleList(clazz, moduleCallbacks);
+
+
+        /*
+
+         */
     }
 
 
@@ -355,7 +335,7 @@ public class ClassSelection extends AppCompatActivity {
      */
     public void goToAddNewClass(View view){
         Intent intent = new Intent(this, AddUserToClass.class);
-        intent.putExtra("UID", UID);
+        intent.putExtra("UID", user.getUID());
         startActivity(intent);
 
     }

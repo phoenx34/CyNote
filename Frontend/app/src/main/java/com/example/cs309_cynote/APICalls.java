@@ -3,6 +3,7 @@ package com.example.cs309_cynote;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -14,11 +15,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.objects.ClEnt;
+import com.example.objects.Lecture;
+import com.example.objects.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -248,18 +255,19 @@ public class APICalls{
 
 
     /**
-     * Given correct login information, this method calls the server for a UserID.
+     * Given correct login information, this method calls the server for User information,
+     * comprising of a User ID and the type of User (ie. Professor, TA, Student).
      * This method then calls getClassList with the received UserID to make another
      * get request for the list of classes tied to the user.
      *
      * Screenname, password  -->  Server
-     *               UserID  <--  Server
+     *                 User  <--  Server
      *
-     * @param view  View selected to submit login form
      * @param screenname Screenname/Username to submit
      * @param password Password to submit
+     * @param callbacks Callbacks to use on responses
      */
-    public void getUID(final View view, String screenname, String password){
+    public void getUserNoClassList(String screenname, String password, final APICallbacks callbacks){
 
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/userLogin";    //Server-side url to receive screenname and password as params
 
@@ -288,18 +296,24 @@ public class APICalls{
                     // {"status":3,"UID":0}
                     JSONObject jsonObj = new JSONObject(response);
 
+                    //Ensure the login was successful
                     int status = jsonObj.getInt("status");
-                    int UID = jsonObj.getInt("UID");
-                    String userType = jsonObj.getString("userType");
-
                     switch(status){
                         case 3: throw new Exception("Invalid username, try again!");
-                        //case 4: Case 4 clears, no need to throw an exception
+                            //case 4: Case 4 clears, no need to throw an exception
                         case 5: throw new Exception("Invalid password, try again!");
                     }
 
-                    //Call another method to make another get request using the received stuff
-                    getClassList(view, UID, userType);
+                    //Grab the User data
+                    int UID = jsonObj.getInt("UID");
+                    String userType = jsonObj.getString("userType");
+
+                    //Make a new User object
+                    User user = new User(UID, userType);
+
+                    //Return the User object
+                    callbacks.onResponse(user);
+
                 }
                 catch(JSONException e){
                     System.out.println(e.getMessage());
@@ -318,9 +332,7 @@ public class APICalls{
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("Get UID error");
-                System.out.println("Login unsuccessful");
-                System.out.println(error.getMessage());
+                callbacks.onVolleyError(error);
             }
         };
 
@@ -336,66 +348,105 @@ public class APICalls{
 
 
     /**
-     * Upon successfully submitting login form and receiving a UserID, call this method
-     * (usually through a callback object) with received UID to get the list of classes
-     * tied to UID
+     * Takes a User object and updates its classList using its UID.
      *
      *         UID  -->  Server
      *  Class List  <--  Server
      *
-     * @param view  View selected to submit login form
-     * @param UID  Received ID from login
+     * @param user  User object to update classList of
+     * @param callbacks Callbacks to use on responses
      */
-    public void getClassList(final View view, final int UID, final String UserType){
+    public void getClassList(final User user, final APICallbacks callbacks){
 
+        int UID = user.getUID();
         System.out.println("getClassList: \n"+UID);
 
+
+        //            http://cs309-sd-7.misc.iastate.edu:8080/users_class/{id}
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080/users_class";    //Server-side url to receive list of classes for UID
+
+        //Add UID to path
+        url += "/" + UID;
+
+
+
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                /*  Server response will come in this form:
+                {
+                    "classes" : [
+                        {
+                            "cid":"1",
+                            "name":"ComS 311"
+                        },
+                        {
+                            "cid":"2",
+                            "name":"ComS 309"
+                        }
+                    ]
+                }
+                    */
+
+                //Create an array to hold the classes
+                List<ClEnt> classes = new ArrayList<ClEnt>();
+
+                //Decode the response:
+                try{
+                    //Turn received classList(response) from JSON into an object
+                    JSONObject classListJSON = new JSONObject(response);
+
+                    //Grab the 'classes' array from the object
+                    JSONArray arr = classListJSON.getJSONArray("classes");
+                    for (int i = 0; i < arr.length(); i++) {
+
+                        //Turn each index in the array into another object
+                        String className = arr.get(i).toString();
+                        JSONObject clazz = new JSONObject(className);
+
+                        //Grab the cid and the className from that object
+                        int cid = clazz.getInt("id");
+                        String name = clazz.getString("name");
+
+                        //And create a ClassObj with them
+                        ClEnt clEnt = new ClEnt(cid, name);
+
+                        //Add them to the array to be used with class button creation
+                        classes.add(clEnt);
+                    }
+                }
+                catch(JSONException e) {
+                    System.out.println("JSONException: ");
+                    System.out.println(e.getMessage());
+                }
+                catch(Exception e){
+                    System.out.println("Exception: ");
+                    System.out.println(e.getMessage());
+                }
+
+                //Update the classList of the given User
+                user.setClassList(classes);
+
+                //Continue
+                callbacks.onResponse(user);
+
+            }
+        };
+
+        //Set up listener for error case
+        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callbacks.onVolleyError(error);
+            }
+        };
+
+
+        //Uses the APICalls generic volley get request
         try{
-
-            //            http://cs309-sd-7.misc.iastate.edu:8080//users_class//{id}
-            String url = "http://cs309-sd-7.misc.iastate.edu:8080/users_class";    //Server-side url to receive list of classes for UID
-
-            //Add UID to path
-            url += "/" + UID;
-
-
-
-            //Set up listener for success case
-            Response.Listener<String> responseListener = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    System.out.println("ClassList received:\n");
-                    System.out.println(response);
-
-                    Intent intent = new Intent(view.getContext(), ClassSelection.class);
-                    intent.putExtra("classList", response);         //Add classList to ClassSelection intent
-                    intent.putExtra("UID", UID);                    //Add UID to ClassSelection intent
-                    intent.putExtra("userType", UserType);         //Add user type to classSelection intent
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);       //We are starting an intent outside of an activity context, so this is needed
-                    applicationContext.startActivity(intent);
-                }
-            };
-
-            //Set up listener for error case
-            //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
-            Response.ErrorListener errorListener = new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    System.out.println("Get classList error");
-                    System.out.println("Login unsuccessful");
-                    System.out.println(error.getMessage());
-                }
-            };
-
-
-            //Uses the APICalls generic volley get request
-            try{
-                volleyGet(url, responseListener, errorListener);
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
-
+            volleyGet(url, responseListener, errorListener);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -408,68 +459,127 @@ public class APICalls{
 
 
     /**
-     * Get request using class ID to get the list of modules associated with this class
+     * Takes a ClEnt object and updates its lectureList using its CID.
      *
      *          CID  -->  Server
      *  Module List  <--  Server
      *
-     * @param view  View selected to submit login form
-     * @param CID  CID of class to search
+     * @param clEnt Class Object to update lectureList of
+     * @param callbacks Callbacks to use on responses
      */
-    public void getModuleList(final View view, final String className, final int CID){
+    public void getModuleList(final ClEnt clEnt, final APICallbacks callbacks){
 
+        int CID = clEnt.getCID();
         System.out.println("getModuleList: \n"+CID);
 
+
+        //            http://cs309-sd-7.misc.iastate.edu:8080/classes/{CID}/lecture
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080/classes";    //Server-side url to receive list of modules/lectures for Class CID
+
+        //Add CID to path
+        url += "/" + CID + "/lecture";
+
+
+
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                /*  Server response will come in this form:
+                [
+                    {
+                        "id":1,
+                        "shoutout_history":[],
+                        "clEnt":null
+                    },
+                    {
+                        "id":2,
+                        "shoutout_history":[],
+                        "clEnt":null
+                    }
+                ]
+                */
+
+                //Create an array to hold the lectures
+                List<Lecture> lectures = new ArrayList<Lecture>();
+
+                //Decode the response:
+                try{
+                    //Turn received lectureList(response) from JSON into an array
+                    JSONArray arr = new JSONArray(response);
+                    for (int i = 0; i < arr.length(); i++) {
+
+                        //Turn each index in the array into another object
+                        String lectureStr = arr.get(i).toString();
+                        JSONObject lec = new JSONObject(lectureStr);
+
+                        //Grab the LID and the lectureName from the JSON
+                        int lid = lec.getInt("id");
+                        //String name = lec.getString("name");
+                        String lectureName = "Lectures have no name " + lid;     //Names don't exist atm
+
+
+
+                        //Make an empty array to hold the ShoutOut history
+                        List<String> soHistory = new ArrayList<String>();
+
+                        //Get the ShoutOut History string and turn it into an array
+                        String soString = lec.getString("shoutout_history");
+                        JSONArray soArray = new JSONArray(soString);
+
+                        //Parse the ShoutOut History JSONArray
+                        for (int j = 0; j < soArray.length(); j++) {
+                            String message = soArray.get(j).toString();
+                            soHistory.add(message);
+                        }
+
+
+
+                        //And create a Lecture with them
+                        Lecture lecture = new Lecture(lid, lectureName, soHistory);
+
+                        //Add them to the array to be used module list generation
+                        lectures.add(lecture);
+                    }
+                }
+                catch(JSONException e) {
+                    System.out.println("JSONException: ");
+                    System.out.println(e.getMessage());
+                }
+                catch(Exception e){
+                    System.out.println("Exception: ");
+                    System.out.println(e.getMessage());
+                }
+
+
+                //Update the given ClEnt's lectureList
+                clEnt.setLectureList(lectures);
+
+                //Continue
+                callbacks.onResponse(clEnt);
+            }
+        };
+
+        //Set up listener for error case
+        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callbacks.onVolleyError(error);
+            }
+        };
+
+
+        //Uses the APICalls generic volley get request
         try{
-            //            http://cs309-sd-7.misc.iastate.edu:8080/classes/{CID}/lecture
-            String url = "http://cs309-sd-7.misc.iastate.edu:8080/classes";    //Server-side url to receive list of modules/lectures for Class CID
-
-            //Add CID to path
-            url += "/" + CID + "/lecture";
-
-
-
-            //Set up listener for success case
-            Response.Listener<String> responseListener = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    System.out.println("Module list received:\n");
-                    System.out.println(response);
-
-                    Intent intent = new Intent(view.getContext(), ModuleSelection.class);
-                    intent.putExtra("className", className);
-                    intent.putExtra("moduleList", response);
-                    intent.putExtra("CID", CID);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);       //We are starting an intent outside of an activity context, so this is needed
-                    applicationContext.startActivity(intent);
-                }
-            };
-
-            //Set up listener for error case
-            //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
-            Response.ErrorListener errorListener = new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(applicationContext, "There was an error retrieving the lecture list", Toast.LENGTH_LONG).show();
-                    System.out.println("Get moduleList error");
-                    System.out.println(error.getMessage());
-                }
-            };
-
-
-            //Uses the APICalls generic volley get request
-            try{
-                //Gets an array rather than an object, important distinction
-                volleyGetArray(url, responseListener, errorListener);
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
-
+            //Gets an array rather than an object, important distinction
+            volleyGetArray(url, responseListener, errorListener);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
+
 
     }
 
