@@ -50,4 +50,9 @@ dependencies {
     // required if you want to use Mockito for Android tests
     androidTestImplementation 'org.mockito:mockito-android:2.7.22'
 
+    // the dependecies below are for the qrCode
+    // zXing
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
+
 }

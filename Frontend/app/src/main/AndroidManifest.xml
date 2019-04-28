@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- Used for file upload in UploadNote.java -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="ExtraText,GoogleAppIndexingWarning">
-        <activity android:name=".AddNewLecture"></activity>
+        <activity android:name=".ScanCodeActivity"></activity>
+        <activity android:name=".QrScan" />
+        <activity android:name=".AddNewLecture" />
         <activity android:name=".AddUserToClass" />
         <activity android:name=".TextbookSelection" />
         <activity android:name=".AddTextbook" />
