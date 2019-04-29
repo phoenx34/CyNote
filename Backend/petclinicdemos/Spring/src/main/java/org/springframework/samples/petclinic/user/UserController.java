@@ -332,7 +332,7 @@ public class UserController {
      * @return Return a user with a given
      */
     @RequestMapping(method = RequestMethod.GET, path = "/users/{userId}")
-    public Optional<User> findUserById(@PathVariable("userId") Integer id) {
+    public String findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
         String x = null;
@@ -343,7 +343,7 @@ public class UserController {
         			+ "\"uid\":\"" + results.get().getUID() + "\"}";
         }
         
-        return results;
+        return x;
     }
     
     
