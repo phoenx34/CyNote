@@ -17,7 +17,7 @@ maven-build:
   script:
     - cd Backend/petclinicdemos/Spring
     - mvn package -B
-  
+
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
 # artifacts are not mandatory, buts it good practice, in case auto deploy fails, you can manually download the jar.
 maven-test:
@@ -40,10 +40,10 @@ autoDeploy:
   script:
     - cd Backend/petclinicdemos/Spring
     - mvn package
-    - sudo mv target/*.jar /target/web-demo.jar 
+    - sudo mv target/*.jar /target/web-demo.jar
     - sudo systemctl stop system-web-demo
-    - sudo systemctl start system-web-demo 
-    
+    - sudo systemctl start system-web-demo
+
 #    - sudo systemctl stop systemd-web-demo
 #    - sudo systemctl start systemd-web-demo
 
@@ -52,7 +52,7 @@ autoDeploy:
 
 
 
-image: java:8-jdk 
+image: java:8-jdk
 
 
 before_script:
@@ -66,7 +66,9 @@ cache:
     - .gradle/caches
 
 androidbuild:
-  stage: build
+  stage: androidbuild
+  tags:
+   - android_tag
   script:
     - ./gradlew assemble
   artifacts:
@@ -77,19 +79,18 @@ androidbuild:
     - master
 
 androidtest:
-  stage: test
+  stage: androidtest
+  tags:
+   - android_tag
   script:
     - ./gradlew check
 
 androiddeploy:
-  stage: deploy
+  stage: androiddeploy
+  tags:
+   - android_tag
   script:
     - ./deploy
 
 after_script:
   - echo "End CI"
-
-
-
-
-
