@@ -55,26 +55,28 @@ autoDeploy:
 image: java:8-jdk
 
 
-before_script:
+#before_script:
 #  - echo `pwd` # debug
 #  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
 #  - export GRADLE_USER_HOME=`pwd`/.gradle
-  - export Frontent/.gradle
+#  - export Frontent/.gradle
 
-cache:
-  paths:
-    - .gradle/wrapper
-    - .gradle/caches
+#cache:
+#  paths:
+#    - .gradle/wrapper
+#    - .gradle/caches
 
 androidbuild:
   stage: androidbuild
   tags:
    - android_tag
   script:
+    - cd Frontend
+    - export GRADLE_USER_HOME=`pwd`/.gradle
     - ./gradlew assemble
   artifacts:
     paths:
-      - Frontend/app/build/libs/*.jar
+      - app/build/libs/*.jar
     expire_in: 1 week
   only:
     - master
