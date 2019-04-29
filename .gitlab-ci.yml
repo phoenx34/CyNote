@@ -6,7 +6,7 @@ stages:
   - autodeploy
   - androidbuild
   - androidtest
-  - androiddeploy
+  #- androiddeploy
 
 # tags: "shell" should match with the tag name provided to runner, for spring runner should execute in shell.
 # Notice that in petclinic project, the spring project is in root of master, if yours is in folder then cd to that folder.
@@ -52,61 +52,30 @@ autoDeploy:
 
 
 
-image: java:8-jdk
-
-
-before_script:
-#  - echo `pwd` # debug
-#  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
-#  - export GRADLE_USER_HOME=`pwd`/.gradle
-#  - export Frontent/.gradle
-  - apt-get --quiet update --yes
-  - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
-  - wget --quiet --output-document=android-sdk.tgz https://dl.google.com/android/android-sdk_r${ANDROID_SDK_TOOLS}-linux.tgz
-  - tar --extract --gzip --file=android-sdk.tgz
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter android-${ANDROID_COMPILE_SDK}
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter platform-tools
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter build-tools-${ANDROID_BUILD_TOOLS}
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-android-m2repository
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-google-google_play_services
-  - echo y | android-sdk-linux/tools/android --silent update sdk --no-ui --all --filter extra-google-m2repository
-  - export ANDROID_HOME=$PWD/android-sdk-linux
-  - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
-  - chmod +x ./gradlew
-
-#cache:
-#  paths:
-#    - .gradle/wrapper
-#    - .gradle/caches
-
 androidbuild:
+  image: javiersantos/android-ci:latest
   stage: androidbuild
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
   tags:
-   - android_tag
+    - android_tag
   script:
     - cd Frontend
-    - export GRADLE_USER_HOME=`pwd`/.gradle
     - ./gradlew assemble
   artifacts:
     paths:
-      - app/build/libs/*.jar
-    expire_in: 1 week
-  only:
-    - master
+      - Android_test/app/build/outputs/
+
 
 androidtest:
+  image: javiersantos/android-ci:latest
   stage: androidtest
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
   tags:
-   - android_tag
+    - android_tag
   script:
-    - ./gradlew check
-
-androiddeploy:
-  stage: androiddeploy
-  tags:
-   - android_tag
-  script:
-    - ./deploy
-
-after_script:
-  - echo "End CI"
+    - cd Frontend
+    - ./gradlew test
