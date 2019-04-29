@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+
+
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="ExtraText,GoogleAppIndexingWarning">
-        <activity android:name=".ScanCodeActivity"></activity>
+        <activity android:name=".generateQR"></activity>
+        <activity android:name=".ScanCodeActivity" />
         <activity android:name=".QrScan" />
         <activity android:name=".AddNewLecture" />
         <activity android:name=".AddUserToClass" />

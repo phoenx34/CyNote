@@ -21,6 +21,8 @@ public class QrScan extends AppCompatActivity {
     Button btn_scan;
     private static final int REQUEST_CAMERA = 1;
 
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -35,6 +37,7 @@ public class QrScan extends AppCompatActivity {
 
         }
     }
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
