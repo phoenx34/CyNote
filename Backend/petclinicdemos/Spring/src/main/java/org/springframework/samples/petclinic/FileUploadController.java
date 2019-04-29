@@ -54,19 +54,26 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/{nid}/{lecnum}")
+    @PostMapping("/{nid}/{lecnum}/{name}")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes, @PathVariable("nid") Integer nid, @PathVariable("lecnum") Integer lid) {
+            RedirectAttributes redirectAttributes, @PathVariable("nid") Integer nid, 
+            @PathVariable("lecnum") Integer lid, @PathVariable("name") String name) {
     	
         storageService.store(file);
+        String path = null;
+        path = "/files/" + file.getOriginalFilename();
         Notes note = new Notes();
+        if(path != null) {
+        	note.setAddress(path);
+        }
+        note.setTitle(name);
         note.setLecNum(lid);
         note.setNID(nid);
         notes.saveNote(note);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+        return "success";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
