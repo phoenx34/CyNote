@@ -96,7 +96,7 @@ public class UserController {
     		if(user.getScreenname().equals(screenname))
     		{
     			if(user.getPassword().equals(password)) {
-    	            return "{\"status\":4,\"UID\":" + user.getUID().toString() + "}";
+    	            return "{\"status\":4,\"UID\":" + user.getUID().toString() + ",\"userType\":\"" + user.getType() + "\"}";
     			} else {
     				return "{\"status\":5,\"UID\":0}"; 
     			}
@@ -190,6 +190,7 @@ public class UserController {
     	}
 
     	//Removes final comma
+    	// how does this only remove the last comma..?
     	result = result.replaceAll(", $", "");
     	result += "]}";
     	
@@ -312,11 +313,14 @@ public class UserController {
     }*/
     
     @PostMapping("/users") 
-    public ResponseEntity<Object> createStudent(@RequestBody User user) { 	
+    public boolean createStudent(@RequestBody User user) { 	
+    	if(usersRepository.findById(user.getUID()) != null) {
+    		return false;
+    	}
     	User savedUser = usersRepository.save(user);  	
     	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
     			.buildAndExpand(savedUser.getUID()).toUri();  	
-    	return ResponseEntity.created(location).build();  
+    	return true;  
     }
 
 
@@ -331,6 +335,13 @@ public class UserController {
     public Optional<User> findUserById(@PathVariable("userId") Integer id) {
         logger.info("Entered into Controller Layer");
         Optional<User> results = usersRepository.findById(id);
+        String x = null;
+        if(results.isPresent() == true) {
+        	x = "\"screenname\":\"" + results.get().getScreenname() + "\","
+        			+ "\"email\":\"" + results.get().getEmail() + "\","
+        			+ "\"type\":\"" + results.get().getType() + "\","
+        			+ "\"uid\":\"" + results.get().getUID() + "\"}";
+        }
         
         return results;
     }
