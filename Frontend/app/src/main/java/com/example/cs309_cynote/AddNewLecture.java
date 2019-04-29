@@ -9,13 +9,15 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.objects.ClEnt;
 
 import org.json.JSONException;
 
 public class AddNewLecture extends AppCompatActivity {
     private EditText editInputLectureID;
-    private int CID,LID;
-    private String className;
+
+    private ClEnt clEnt;
+    private int LID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,26 +25,25 @@ public class AddNewLecture extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_lecture);
         editInputLectureID = findViewById(R.id.newLectureInput);//link editText
 
-        Bundle extras = getIntent().getExtras();//get data from previous activity
+
+        //Grab the android intent
+        Intent intent = getIntent();
+
+
+        // Grab ClEnt passed through intent
         try{
-            //----Ensuring the data actually exists----\\
+            //Grab the received User
+            ClEnt clEnt = (ClEnt)intent.getSerializableExtra("Class");
+            if(clEnt == null)
+                throw new Exception("No class received in AddNewLecture");
 
-            //If the extras does not exist, big oof
-            if(extras == null)
-                throw new Exception("No data received");
-
-            //Try pulling data from extras
-            setCid(extras.getInt("CID"));//get UID
-            setClassName(extras.getString("className"));
-            //If data does not exist, big oof
+            this.clEnt = clEnt;
         }
-        catch(JSONException e) {
-            System.out.println("JSONException: ");
+        catch(Exception e){
+            System.out.println("Exception: ");
             System.out.println(e.getMessage());
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
 
@@ -54,13 +55,12 @@ public class AddNewLecture extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Invalid Lecture ID, try again!", Toast.LENGTH_LONG).show();
             return;
         }
-        setLid(Integer.parseInt(inputStringCheck));//record lecture code from input
+        this.LID = (Integer.parseInt(inputStringCheck)); //record lecture code from input
 
         final APICalls api = new APICalls(getApplicationContext());//new APICalls
         //create url link with CID and LID
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/classes/";
-        url += getCid() + "/" + getLid()
-        ;
+        url += clEnt.getCID() + "/" + this.LID;
 
         //get correct response to get class list and go to ClassSelection page
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -68,7 +68,11 @@ public class AddNewLecture extends AppCompatActivity {
             public void onResponse(String response) {
                 //call API to get class list and go to ClassSelection page
                 Toast.makeText(getApplicationContext(), "New Lecture is created!", Toast.LENGTH_LONG).show();
-                api.getModuleList(view, getClassName(), getCid());
+
+                //TODO
+                //Here, because we have the lecture object, just add this to the list of lectures
+
+                //api.getModuleList(view, getClassName(), getCid());
             }
         };
 
@@ -86,53 +90,5 @@ public class AddNewLecture extends AppCompatActivity {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    /**
-     * Set CID.
-     * @param inputNumber int value for setting CID
-     */
-    public void setCid(int inputNumber){
-        CID = inputNumber;
-    }
-
-    /**
-     * get CID.
-     * @return Return CID as int
-     */
-    public int getCid(){
-        return CID;
-    }
-
-    /**
-     * Set LID.
-     * @param inputNumber int value for setting LID
-     */
-    public void setLid(int inputNumber){
-        LID = inputNumber;
-    }
-
-    /**
-     * get LID.
-     * @return Return LID as int
-     */
-    public int getLid(){
-        return LID;
-    }
-
-    /**
-     * Set className.
-     * @param inputString String value for setting className
-     */
-    public void setClassName(String inputString){
-        className = inputString;
-    }
-
-    /**
-     * get className.
-     * @return Return className as String
-     */
-    public String getClassName(){
-        return className;
     }
 }

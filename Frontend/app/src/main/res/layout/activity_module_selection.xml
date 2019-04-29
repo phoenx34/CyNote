@@ -63,7 +63,7 @@
             android:onClick="goToAddNewLecture"
             android:text="@string/add_new_lecture"
 
-            android:visibility="invisible"
+            android:visibility="visible"
             tools:layout_marginRight="50dp" />
 
     </RelativeLayout>

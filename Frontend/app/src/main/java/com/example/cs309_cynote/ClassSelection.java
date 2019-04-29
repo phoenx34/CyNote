@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.objects.ClEnt;
@@ -290,6 +291,8 @@ public class ClassSelection extends AppCompatActivity {
 
             @Override
             public void onVolleyError(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "There was an error retrieving the lecture list", Toast.LENGTH_LONG).show();
+                System.out.println("There was an error retrieving the lecture list");
                 System.out.println(error.getMessage());
             }
         };

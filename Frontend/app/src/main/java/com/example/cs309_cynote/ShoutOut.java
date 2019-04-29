@@ -1,5 +1,6 @@
 package com.example.cs309_cynote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.objects.Lecture;
+import com.example.objects.Message;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,16 +45,11 @@ public class ShoutOut extends AppCompatActivity{
     /** The timeout value in milliseconds for socket connection. */
     private static final int TIMEOUT = 5000;
 
+    /** Lecture object passed from ModuleSelection */
+    Lecture lecture;
 
     /** List of messages to be displayed */
-    List<String> messageList;
-
-    /** Name of the selected lecture */
-    String lecName;
-
-    /** ID of the selected lecture */
-    int LID;
-
+    List<String> messages;
 
     /** Create an arrayAdapter to help update the listView with new messages */
     ArrayAdapter<String> arrayAdapter = null;
@@ -76,65 +75,67 @@ public class ShoutOut extends AppCompatActivity{
 
 
 
-        //Grab the extras passed through intent, received from the server upon login
-        Bundle extras = getIntent().getExtras();
-
-        //Initialize the list of messages
-        messageList = new ArrayList<String>();
-        lecName = "";
-        LID = 0;
+        //Grab the android intent
+        Intent intent = getIntent();
 
 
-        //--------------------------------------------------------------------
-        // Grabbing data passed through intent and parsing it
-        //--------------------------------------------------------------------
-        try {
-            if (extras.isEmpty())
-                throw new Exception("No extras received in ModuleSelection");
 
-            //No need to check for invalid className, in order to get here you need one
-            this.lecName = extras.getString("lecName");
+        //Initialize empty array of Messages
+        List<Message> messageList = new ArrayList<Message>();
 
-            String history = extras.getString("history");
-            if (history == null || history.isEmpty())
-                throw new Exception("No history received in ShoutOut");
 
-            //No need to check for invalid CID, in order to get here you need one
-            this.LID = extras.getInt("LID");
+        //Initialize the list for compiled messages
+        messages = new ArrayList<String>();
+
+        //To add sample data:
+        //messageList.add(new Message("User1", "Message"));
+
+
+        // Grab Lecture passed through intent
+        try{
+            Lecture lecture = (Lecture)intent.getSerializableExtra("Lecture");
+
+            if(lecture == null)
+                throw new Exception("No Lecture received in ShoutOut");
+            //ShoutOut history can be empty
+            if(lecture.getShoutoutHistory() == null)
+                throw new Exception("No ShoutOut History received in ShoutOut");
 
 
             //Set the lecture name display to the received name
-            nameDisp.setText(lecName);
+            nameDisp.setText(lecture.getLectureName());
 
-
-            //Turn received moduleList into an array
-            JSONArray arr = new JSONArray(history);
-            //For every message in the array, add it to the message list
-            for (int i = 0; i < arr.length(); i++) {
-
-                //Grab the next lecture object
-                String message = arr.get(i).toString();
-
-                //Add this message to the list
-                messageList.add(message);
-
-            }
-        }
-        catch(JSONException e) {
-            System.out.println("JSONException: ");
-            System.out.println(e.getMessage());
+            this.lecture = lecture;
+            messageList = lecture.getShoutoutHistory();
         }
         catch(Exception e){
             System.out.println("Exception: ");
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
+
+
+
+
+
+        //For every Message in lecture, add it to the message list
+        for (int i = 0; i < messageList.size(); i++) {
+            //Grab the Message object
+            Message message = messageList.get(i);
+
+            String messageStr = message.getScreenname() + ": " + message.getMessage();
+
+            //Add this message to the list
+            messages.add(messageStr);
+
+        }
 
 
 
         //Create an ArrayAdapter to facilitate ListView updates
         arrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, messageList);
+                (this, android.R.layout.simple_list_item_1, messages);
 
         //Set the ListView adapter to the one created above
         lv.setAdapter(arrayAdapter);
@@ -146,9 +147,6 @@ public class ShoutOut extends AppCompatActivity{
         send.setClickable(false);
         edTxt.setEnabled(false);
         conn.setText(R.string.connect);
-
-
-
 
 
 
@@ -220,7 +218,7 @@ public class ShoutOut extends AppCompatActivity{
      * @param message
      */
     public void addMessage(String message){
-        messageList.add(message);
+        messages.add(message);
         arrayAdapter.notifyDataSetChanged();
         //Notifies the attached observers that the underlying data has been
         //changed and any View reflecting the data set should refresh itself.
@@ -237,43 +235,4 @@ public class ShoutOut extends AppCompatActivity{
         finish();
     }
 
-
-
-
-
-    private static void thing(){
-        /*
-        try {
-            // Connect to the echo server.
-            WebSocket ws = connect();
-
-            // The standard input via BufferedReader.
-            BufferedReader in = getInput();
-
-            // A text read from the standard input.
-            String text;
-
-            // Read lines until "exit" is entered.
-            while ((text = in.readLine()) != null) {
-                // If the input string is "exit".
-                if (text.equals("exit")) {
-                    // Finish this application.
-                    break;
-                }
-
-                // Send the text to the server.
-                ws.sendText(text);
-            }
-
-            // Close the WebSocket.
-            ws.disconnect();
-        }
-        catch (IOException e){
-            System.out.println(e.getMessage());
-        }
-        catch (WebSocketException e){
-            System.out.println(e.getMessage());
-        }
-        */
-    }
 }

@@ -102,7 +102,7 @@ public class AddUserToClass extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //call API to get class list and go to ClassSelection page
-                api.getClassList(view, getUid(), userType);
+                //api.getClassList(view, getUid(), userType);
             }
         };
 
@@ -152,7 +152,7 @@ public class AddUserToClass extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Class created!", Toast.LENGTH_LONG).show();
 
                 //call APICalls.getClassList to get class list and go to ClassSelection page
-                api.getClassList(view, getUid(), userType);
+                //api.getClassList(view, getUid(), userType);
             }
         };
 

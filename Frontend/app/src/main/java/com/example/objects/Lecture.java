@@ -11,16 +11,16 @@ import java.util.List;
 public class Lecture implements Serializable {
     private int LID;
     private String lectureName;
-    private List<String> shoutoutHistory;   //List of strings that represent messages to this Lecture's ShoutOut
+    private List<Message> shoutoutHistory;   //List of strings that represent messages to this Lecture's ShoutOut
 
 
     public Lecture(){}
 
     public Lecture(int LID, String lectureName){
-        this(LID, lectureName, new ArrayList<String>());
+        this(LID, lectureName, new ArrayList<Message>());
     }
 
-    public Lecture(int LID, String lectureName, List<String> shoutoutHistory){
+    public Lecture(int LID, String lectureName, List<Message> shoutoutHistory){
         this.LID = LID;
         this.lectureName = lectureName;
         this.shoutoutHistory = shoutoutHistory;
@@ -42,10 +42,10 @@ public class Lecture implements Serializable {
         this.lectureName = lectureName;
     }
 
-    public List<String> getShoutoutHistory() {
+    public List<Message> getShoutoutHistory() {
         return shoutoutHistory;
     }
-    public void setShoutoutHistory(List<String> shoutoutHistory) {
+    public void setShoutoutHistory(List<Message> shoutoutHistory) {
         this.shoutoutHistory = shoutoutHistory;
     }
 }

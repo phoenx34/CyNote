@@ -12,6 +12,7 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.example.objects.ClEnt;
 import com.example.objects.Lecture;
 
@@ -56,13 +57,11 @@ public class ModuleSelection extends AppCompatActivity {
             [
                 {
                     "id":1,
-                    "shoutout_history":[],
-                    "clEnt":null
+                    "name":"Leture 15"
                 },
                 {
                     "id":2,
-                    "shoutout_history":[],
-                    "clEnt":null
+                    "name":"Leture 15"
                 }
             ]
         */
@@ -87,7 +86,6 @@ public class ModuleSelection extends AppCompatActivity {
 
         // Grab ClEnt passed through intent
         try{
-            //Grab the received User
             ClEnt clEnt = (ClEnt)intent.getSerializableExtra("Class");
             if(clEnt == null || clEnt.getLectureList() == null || clEnt.getLectureList().isEmpty())
                 throw new Exception("No dropdownHeaders received in ModuleSelection");
@@ -109,6 +107,9 @@ public class ModuleSelection extends AppCompatActivity {
         dropdownMap = new HashMap<String, List<String>>();
         dropdownHeaders = new ArrayList<String>();
 
+
+
+        //TODO Find why the FUCK this prints differently every time the page is loaded
         //For every lecture received
         for(int i = 0; i < lectures.size(); i++){
             //Grab the Lecture and its name from the list
@@ -120,9 +121,16 @@ public class ModuleSelection extends AppCompatActivity {
 
             //Create the dropdown menu for this lecture header
             List<String> dropdown = new ArrayList<String>();
-            dropdown.add("Shoutout");
-            dropdown.add("Notes(Collaborative)");
+
+            //Adding default selections
+            dropdown.add("ShoutOut");
+            dropdown.add("Collaborative Notes");
+
+            //Adding static notes
             //TODO get the list of static notes and add them here in order of rating
+
+            //Give the option to upload a static note
+            dropdown.add("Add a note +");
 
             //Map this lecture header to its dropdown menu
             dropdownMap.put(lectureName, dropdown);     //Header, Child data
@@ -150,9 +158,7 @@ public class ModuleSelection extends AppCompatActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
-                // Toast.makeText(getApplicationContext(),
-                // "Group Clicked " + listDataHeader.get(groupPosition),
-                // Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Group Clicked " + listDataHeader.get(groupPosition), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -163,10 +169,7 @@ public class ModuleSelection extends AppCompatActivity {
             @Override
             public void onGroupExpand(int groupPosition) {
                 /*//Printing that selected view was expanded
-                Toast.makeText(getApplicationContext(),
-                        dropdownHeaders.get(groupPosition) + " Expanded",
-                        Toast.LENGTH_SHORT).show();
-                        */
+                Toast.makeText(getApplicationContext(), dropdownHeaders.get(groupPosition) + " Expanded", Toast.LENGTH_SHORT).show(); */
             }
         });
 
@@ -176,11 +179,7 @@ public class ModuleSelection extends AppCompatActivity {
             @Override
             public void onGroupCollapse(int groupPosition) {
                 /*//Printing that selected view was collapsed
-                Toast.makeText(getApplicationContext(),
-                        dropdownHeaders.get(groupPosition) + " Collapsed",
-                        Toast.LENGTH_SHORT).show();
-                        */
-
+                Toast.makeText(getApplicationContext(), dropdownHeaders.get(groupPosition) + " Collapsed", Toast.LENGTH_SHORT).show(); */
             }
         });
 
@@ -194,35 +193,38 @@ public class ModuleSelection extends AppCompatActivity {
                 // Get the selected child String, contained in HashMap<String, List<String>>
                 String data = dropdownMap.get(dropdownHeaders.get(groupPosition)).get(childPosition);
 
+                //Grab the name of the lecture selected
+                String lecName = dropdownHeaders.get(groupPosition);
 
-                if(data.equals("Shoutout")) {
-                    String lecName = dropdownHeaders.get(groupPosition);
-
-                    //Check through the list of lectures to find the Lecture that matches this lectureName
-                    Lecture lecture = new Lecture();
-                    for(Lecture lec : lectures){
-                        if(lec.getLectureName() == lecName)
-                            lecture = lec;
-                    }
-
-                    //TODO pass the entire lecture, going to bed tho
-                    gotoShoutout(v, lecture.getLID(), lecName);
+                //Check through the list of lectures to find the Lecture that matches this lectureName
+                Lecture lecture = new Lecture();
+                for(Lecture lec : lectures){
+                    if(lec.getLectureName() == lecName)
+                        lecture = lec;
                 }
-                //There is no system set up for notes so we just go to a generic notes page
-                else
-                    gotoNotes(v);
 
-                /*
-                // T ODO Auto-generated method stub
-                Toast.makeText(
-                        getApplicationContext(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
-                        .show();
-                */
+                System.out.println("Dropdown option selected: " + data);
+
+                //Switch case for dropdown option selection
+                switch(data){
+                    case "ShoutOut":
+                        gotoShoutout(v, lecture);
+                        break;
+
+                    case "Collaborative Notes":
+                        //TODO Direct the user to the EtherPad room
+                        break;
+
+                    case "Add a note +":
+                        inflateAddNote();
+                        break;
+
+                    default:
+                        //TODO The user has selected a static note. Find it and do something lol
+                        break;
+                }
+
+
                 return false;
             }
         });
@@ -233,44 +235,6 @@ public class ModuleSelection extends AppCompatActivity {
     }
 
 
-    //Lol
-    /*
-    public void fuckMockito(){
-        prepareListData();
-    }
-    */
-
-    /**
-     * This method is for testing. Later, when front and back end are
-     * hooked up, this will use a get request to populate the list.
-     */
-    private void prepareListData() {
-        dropdownMap = new HashMap<String, List<String>>();
-        dropdownHeaders = new ArrayList<String>();
-
-        // Adding child data
-        dropdownHeaders.add("Lecture 4");
-        dropdownHeaders.add("Lecture 5");
-        dropdownHeaders.add("Lecture 6");
-
-        // Adding child data
-        List<String> lec4 = new ArrayList<String>();
-        lec4.add("Shoutout");
-        lec4.add("Notes(Collaborative)");
-
-        List<String> lec5 = new ArrayList<String>();
-        lec5.add("Shoutout");
-        lec5.add("Notes(Collaborative)");
-        lec5.add("Notes(StudentID)");
-
-        List<String> lec6 = new ArrayList<String>();
-        lec6.add("Shoutout");
-        lec6.add("Notes(Collaborative)");
-
-        dropdownMap.put(dropdownHeaders.get(0), lec4); // Header, Child data
-        dropdownMap.put(dropdownHeaders.get(1), lec5);
-        dropdownMap.put(dropdownHeaders.get(2), lec6);
-    }
 
     /**
      * Upon "Add New Lecture" button, calls this function to change views
@@ -278,10 +242,8 @@ public class ModuleSelection extends AppCompatActivity {
      * @param view
      */
     public void goToAddNewLecture(View view){
-        //TODO pass the whole clEnt, going to bed tho
         Intent intent = new Intent(this, AddNewLecture.class);
-        intent.putExtra("CID", clEnt.getCID());
-        intent.putExtra("className", clEnt.getClassName());
+        intent.putExtra("Class", clEnt);
         startActivity(intent);
 
     }
@@ -306,11 +268,35 @@ public class ModuleSelection extends AppCompatActivity {
      *
      * @param view
      */
-    public void gotoShoutout(View view, int lid, String lecName){
+    public void gotoShoutout(final View view, Lecture lecture){
 
-        //Get the ShoutOut history for this lecture and then transition to ShoutOut
+
+        //Define callbacks for call to ShoutOut History
+        APICallbacks moduleCallbacks = new APICallbacks<Lecture>() {
+            @Override
+            public void onResponse(Lecture lecture) {
+                //Now that this Lecture is completed, move to ShoutOut
+                Intent intent = new Intent(view.getContext(), ShoutOut.class);
+                intent.putExtra("Lecture", lecture);         //Add User to ClassSelection intent
+                startActivity(intent);
+            }
+
+            @Override
+            public void onVolleyError(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "There was an error retrieving the ShoutOut history", Toast.LENGTH_LONG).show();
+                System.out.println("There was an error retrieving the ShoutOut history");
+                System.out.println(error.getMessage());
+            }
+        };
+
+        //Make the call
         APICalls apiCalls = new APICalls(this.getApplicationContext());
-        apiCalls.getShoutOutHistory(view, lecName, lid);
+        apiCalls.getShoutOutHistory(lecture, moduleCallbacks);
+    }
+
+    private void inflateAddNote(){
+        AddNoteModal addNoteModal = new AddNoteModal();
+        addNoteModal.show(getSupportFragmentManager(), "missiles");
     }
 
     /**

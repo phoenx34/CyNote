@@ -120,14 +120,30 @@ public class Login extends AppCompatActivity
      * Purely for testing
      * @param view
      */
-    public void gotoClassSelection(View view){
-        String sampleResponse = "{\"classes\":[{\"cid\":\"1\",\"name\":\"ComS 311\"},{\"cid\":\"2\",\"name\":\"ComS 309\"}]}";
-        int sampleUID = 1;
+    public void bypasstoClassSelection(final View view){
+        //Define callbacks for call to getClassList
+        final APICallbacks classCallbacks = new APICallbacks<User>() {
+            @Override
+            public void onResponse(User user) {
+                //Now that this user is completed, move to ClassSelection as login is complete
+                Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                intent.putExtra("User", user);         //Add User to ClassSelection intent
+                startActivity(intent);
+            }
 
-        Intent intent = new Intent(this, ClassSelection.class);
-        intent.putExtra("classList", sampleResponse);         //Add classList to ClassSelection intent
-        intent.putExtra("UID", sampleUID);                    //Add UID to ClassSelection intent
-        startActivity(intent);
+            @Override
+            public void onVolleyError(VolleyError error) {
+                System.out.println(error.getMessage());
+            }
+        };
+
+
+        //Make a sample user
+        User user = new User(1, "Professor");
+
+        //Begin the magic
+        final APICalls apiCalls = new APICalls(this.getApplicationContext());
+        apiCalls.getClassList(user, classCallbacks);
     }
 
     /**

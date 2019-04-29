@@ -17,6 +17,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.objects.ClEnt;
 import com.example.objects.Lecture;
+import com.example.objects.Message;
 import com.example.objects.User;
 
 import org.json.JSONArray;
@@ -290,10 +291,12 @@ public class APICalls{
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 //Parse the received Json and call getClassList
                 try{
                     //JSON comes in the form of
                     // {"status":3,"UID":0}
+
                     JSONObject jsonObj = new JSONObject(response);
 
                     //Ensure the login was successful
@@ -317,6 +320,7 @@ public class APICalls{
                 }
                 catch(JSONException e){
                     System.out.println(e.getMessage());
+                    System.out.println(e.getStackTrace());
                     return;
                 }
                 catch(Exception e){
@@ -359,7 +363,7 @@ public class APICalls{
     public void getClassList(final User user, final APICallbacks callbacks){
 
         int UID = user.getUID();
-        System.out.println("getClassList: \n"+UID);
+        System.out.println("getClassList: "+UID);
 
 
         //            http://cs309-sd-7.misc.iastate.edu:8080/users_class/{id}
@@ -388,6 +392,7 @@ public class APICalls{
                     ]
                 }
                     */
+                System.out.println(response);
 
                 //Create an array to hold the classes
                 List<ClEnt> classes = new ArrayList<ClEnt>();
@@ -406,7 +411,7 @@ public class APICalls{
                         JSONObject clazz = new JSONObject(className);
 
                         //Grab the cid and the className from that object
-                        int cid = clazz.getInt("id");
+                        int cid = clazz.getInt("cid");
                         String name = clazz.getString("name");
 
                         //And create a ClassObj with them
@@ -419,6 +424,7 @@ public class APICalls{
                 catch(JSONException e) {
                     System.out.println("JSONException: ");
                     System.out.println(e.getMessage());
+                    e.printStackTrace();
                 }
                 catch(Exception e){
                     System.out.println("Exception: ");
@@ -522,15 +528,24 @@ public class APICalls{
 
 
                         //Make an empty array to hold the ShoutOut history
-                        List<String> soHistory = new ArrayList<String>();
+                        List<Message> soHistory = new ArrayList<Message>();
 
-                        //Get the ShoutOut History string and turn it into an array
+                        //Get the ShoutOut History array
                         String soString = lec.getString("shoutout_history");
                         JSONArray soArray = new JSONArray(soString);
 
                         //Parse the ShoutOut History JSONArray
                         for (int j = 0; j < soArray.length(); j++) {
-                            String message = soArray.get(j).toString();
+                            String messageJson = arr.get(i).toString();
+                            JSONObject mess = new JSONObject(messageJson);
+
+                            //Grab the screenname and the message
+                            String user = mess.getString("screenname");
+                            String messageStr = mess.getString("message");
+
+                            //Create a new message object with the above parameters and add it to the list
+                            Message message = new Message(user, messageStr);
+
                             soHistory.add(message);
                         }
 
@@ -587,18 +602,18 @@ public class APICalls{
 
 
 
-
     /**
-     * Get ShoutOut history of a lecture with id LID
+     * Takes a Lecture object and updates its shoutoutHistory using its LID.
      *
      *               LID  -->  Server
      *  ShoutOut History  <--  Server
      *
-     * @param view  View selected to submit login form
-     * @param LID  CID of class to search
+     * @param lecture Lecture Object to update shoutoutHistory of
+     * @param callbacks Callbacks to use on responses
      */
-    public void getShoutOutHistory(final View view, final String lecName, final int LID){
+    public void getShoutOutHistory(final Lecture lecture, final APICallbacks callbacks){
 
+        int LID = lecture.getLID();
         System.out.println("getShoutOutHistory: \n"+LID);
 
         try{
@@ -617,12 +632,42 @@ public class APICalls{
                     System.out.println("ShoutOut history received:\n");
                     System.out.println(response);
 
-                    Intent intent = new Intent(view.getContext(), ShoutOut.class);
-                    intent.putExtra("lecName", lecName);
-                    intent.putExtra("history", response);
-                    intent.putExtra("LID", LID);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);       //We are starting an intent outside of an activity context, so this is needed
-                    applicationContext.startActivity(intent);
+
+                    //Make an empty array to hold the ShoutOut history
+                    List<Message> soHistory = new ArrayList<Message>();
+
+                    try{
+                        //Get the ShoutOut History array
+                        JSONArray soArray = new JSONArray(response);
+
+                        //Parse the ShoutOut History JSONArray
+                        for (int i = 0; i < soArray.length(); i++) {
+                            String messageJson = soArray.get(i).toString();
+                            JSONObject mess = new JSONObject(messageJson);
+
+                            //Grab the screenname and the message
+                            String user = mess.getString("screenname");
+                            String messageStr = mess.getString("message");
+
+                            //Create a new message object with the above parameters and add it to the list
+                            Message message = new Message(user, messageStr);
+
+                            soHistory.add(message);
+                        }
+                    }
+                    catch (JSONException e){
+                        System.out.println("JSONException: ");
+                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                    }
+
+
+
+                    //Update the given Lecture
+                    lecture.setShoutoutHistory(soHistory);
+
+                    //Continue
+                    callbacks.onResponse(lecture);
                 }
             };
 

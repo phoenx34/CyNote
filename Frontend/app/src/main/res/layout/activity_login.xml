@@ -143,7 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:onClick="gotoClassSelection"
+        android:onClick="bypasstoClassSelection"
         android:text="@string/temp_to_class_select"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

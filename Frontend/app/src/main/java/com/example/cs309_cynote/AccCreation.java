@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.objects.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +60,7 @@ public class AccCreation extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Invalid email, try again!", Toast.LENGTH_LONG).show();
             return;
         }
-        // Screenname and Password are tested in APICalls getUID()
+        // Screenname and Password are tested in APICalls getUserNoClassList()
 
 
         //TODO Server does not currently create new ID, so I'm using a number gen here. NEEDS to be fixed
@@ -82,7 +83,42 @@ public class AccCreation extends AppCompatActivity {
 
         //String testUrl = "http://ptsv2.com/t/mp8ul-1550461405/post";
         String serverUrl = "http://cs309-sd-7.misc.iastate.edu:8080/users";
-        final APICalls api = new APICalls(getApplicationContext());
+
+
+
+        final APICalls apiCalls = new APICalls(this.getApplicationContext());
+
+        //Define callbacks for call to getClassList
+        final APICallbacks classCallbacks = new APICallbacks<User>() {
+            @Override
+            public void onResponse(User user) {
+                //Now that this user is completed, move to ClassSelection as login is complete
+                Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                intent.putExtra("User", user);         //Add User to ClassSelection intent
+                startActivity(intent);
+            }
+
+            @Override
+            public void onVolleyError(VolleyError error) {
+                System.out.println(error.getMessage());
+            }
+        };
+
+
+        //Define callbacks for call to getUserNoClassList
+        final APICallbacks userCallbacks = new APICallbacks<User>() {
+            @Override
+            //getUserNoClasses returns a User object with an empty classList
+            public void onResponse(User user) {
+                //Received User is missing its classList, let's get that
+                apiCalls.getClassList(user, classCallbacks);
+            }
+
+            @Override
+            public void onVolleyError(VolleyError error) {
+                System.out.println(error.getMessage());
+            }
+        };
 
         //Set up listener for success case
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -92,7 +128,7 @@ public class AccCreation extends AppCompatActivity {
 
 
                 //Assuming data is correct each time...
-                api.getUID(view, username, password);
+                apiCalls.getUserNoClassList(username, password, userCallbacks);
 
             }
         };
@@ -106,12 +142,12 @@ public class AccCreation extends AppCompatActivity {
                 System.out.println(error.getMessage());
 
                 //Assuming data is correct each time...
-                api.getUID(view, username, password);
+                apiCalls.getUserNoClassList(username, password, userCallbacks);
             }
         };
 
         System.out.println("Calling API");
-        api.volleyPost(serverUrl, json, responseListener, errorListener);
+        apiCalls.volleyPost(serverUrl, json, responseListener, errorListener);
 
     }
 
