@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -44,6 +45,12 @@ public class generateQR extends AppCompatActivity {
 
     public void generate(View view) {
         String input = inputString.getText().toString();
+        if(input == null || input.trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Put the class Id first!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
         Bitmap qrBitmap = generateBitmap(input,400, 400);
         outputQRcode.setImageBitmap(qrBitmap);
     }
