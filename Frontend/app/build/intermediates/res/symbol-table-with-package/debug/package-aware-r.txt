@@ -1128,6 +1128,7 @@ id button3
 id button4
 id button5
 id button6
+id button7
 id buttonChoose
 id buttonPanel
 id buttonUpload
@@ -1329,6 +1330,7 @@ id textView
 id textView10
 id textView11
 id textView12
+id textView13
 id textView2
 id textView3
 id textView4
@@ -1417,6 +1419,7 @@ layout activity_acc_creation
 layout activity_add_new_lecture
 layout activity_add_textbook
 layout activity_add_user_to_class
+layout activity_addnote_dialog
 layout activity_class_selection
 layout activity_file_selector
 layout activity_login
