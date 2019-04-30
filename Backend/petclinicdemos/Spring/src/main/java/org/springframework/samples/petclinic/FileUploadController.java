@@ -27,7 +27,7 @@ import org.springframework.samples.petclinic.notes.*;
 public class FileUploadController {
 
     private final StorageService storageService;
-    public NotesController notes;
+    public NotesRepository notes;
 
     @Autowired
     public FileUploadController(StorageService storageService) {
@@ -54,26 +54,25 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/{nid}/{lecnum}/{name}")
+    @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes, @PathVariable("nid") Integer nid, 
-            @PathVariable("lecnum") Integer lid, @PathVariable("name") String name) {
+            RedirectAttributes redirectAttributes) {
     	
         storageService.store(file);
         String path = null;
         path = "/files/" + file.getOriginalFilename();
-        Notes note = new Notes();
+        /*Notes note = new Notes();
         if(path != null) {
         	note.setAddress(path);
         }
         note.setTitle(name);
         note.setLecNum(lid);
         note.setNID(nid);
-        notes.saveNote(note);
+        notes.save(note);*/
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "success";
+        return "redirect:/";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

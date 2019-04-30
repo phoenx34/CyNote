@@ -1,5 +1,8 @@
 package org.springframework.samples.petclinic.notes;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -10,5 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface NotesRepository extends JpaRepository<Notes, Integer> {
-
+	Notes save(Notes persisted);
+	List<Notes> findAll();
+	Optional<Notes> findById(Integer uid);
 }
