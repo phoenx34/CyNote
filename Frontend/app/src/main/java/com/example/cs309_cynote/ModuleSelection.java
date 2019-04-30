@@ -302,7 +302,7 @@ public class ModuleSelection extends AppCompatActivity {
                         break;
 
                     case "Add a note +":
-                        inflateAddNote();
+                        inflateAddNote(lecture);
                         break;
 
                     default:
@@ -380,7 +380,7 @@ public class ModuleSelection extends AppCompatActivity {
         apiCalls.getShoutOutHistory(lecture, moduleCallbacks);
     }
 
-    private void inflateAddNote(){
+    private void inflateAddNote(Lecture lecture){
         /*
         AddNoteModal addNoteModal = new AddNoteModal();
         addNoteModal.show(getSupportFragmentManager(), "missiles");
@@ -389,6 +389,7 @@ public class ModuleSelection extends AppCompatActivity {
 
         //File upload URL
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/";
+        url += lecture.getLectureName() +"/" + lecture.getLID();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));

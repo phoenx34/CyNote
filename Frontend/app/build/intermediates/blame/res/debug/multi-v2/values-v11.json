@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Sean\\Documents\\-=- Programs -=-\\Coms309\\team_37\\Frontend\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
+            "outputFile": "C:\\Users\\marc_\\Desktop\\linux\\Programming\\team_37\\Frontend\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Sean\\.gradle\\caches\\transforms-1\\files-1.1\\zxing-android-embedded-3.2.0.aar\\45e3f88a7f68917aaf85d53a1a281eed\\res\\values-v11\\values-v11.xml",
+                    "source": "C:\\Users\\marc_\\.gradle\\caches\\transforms-1\\files-1.1\\zxing-android-embedded-3.2.0.aar\\b14d8cb136c8f6af386c777ea1751c69\\res\\values-v11\\values-v11.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -25,6 +25,10 @@ import org.springframework.samples.petclinic.lectureEntity.Lecture;
 @Table(name = "notes")
 public class Notes {
 	
+	public Notes() {
+		
+	} 
+	
 	// This is a many to one relationship with the class
     @ManyToOne
     @JoinColumn(name="lid")

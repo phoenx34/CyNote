@@ -23,12 +23,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.springframework.samples.petclinic.storage.StorageFileNotFoundException;
 import org.springframework.samples.petclinic.storage.StorageService;
-import org.springframework.samples.petclinic.notes.*;
+import org.springframework.samples.petclinic.notes.Notes;
+import org.springframework.samples.petclinic.notes.NotesRepository;
 
 @Controller
 public class FileUploadController {
 
+	@Autowired
     private final StorageService storageService;
+	
+	@Autowired
     public NotesRepository notes;
 
     @Autowired
@@ -48,7 +52,7 @@ public class FileUploadController {
     }
     
     @GetMapping("/{lecName}/{lid}")
-    public String uploadFile(Model model, @PathVariable String lid, @PathVariable String lecName) throws IOException {
+    public String uploadFile(Model model, @PathVariable("lecName") String fName, @PathVariable("lid") String lid) throws IOException {
 
     	System.out.println("Got to uploadFile");
     	System.out.println("LID: "+lid);
@@ -63,7 +67,7 @@ public class FileUploadController {
         System.out.println("Link: "+link);
         
         //Add the parameters required to style and to post data
-        model.addAttribute("lecName", lecName);
+        model.addAttribute("lecName", fName);
         model.addAttribute("link", link);
 
         return "uploadForm";
@@ -95,19 +99,21 @@ public class FileUploadController {
     	Integer lidL = new Integer(lid);
     	
         storageService.store(file);
+        
+        
         String path = "/files/" + file.getOriginalFilename();
         
         Notes note = new Notes();
         note.setAddress(path);
         note.setTitle(name);
         note.setLecNum(lidL);
-        //note.setNID(nid);
+        note.setNID(1);
         
         notes.save(note);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "success";
+        return "redirect:/";
     }
     
     
