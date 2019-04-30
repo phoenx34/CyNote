@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Sean\\Documents\\-=- Programs -=-\\Coms309\\team_37\\Frontend\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
+            "outputFile": "C:\\Users\\marc_\\Desktop\\linux\\Programming\\team_37\\Frontend\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Sean\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\61b97bb085384910fe061d7983be304d\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\marc_\\.gradle\\caches\\transforms-2\\files-2.1\\72623f08cfb721f5ef6352a7f075359e\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\marc_\\.gradle\\caches\\transforms-2\\files-2.1\\79f920dfe0f70dfb420983d94732f92d\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -20,16 +30,6 @@
                         "endLines": "6",
                         "endColumns": "12",
                         "endOffsets": "289"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Sean\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-28.0.0.aar\\5a3cab08421504290aca517ac058e77f\\res\\values-v16\\values-v16.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "65",
-                        "endOffsets": "116"
                     }
                 }
             ]

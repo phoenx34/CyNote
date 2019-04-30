@@ -1124,6 +1124,7 @@ id bottom
 id butAddClass
 id butAddLec
 id button
+id button2
 id button3
 id button4
 id button5
@@ -1133,6 +1134,7 @@ id buttonChoose
 id buttonPanel
 id buttonUpload
 id cancelAddToClassBut
+id cancelBut
 id cancel_action
 id center
 id center_horizontal
@@ -1237,6 +1239,7 @@ id navigation_notifications
 id never
 id newLectureBut
 id newLectureInput
+id newLectureName
 id noClassMessage
 id none
 id normal
@@ -1329,8 +1332,6 @@ id textStart
 id textView
 id textView10
 id textView11
-id textView12
-id textView13
 id textView2
 id textView3
 id textView4
@@ -1611,6 +1612,7 @@ string title_notifications
 string type_class_code
 string type_class_name
 string type_lecture_id
+string type_lecture_name
 string update
 string username
 style AlertDialog_AppCompat

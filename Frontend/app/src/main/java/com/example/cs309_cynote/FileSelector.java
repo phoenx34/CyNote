@@ -18,6 +18,7 @@ package com.example.cs309_cynote;
         import android.support.v4.content.ContextCompat;
         import android.support.v4.content.CursorLoader;
         import android.support.v7.app.AppCompatActivity;
+        import android.util.Log;
         import android.view.View;
         import android.widget.Button;
         import android.widget.EditText;
@@ -27,7 +28,11 @@ package com.example.cs309_cynote;
         import net.gotev.uploadservice.MultipartUploadRequest;
         import net.gotev.uploadservice.UploadNotificationConfig;
 
+        import java.io.File;
+        import java.io.FileNotFoundException;
         import java.io.IOException;
+        import java.net.MalformedURLException;
+        import java.util.List;
         import java.util.UUID;
 
 /**
@@ -90,7 +95,39 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
     /**
      * Upload the selected multipart file
      */
-    public void uploadMultipart() {
+    public void uploadMultipart(Uri filePath) {
+
+        try {
+
+            String charset = "UTF-8";
+            //File uploadFile1 = new File("/sdcard/myvideo.mp4");
+            File uploadFile1 = new File(filePath.getPath());
+            //String requestURL = Data.BASE_URL+Data.URL_UPLOAD_REACTION_TEST;
+            String requestURL = UPLOAD_URL;
+
+            MultipartUtility multipart = new MultipartUtility(requestURL, charset);
+
+//            multipart.addHeaderField("User-Agent", "CodeJava");
+//            multipart.addHeaderField("Test-Header", "Header-Value");
+
+            multipart.addFormField("friend_id", "Cool Pictures");
+            multipart.addFormField("userid", "Java,upload,Spring");
+
+            multipart.addFilePart("uploadedfile", uploadFile1);
+
+            List<String> response = multipart.finish();
+
+            Log.v("rht", "SERVER REPLIED:");
+
+            for (String line : response) {
+                Log.v("rht", "Line : "+line);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*
         //getting name for the image
         String name = editText.getText().toString().trim();
 
@@ -113,6 +150,7 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
             System.out.println("Exception in multipart...");
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
         }
+        */
     }
 
 
@@ -124,9 +162,88 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+
+
     //handling the image chooser activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        String name = "EEEEEEE";
+
+
+
+        //try {
+            if (resultCode == RESULT_OK) {
+                Uri selectedImageUri = data.getData();
+                System.out.println(selectedImageUri.toString());
+
+                uploadMultipart(selectedImageUri);
+
+
+
+                /*
+
+                File image = new File(selectedImageUri.getPath());
+
+                String uploadId = UUID.randomUUID().toString();
+                System.out.println(filePath);
+                System.out.println(filePath.toString());
+
+
+                //Creating a multi part request
+                new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
+                        //.addFileToUpload(path, "image") //Adding file
+                        .addFileToUpload(selectedImageUri.getPath(), "image") //Adding file
+                        .addParameter("name", name) //Adding text parameter to the request
+                        .setNotificationConfig(new UploadNotificationConfig())
+                        .setMaxRetries(2)
+                        .startUpload(); //Starting the upload
+
+            /*
+            String[] projection = {MediaStore.Images.Media.DATA};
+            CursorLoader loader = new CursorLoader(this, selectedImageUri, projection, null, null, null);
+            Cursor cursor = loader.loadInBackground();
+            if(cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                Uri imageUri = Uri.parse(cursor.getString(column_index));
+                ((EditText) findViewById(R.id.editText)).setText(imageUri.getLastPathSegment());
+            }
+            cursor.close();
+            */
+            }
+        //}
+        /*
+        catch(FileNotFoundException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        catch (MalformedURLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+
+        /*
+        String uploadId = UUID.randomUUID().toString();
+            System.out.println(filePath);
+            System.out.println(filePath.toString());
+
+
+            //Creating a multi part request
+            new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
+                    //.addFileToUpload(path, "image") //Adding file
+                    .addFileToUpload(filePath.toString(), "image") //Adding file
+                    .addParameter("name", name) //Adding text parameter to the request
+                    .setNotificationConfig(new UploadNotificationConfig())
+                    .setMaxRetries(2)
+                    .startUpload(); //Starting the upload
+
+         */
+
+
+        /*
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -139,6 +256,7 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
         }
+        */
     }
 
     /**
@@ -365,6 +483,15 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, requestCode);
+        }
+
+        /*
         //Checking the request code of our request
         if (requestCode == STORAGE_PERMISSION_CODE) {
 
@@ -377,6 +504,7 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
             }
         }
+        */
     }
 
 
@@ -390,7 +518,7 @@ public class FileSelector extends AppCompatActivity implements View.OnClickListe
             showFileChooser();
         }
         if (v == buttonUpload) {
-            uploadMultipart();
+            //uploadMultipart();
         }
     }
 

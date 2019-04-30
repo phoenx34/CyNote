@@ -24,7 +24,7 @@ public class NotesService {
 	}
 	
 	// insertion sort
-	static void sort(Notes []s, int n) 
+	static void sort(Notes[] s, int n) 
 	{ 
 	    for (int i=1 ;i<n; i++) 
 	    { 

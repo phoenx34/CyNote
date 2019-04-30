@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,15 +57,22 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/{nid}/{lecnum}")
+    //@PostMapping("/")
+    @RequestMapping(value = "/", method=RequestMethod.POST)
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes, @PathVariable("nid") Integer nid, @PathVariable("lecnum") Integer lid) {
+            RedirectAttributes redirectAttributes) {
     	
         storageService.store(file);
+        String path = null;
+        path = "/files/" + file.getOriginalFilename();
         Notes note = new Notes();
-        note.setLecNum(lid);
-        note.setNID(nid);
-        notes.saveNote(note);
+        if(path != null) {
+        	note.setAddress(path);
+        }
+        //note.setTitle(name);
+        //note.setLecNum(lid);
+        //note.setNID(nid);
+        //notes.saveNote(note);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
