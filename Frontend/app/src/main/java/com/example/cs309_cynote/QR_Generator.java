@@ -30,7 +30,7 @@ public class QR_Generator extends AppCompatActivity {
         imageg = (ImageView)findViewById(R.id.imagev);
         Bundle extras = getIntent().getExtras();
         int CID = extras.getInt("CID");
-        textg.setText(CID);
+        textg.setText(CID + "");
     }
 
     public void genBtn(View v)

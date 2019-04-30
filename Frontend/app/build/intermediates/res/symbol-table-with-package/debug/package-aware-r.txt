@@ -1103,6 +1103,7 @@ id FUNCTION
 id META
 id NewClassNameInput
 id NewLectureBut
+id QRGBut
 id SHIFT
 id SYM
 id action0
