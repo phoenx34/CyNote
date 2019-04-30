@@ -1,3 +1,5 @@
+oof
+
 # Stages of pipeline, should match with stage tag inside each job.
 # Each stages executes in sequence, if previous job fails, then all the preceeding jobs are skipped.
 stages:
@@ -11,7 +13,6 @@ stages:
 # tags: "shell" should match with the tag name provided to runner, for spring runner should execute in shell.
 # Notice that in petclinic project, the spring project is in root of master, if yours is in folder then cd to that folder.
 maven-build:
-oof
   stage: mavenbuild
   tags:
     - Spring_tag
