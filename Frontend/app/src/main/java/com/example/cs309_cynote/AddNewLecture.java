@@ -14,7 +14,7 @@ import com.example.objects.ClEnt;
 import org.json.JSONException;
 
 public class AddNewLecture extends AppCompatActivity {
-    private EditText editInputLectureID;
+    private EditText editInputLectureID, editInputLectureName;
 
     private ClEnt clEnt;
     private int LID;
@@ -24,6 +24,7 @@ public class AddNewLecture extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_lecture);
         editInputLectureID = findViewById(R.id.newLectureInput);//link editText
+        editInputLectureName = findViewById(R.id.newLectureName);//link editText
 
 
         //Grab the android intent
@@ -49,18 +50,23 @@ public class AddNewLecture extends AppCompatActivity {
 
     public void addNewLecture(final View view){
 
-        String inputStringCheck = editInputLectureID.getText().toString();
+        String inputCodeCheck = editInputLectureID.getText().toString();
+        String inputNameCheck = editInputLectureName.getText().toString();
         //check if the Code is null
-        if(inputStringCheck == null || inputStringCheck.trim().length() == 0) {
-            Toast.makeText(getApplicationContext(), "Invalid Lecture ID, try again!", Toast.LENGTH_LONG).show();
+        if(inputCodeCheck == null || inputCodeCheck.trim().length() == 0 ||
+                inputNameCheck == null || inputNameCheck.trim().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Invalid Lecture ID or Name, try again!", Toast.LENGTH_LONG).show();
             return;
         }
-        this.LID = (Integer.parseInt(inputStringCheck)); //record lecture code from input
+        this.LID = (Integer.parseInt(inputCodeCheck)); //record lecture code from input
 
         final APICalls api = new APICalls(getApplicationContext());//new APICalls
-        //create url link with CID and LID
+        //create url link with CID
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/classes/";
-        url += clEnt.getCID() + "/" + this.LID;
+        url += clEnt.getCID() + "/lecture";
+
+        String json = "{\"id\":" + clEnt.getCID() + "," +
+                "\"name\":" + inputNameCheck + "}";
 
         //get correct response to get class list and go to ClassSelection page
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -86,9 +92,13 @@ public class AddNewLecture extends AppCompatActivity {
 
         try {
             //try Get method to add user to a class
-            api.volleyGet(url, responseListener, errorListener);
+            api.volleyPost(url, json, responseListener, errorListener);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void goBackFromAddNewLecture(View view) {
+        finish();
     }
 }
