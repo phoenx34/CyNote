@@ -561,7 +561,7 @@ public class APICalls{
 
                 //Grab the LID and the lectureName from the JSON
                 int lid = lec.getInt("id");
-                //String name = lec.getString("name");
+                //String lectureName = lec.getString("name");
                 String lectureName = "Lectures have no name " + lid;     //Names don't exist atm
 
 

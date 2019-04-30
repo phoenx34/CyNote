@@ -84,9 +84,11 @@ public class ModuleSelection extends AppCompatActivity {
         // Grab ClEnt passed through intent
         try{
             ClEnt clEnt = (ClEnt)intent.getSerializableExtra("Class");
-            if(clEnt == null || clEnt.getLectureList() == null || clEnt.getLectureList().isEmpty())
-                throw new Exception("No dropdownHeaders received in ModuleSelection");
+            if(clEnt == null || clEnt.getLectureList() == null)
+                throw new Exception("No ClEnt received in ModuleSelection");
 
+            if(clEnt.getLectureList().isEmpty())
+                throw new Exception("No dropdownHeaders received in ModuleSelection");
 
             this.clEnt = clEnt;
             this.lectures = clEnt.getLectureList();
