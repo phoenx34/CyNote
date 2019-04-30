@@ -314,9 +314,7 @@ public class UserController {
     
     @PostMapping("/users") 
     public boolean createStudent(@RequestBody User user) { 	
-    	if(usersRepository.findById(user.getUID()) != null) {
-    		return false;
-    	}
+    	
     	User savedUser = usersRepository.save(user);  	
     	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") 			
     			.buildAndExpand(savedUser.getUID()).toUri();  	
