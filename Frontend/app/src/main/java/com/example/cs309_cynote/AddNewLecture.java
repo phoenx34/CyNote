@@ -10,8 +10,12 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.objects.ClEnt;
+import com.example.objects.Lecture;
 
 import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddNewLecture extends AppCompatActivity {
     private EditText editInputLectureID, editInputLectureName;
@@ -75,11 +79,18 @@ public class AddNewLecture extends AppCompatActivity {
                 //call API to get class list and go to ClassSelection page
                 Toast.makeText(getApplicationContext(), "New Lecture is created!", Toast.LENGTH_LONG).show();
 
-                //TODO
-                //Here, because we have the lecture object, just add this to the list of lectures
-                
+                //Parse the lecture JSON into a list of lectures
+                APICalls apiCalls = new APICalls();
+                List<Lecture> lectures = apiCalls.parseLectureJSON(response);
 
-                //api.getModuleList(view, getClassName(), getCid());
+                //Update the current class object so we can use serializable
+                clEnt.setLectureList(lectures);
+
+                //Return the updated lecture list ModuleSelection
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("Class", clEnt);
+                setResult(AddNewLecture.RESULT_OK, resultIntent);
+                finish();
             }
         };
 

@@ -191,7 +191,7 @@ public class UserController {
 
     	//Removes final comma
     	// how does this only remove the last comma..?
-    	result = result.replaceAll(", $", "");
+    	result = result.replaceAll(",$", "");
     	result += "]}";
     	
     	
@@ -221,7 +221,7 @@ public class UserController {
     }
     
     @RequestMapping(method = RequestMethod.GET, path = "/addclass/{uid}/{cid}")
-    public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Integer cid) {
+    public boolean addUsertoClass(@PathVariable("uid") Integer uid, @PathVariable("cid") Long cid) {
 		
     	User u = null;
     	 
@@ -230,15 +230,19 @@ public class UserController {
 
         for(User user : results)
     	{
-    		if(user.getUID().equals(uid))
+        	logger.info("entered for loop");
+    		if(user.getUID() == uid)
     		{
+    			logger.info("Found user with matching id is: " + user.getUID());
     			u = user;
     		}
     	}
-        
         if(u == null) {
         	return false;
         }
+        
+        logger.info("user id: " + u.getUID());
+        
         
         
     	
@@ -247,7 +251,7 @@ public class UserController {
     	List<ClEnt> classes = classRepo.findAll();
     	
     	for(ClEnt classe : classes) {
-    		if(classe.getId().equals(cid)) {
+    		if(classe.getId() == cid) {
     			classent = classe;
     		}
     	}
@@ -255,6 +259,8 @@ public class UserController {
     	if(classent == null) {
     		return false;
     	}
+    	
+    	logger.info("class id: " + classent.getId());
     	
     	classent.addUser(u);
     	u.addClass(classent);
@@ -282,11 +288,28 @@ public class UserController {
      * @return all the users 
      */
     @RequestMapping(method = RequestMethod.GET, path = "/users")
-    public List<User> getAllUsers() {
+    public String getAllUsers() {
         logger.info("Entered into Controller Layer");
         List<User> results = usersRepository.findAll();
+        String x = "{\"user\":[";
+        for(User u : results) {
+        	Optional<User> result = usersRepository.findById(u.getUID());
+           
+            if(result.isPresent() == true) {
+            	x += "{\"screenname\":\"" + result.get().getScreenname() + "\","
+            			+ "\"email\":\"" + result.get().getEmail() + "\","
+            			+ "\"type\":\"" + result.get().getType() + "\","
+            			+ "\"uid\":\"" + result.get().getUID() + "\"},";
+            }
+            
+        }
+        
+        x = x.replaceAll(",$", "");
+    	x += "]}";
+        
+        
         logger.info("Number of Records Fetched: " + results.size());
-        return results;
+        return x;
     }
 
     
@@ -335,7 +358,7 @@ public class UserController {
         Optional<User> results = usersRepository.findById(id);
         String x = null;
         if(results.isPresent() == true) {
-        	x = "\"screenname\":\"" + results.get().getScreenname() + "\","
+        	x = "{\"screenname\":\"" + results.get().getScreenname() + "\","
         			+ "\"email\":\"" + results.get().getEmail() + "\","
         			+ "\"type\":\"" + results.get().getType() + "\","
         			+ "\"uid\":\"" + results.get().getUID() + "\"}";

@@ -507,65 +507,8 @@ public class APICalls{
                 ]
                 */
 
-                //Create an array to hold the lectures
-                List<Lecture> lectures = new ArrayList<Lecture>();
-
-                //Decode the response:
-                try{
-                    //Turn received lectureList(response) from JSON into an array
-                    JSONArray arr = new JSONArray(response);
-                    for (int i = 0; i < arr.length(); i++) {
-
-                        //Turn each index in the array into another object
-                        String lectureStr = arr.get(i).toString();
-                        JSONObject lec = new JSONObject(lectureStr);
-
-                        //Grab the LID and the lectureName from the JSON
-                        int lid = lec.getInt("id");
-                        //String name = lec.getString("name");
-                        String lectureName = "Lectures have no name " + lid;     //Names don't exist atm
-
-
-
-                        //Make an empty array to hold the ShoutOut history
-                        List<Message> soHistory = new ArrayList<Message>();
-
-                        //Get the ShoutOut History array
-                        String soString = lec.getString("shoutout_history");
-                        JSONArray soArray = new JSONArray(soString);
-
-                        //Parse the ShoutOut History JSONArray
-                        for (int j = 0; j < soArray.length(); j++) {
-                            String messageJson = arr.get(i).toString();
-                            JSONObject mess = new JSONObject(messageJson);
-
-                            //Grab the screenname and the message
-                            String user = mess.getString("screenname");
-                            String messageStr = mess.getString("message");
-
-                            //Create a new message object with the above parameters and add it to the list
-                            Message message = new Message(user, messageStr);
-
-                            soHistory.add(message);
-                        }
-
-
-
-                        //And create a Lecture with them
-                        Lecture lecture = new Lecture(lid, lectureName, soHistory);
-
-                        //Add them to the array to be used module list generation
-                        lectures.add(lecture);
-                    }
-                }
-                catch(JSONException e) {
-                    System.out.println("JSONException: ");
-                    System.out.println(e.getMessage());
-                }
-                catch(Exception e){
-                    System.out.println("Exception: ");
-                    System.out.println(e.getMessage());
-                }
+                //Parse the lecture JSON into a new array
+                List<Lecture> lectures = parseLectureJSON(response);
 
 
                 //Update the given ClEnt's lectureList
@@ -598,6 +541,69 @@ public class APICalls{
 
     }
 
+    public List<Lecture> parseLectureJSON(String json){
+
+        List<Lecture> lectures = new ArrayList<Lecture>();
+
+        //Decode the response:
+        try{
+            //Turn received lectureList(response) from JSON into an array
+            JSONArray arr = new JSONArray(json);
+            for (int i = 0; i < arr.length(); i++) {
+
+                //Turn each index in the array into another object
+                String lectureStr = arr.get(i).toString();
+                JSONObject lec = new JSONObject(lectureStr);
+
+                //Grab the LID and the lectureName from the JSON
+                int lid = lec.getInt("id");
+                //String name = lec.getString("name");
+                String lectureName = "Lectures have no name " + lid;     //Names don't exist atm
+
+
+
+                //Make an empty array to hold the ShoutOut history
+                List<Message> soHistory = new ArrayList<Message>();
+
+                //Get the ShoutOut History array
+                String soString = lec.getString("shoutout_history");
+                JSONArray soArray = new JSONArray(soString);
+
+                //Parse the ShoutOut History JSONArray
+                for (int j = 0; j < soArray.length(); j++) {
+                    String messageJson = arr.get(i).toString();
+                    JSONObject mess = new JSONObject(messageJson);
+
+                    //Grab the screenname and the message
+                    String user = mess.getString("screenname");
+                    String messageStr = mess.getString("message");
+
+                    //Create a new message object with the above parameters and add it to the list
+                    Message message = new Message(user, messageStr);
+
+                    soHistory.add(message);
+                }
+
+
+
+                //And create a Lecture with them
+                Lecture lecture = new Lecture(lid, lectureName, soHistory);
+
+                //Add them to the array to be used module list generation
+                lectures.add(lecture);
+            }
+        }
+        catch(JSONException e) {
+            System.out.println("JSONException: ");
+            System.out.println(e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Exception: ");
+            System.out.println(e.getMessage());
+        }
+
+        return lectures;
+    }
 
 
 

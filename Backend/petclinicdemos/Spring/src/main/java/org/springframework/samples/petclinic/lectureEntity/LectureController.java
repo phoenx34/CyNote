@@ -28,7 +28,7 @@ public class LectureController {
   private ClassRepository classRepository;
   
   
-    @GetMapping("/classes/{classId}/lecture")
+    @GetMapping("/classes/{classId}/lectures")
     public Set<Lecture> getContactByClassId(@PathVariable Long classId) {
       
         if(!classRepository.existsById(classId)) {

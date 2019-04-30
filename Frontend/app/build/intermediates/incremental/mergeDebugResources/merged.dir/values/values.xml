@@ -699,6 +699,7 @@
     <string name="type_class_code">Type Class Code</string>
     <string name="type_class_name">Type Class Name</string>
     <string name="type_lecture_id">Type Lecture ID</string>
+    <string name="type_lecture_name">Type Lecture Name</string>
     <string name="update">Update</string>
     <string name="username">Username</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>

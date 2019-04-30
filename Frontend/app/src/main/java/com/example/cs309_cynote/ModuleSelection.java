@@ -67,12 +67,6 @@ public class ModuleSelection extends AppCompatActivity {
         */
 
 
-        /*
-        Toast.makeText(applicationContext, "There was an error retrieving the lecture list", Toast.LENGTH_LONG).show();
-                    System.out.println("Get moduleList error");
-                    System.out.println(error.getMessage());
-         */
-
         //Grab the android intent
         Intent intent = getIntent();
 
@@ -101,16 +95,32 @@ public class ModuleSelection extends AppCompatActivity {
 
 
 
+        //Build the dropdown list with the lectures variable
 
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+
+        //If all is well and the data exists...
+        if(requestCode == AddNewLecture.RESULT_OK && data != null){
+            //Grab the returned (updated) ClEnt and update this class's
+            ClEnt clEnt = (ClEnt)data.getSerializableExtra("Class");
+            this.clEnt = clEnt;
+            this.lectures = clEnt.getLectureList();
+        }
+    }
+
+
+    private void buildLectureList(){
         //Initialize various lists
         dropdownMap = new HashMap<String, List<String>>();
         dropdownHeaders = new ArrayList<String>();
 
 
-
-        //TODO Find why the FUCK this prints differently every time the page is loaded
-        //For every lecture received
+        //For every lecture in the lecture list
         for(int i = 0; i < lectures.size(); i++){
             //Grab the Lecture and its name from the list
             Lecture lecture = lectures.get(i);
@@ -244,7 +254,7 @@ public class ModuleSelection extends AppCompatActivity {
     public void goToAddNewLecture(View view){
         Intent intent = new Intent(this, AddNewLecture.class);
         intent.putExtra("Class", clEnt);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
 
     }
 
