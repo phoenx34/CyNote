@@ -42,6 +42,12 @@ public class NotesController {
        return (Notes[]) results.toArray();
     }
     
+    /**
+     * Finds specific subset of notes and sorts them based upon
+     * each's popularity from high to low.
+     * @param lid lecture_id
+     * @return Array of notes sorted by popularity
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/getNotes/{lid}")
     public Notes[] getNotesLID(@PathVariable("lid") int lid) {
 		List<Notes> x = new ArrayList<Notes>();

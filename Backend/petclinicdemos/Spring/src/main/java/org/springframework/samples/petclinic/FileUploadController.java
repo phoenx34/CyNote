@@ -53,7 +53,14 @@ public class FileUploadController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
-
+    
+    /**
+     * Takes as input a multipart file
+     * and uploads it to the server. 
+     * @param file Multipart file
+     * @param redirectAttributes Attributes of file
+     * @return
+     */
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
