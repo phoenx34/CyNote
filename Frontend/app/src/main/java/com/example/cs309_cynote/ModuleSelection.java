@@ -16,26 +16,16 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.example.objects.ClEnt;
 import com.example.objects.Lecture;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.ProgressCallback;
+
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
-import static com.example.cs309_cynote.FileSelector.getContext;
 
 /**
  * Hub for module/lecure selection, accessed by selecting a class. Shows individual lectures and their components.
@@ -123,125 +113,32 @@ public class ModuleSelection extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         String fileUploadUrl = "http://cs309-sd-7.misc.iastate.edu:8080/1/1/oof";
+        //String fileUploadUrl = "http://cs309-sd-7.misc.iastate.edu:8080/";
 
+        if(resultCode == RESULT_OK) {
+            switch (requestCode) {
 
-        if(requestCode == 123 && resultCode == RESULT_OK) {
-            Uri selectedfile = data.getData(); //The uri with the location of the file
-            String sourceFileUri = selectedfile.getPath();
+                //Note upload in-app, unused (file path works, uploader is big oof)
+                case 123:
+                    Uri selectedfile = data.getData(); //The uri with the location of the file
+                    String sourceFileUri = selectedfile.getPath();
 
-            File file = new File(sourceFileUri);//create path from uri
-            final String[] split = file.getPath().split(":");//split the path.
-            sourceFileUri = split[1];//assign it to a string(your choice).
+                    File file = new File(sourceFileUri);//create path from uri
+                    final String[] split = file.getPath().split(":");//split the path.
+                    sourceFileUri = split[1];//assign it to a string(your choice).
 
+                    UploadFileAsync uploadFileAsync = new UploadFileAsync();
+                    uploadFileAsync.execute(selectedfile.getPath());
+                    break;
 
+                //Note upload in-browser
+                case 8080:
 
-            final File fileToUpload = new File(sourceFileUri);
-            Ion.with(getApplicationContext())
-                    .load(fileUploadUrl)
-                    .uploadProgressHandler(new ProgressCallback() {
-                        @Override
-                        public void onProgress(long uploaded, long total) {
-                            // Displays the progress bar for the first time.
-                            mNotifyManager.notify(notificationId, mBuilder.build());
-                            mBuilder.setProgress((int) total, (int) uploaded, false);
-                        }
-                    })
-                    .setTimeout(60 * 60 * 1000)
-                    .setMultipartFile("upload", "image/jpeg", fileToUpload)
-                    .asJsonObject()
-                    // run a callback on completion
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            // When the loop is finished, updates the notification
-                            mBuilder.setContentText("Upload complete")
-                                    // Removes the progress bar
-                                    .setProgress(0, 0, false);
-                            mNotifyManager.notify(notificationId, mBuilder.build());
-                            if (e != null) {
-                                Toast.makeText(context, "Error uploading file", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            Toast.makeText(context, "File upload complete", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-
-            /*
-            Ion.with(getApplicationContext())
-                    //.load("http://cs309-sd-7.misc.iastate.edu:8080/1/1/oof")
-                    .load("http://cs309-sd-7.misc.iastate.edu:8080/")
-                    //.uploadProgressBar(uploadProgressBar)
-                    //.setMultipartParameter("goop", "noop")
-                    //.setMultipartFile("archive", "application/zip", new File("/sdcard/filename.zip"))
-                    .setMultipartFile("image", "multipart/form-data", new File(selectedfile.getPath()))
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            System.out.println("FUck");
-                            //System.out.println(
-                        }
-                    });
-
+                    break;
+            }
         }
-            /*
-
-
-            final File fileToUpload = new File(sourceFileUri);
-            Ion.with(getApplicationContext())
-                    .load(Urls.UPLOAD_PICTURE)
-                    .uploadProgressHandler(new ProgressCallback() {
-                        @Override
-                        public void onProgress(long uploaded, long total) {
-                            // Displays the progress bar for the first time.
-                            mNotifyManager.notify(notificationId, mBuilder.build());
-                            mBuilder.setProgress((int) total, (int) uploaded, false);
-                        }
-                    })
-                    .setTimeout(60 * 60 * 1000)
-                    .setMultipartFile("upload", "image/jpeg", fileToUpload)
-                    .asJsonObject()
-                    // run a callback on completion
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            // When the loop is finished, updates the notification
-                            mBuilder.setContentText("Upload complete")
-                                    // Removes the progress bar
-                                    .setProgress(0, 0, false);
-                            mNotifyManager.notify(notificationId, mBuilder.build());
-                            if (e != null) {
-                                Toast.makeText(context, "Error uploading file", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            Toast.makeText(context, "File upload complete", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    */
-
-
-
-
-
-
-
-            //Send the file linked to the above URI to an async post
-            //UploadFileAsync uploadFileAsync = new UploadFileAsync();
-            //uploadFileAsync.execute(selectedfile.getPath());
-            //uploadMultipart(selectedfile);
-
-
-        /*
-        //If all is well and the data exists...
-        if(requestCode == AddNewLecture.RESULT_OK && data != null){
-            //Grab the returned (updated) ClEnt and update this class's
-            ClEnt clEnt = (ClEnt)data.getSerializableExtra("Class");
-            this.clEnt = clEnt;
-            this.lectures = clEnt.getLectureList();
-        }
-        */
     }
+
 
 
     /**
@@ -488,11 +385,22 @@ public class ModuleSelection extends AppCompatActivity {
         AddNoteModal addNoteModal = new AddNoteModal();
         addNoteModal.show(getSupportFragmentManager(), "missiles");
         */
-        Intent intent = new Intent()
-                .setType("*/*")
-                .setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(intent, "Select a file"), 123);
+
+        //File upload URL
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080/";
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivityForResult(intent, 8080);
+
+
+        //Fuck this shit
+//        Intent intent = new Intent()
+//                .setType("*/*")
+//                .setAction(Intent.ACTION_GET_CONTENT);
+//
+//        startActivityForResult(Intent.createChooser(intent, "Select a file"), 123);
     }
 
     /**

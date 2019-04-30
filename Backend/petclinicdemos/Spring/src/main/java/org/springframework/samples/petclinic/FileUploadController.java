@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic;
 
+
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import org.springframework.samples.petclinic.storage.StorageFileNotFoundException;
 import org.springframework.samples.petclinic.storage.StorageService;
@@ -44,6 +46,28 @@ public class FileUploadController {
 
         return "uploadForm";
     }
+    
+    @GetMapping("/{lecName}/{lid}")
+    public String uploadFile(Model model, @PathVariable String lid, @PathVariable String lecName) throws IOException {
+
+    	System.out.println("Got to uploadFile");
+    	System.out.println("LID: "+lid);
+    	
+        model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "serveFile", path.getFileName().toString()).build().toString())
+                .collect(Collectors.toList()));
+        
+        //Destination for form post
+        String link = "http://cs309-sd-7.misc.iastate.edu:8080/"+lid;
+        System.out.println("Link: "+link);
+        
+        //Add the parameters required to style and to post data
+        model.addAttribute("lecName", lecName);
+        model.addAttribute("link", link);
+
+        return "uploadForm";
+    }
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
@@ -54,21 +78,63 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
+    
+    
+    @PostMapping("/{lid}")
+    public String upload(@RequestParam("file") MultipartFile file,
+    		@RequestParam("name") String name, @PathVariable("lid") String lid,
+            RedirectAttributes redirectAttributes) {
+    	
+    	System.out.println("Got to upload");
+    	
+    	
+    	if(file == null)
+    		System.out.println("ERROR: File is null");
+    	//System.out.println("NID: "+nid);
+    	System.out.println("LID: "+lid);
+    	System.out.println("Name: "+name);
+    	
+    	Integer lidL = new Integer(lid);
+    	
+        storageService.store(file);
+        String path = "/files/" + file.getOriginalFilename();
+        
+        Notes note = new Notes();
+        note.setAddress(path);
+        note.setTitle(name);
+        note.setLecNum(lidL);
+        //note.setNID(nid);
+        
+        notes.saveNote(note);
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        return "success";
+    }
+    
+    
+    
+    
     @PostMapping("/{nid}/{lecnum}/{name}")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes, @PathVariable("nid") Integer nid, 
             @PathVariable("lecnum") Integer lid, @PathVariable("name") String name) {
     	
+    	if(file == null)
+    		System.out.println("ERROR: File is null");
+    	System.out.println("NID: "+nid);
+    	System.out.println("LID: "+lid);
+    	System.out.println("Name: "+name);
+    	
         storageService.store(file);
-        String path = null;
-        path = "/files/" + file.getOriginalFilename();
+        String path = "/files/" + file.getOriginalFilename();
+        
         Notes note = new Notes();
-        if(path != null) {
-        	note.setAddress(path);
-        }
+        note.setAddress(path);
         note.setTitle(name);
         note.setLecNum(lid);
         note.setNID(nid);
+        
         notes.saveNote(note);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
