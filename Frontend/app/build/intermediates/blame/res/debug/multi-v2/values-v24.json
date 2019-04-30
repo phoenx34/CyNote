@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Snowizard\\GIT\\team_37\\Frontend\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "/Users/peter/Desktop/309/Frontend/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Snowizard\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-26.1.0.aar\\9aec79c6dd7680902e71f147580f4bd7\\res\\values-v24\\values-v24.xml",
+                    "source": "/Users/peter/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/c5ad08355a6678db475e7e1000ec9d42/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Snowizard\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\c845df8b790fa02a40fe96a055ce46c7\\res\\values-v24\\values-v24.xml",
+                    "source": "/Users/peter/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/3b572738b60bb58a75c180e48554e2e8/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

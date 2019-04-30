@@ -1020,6 +1020,7 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable button_bg_round
 drawable common_full_open_on_phone
 drawable common_google_signin_btn_icon_dark
 drawable common_google_signin_btn_icon_dark_focused
@@ -1079,8 +1080,11 @@ id ACPassword
 id ACUsername
 id ALT
 id CTRL
+id CreateClassBut
 id FUNCTION
 id META
+id NewClassNameInput
+id NewLectureBut
 id SHIFT
 id SYM
 id action0
@@ -1106,7 +1110,7 @@ id activity_chooser_view_content
 id add
 id addClass
 id addToClassInput
-id addUserToClassBot
+id addUserToClassBut
 id adjust_height
 id adjust_width
 id alertTitle
@@ -1123,6 +1127,7 @@ id butAddLec
 id button
 id button3
 id button4
+id button5
 id button6
 id buttonChoose
 id buttonPanel
@@ -1230,6 +1235,9 @@ id navigation_header_container
 id navigation_home
 id navigation_notifications
 id never
+id newLectureBut
+id newLectureInput
+id noClassMessage
 id none
 id normal
 id notification_background
@@ -1251,8 +1259,11 @@ id professorMSG
 id progress_circular
 id progress_horizontal
 id prologoutBut
+id push_button
+id qrcodeImage
 id radio
 id relLayout
+id result_scan_text
 id right
 id right_icon
 id right_side
@@ -1320,6 +1331,7 @@ id textSpacerNoTitle
 id textStart
 id textView
 id textView10
+id textView11
 id textView2
 id textView3
 id textView4
@@ -1405,14 +1417,18 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_acc_creation
+layout activity_add_new_lecture
 layout activity_add_textbook
 layout activity_add_user_to_class
 layout activity_class_selection
 layout activity_file_selector
+layout activity_generate_qr
 layout activity_login
 layout activity_module_selection
 layout activity_notes
 layout activity_professor_main
+layout activity_qr_scan
+layout activity_scan_code
 layout activity_shout_out
 layout activity_student_main
 layout activity_ta_main
@@ -1505,6 +1521,7 @@ string action_sign_in
 string action_sign_in_short
 string add_class
 string add_new_class
+string add_new_lecture
 string add_to_class
 string addclass
 string addlecture
@@ -1512,6 +1529,7 @@ string app_name
 string appbar_scrolling_view_behavior
 string back
 string bottom_sheet_behavior
+string button
 string cancel
 string character_counter_content_description
 string character_counter_pattern
@@ -1536,6 +1554,7 @@ string common_open_on_phone
 string common_signin_button_text
 string common_signin_button_text_long
 string connect
+string create
 string create_a_new_account
 string create_account
 string cy_notes
@@ -1592,7 +1611,9 @@ string title_activity_main2
 string title_dashboard
 string title_home
 string title_notifications
+string type_class_code
 string type_class_name
+string type_lecture_id
 string update
 string username
 style AlertDialog_AppCompat

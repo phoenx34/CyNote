@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="ExtraText,GoogleAppIndexingWarning">
-        <activity android:name=".generateQR"></activity>
+        <activity android:name=".generateQR"/>
         <activity android:name=".ScanCodeActivity" />
         <activity android:name=".QrScan" />
         <activity android:name=".AddNewLecture" />
