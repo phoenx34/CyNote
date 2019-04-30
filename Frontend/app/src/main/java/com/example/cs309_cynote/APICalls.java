@@ -514,6 +514,10 @@ public class APICalls{
                 //Update the given ClEnt's lectureList
                 clEnt.setLectureList(lectures);
 
+                for(Lecture lec: lectures){
+                    System.out.println("Lecture received: " + lec.getLID());
+                }
+
                 //Continue
                 callbacks.onResponse(clEnt);
             }

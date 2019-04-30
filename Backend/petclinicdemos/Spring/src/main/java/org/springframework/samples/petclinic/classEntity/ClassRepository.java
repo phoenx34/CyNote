@@ -11,6 +11,7 @@ public interface ClassRepository extends JpaRepository<ClEnt, Long> {
 	ClEnt save(ClEnt persisted);
 	Optional<ClEnt> findById(Long CID);
 	List<ClEnt> findAll();
+	boolean existsById(Long id);
 }
 
 

@@ -96,7 +96,7 @@ public class ModuleSelection extends AppCompatActivity {
 
 
         //Build the dropdown list with the lectures variable
-
+        buildLectureList();
 
     }
 
