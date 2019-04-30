@@ -29,7 +29,7 @@ import org.springframework.samples.petclinic.notes.*;
 public class FileUploadController {
 
     private final StorageService storageService;
-    public NotesController notes;
+    public NotesRepository notes;
 
     @Autowired
     public FileUploadController(StorageService storageService) {
@@ -105,7 +105,7 @@ public class FileUploadController {
         note.setLecNum(lidL);
         //note.setNID(nid);
         
-        notes.saveNote(note);
+        notes.save(note);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
@@ -114,11 +114,10 @@ public class FileUploadController {
     
     
     
-    
+    /*
     @PostMapping("/{nid}/{lecnum}/{name}")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes, @PathVariable("nid") Integer nid, 
-            @PathVariable("lecnum") Integer lid, @PathVariable("name") String name) {
+            RedirectAttributes redirectAttributes) {
     	
     	if(file == null)
     		System.out.println("ERROR: File is null");
@@ -127,6 +126,7 @@ public class FileUploadController {
     	System.out.println("Name: "+name);
     	
         storageService.store(file);
+
         String path = "/files/" + file.getOriginalFilename();
         
         Notes note = new Notes();
@@ -136,11 +136,13 @@ public class FileUploadController {
         note.setNID(nid);
         
         notes.saveNote(note);
+
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "success";
+        return "redirect:/";
     }
+    */
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {

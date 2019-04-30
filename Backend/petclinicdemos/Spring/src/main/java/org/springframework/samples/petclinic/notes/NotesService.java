@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.notes;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserController;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,8 @@ public class NotesService {
 	
 	@Autowired
 	NotesController notesController;
+	
+	
 	
 	
 	
