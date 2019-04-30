@@ -19,13 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="ExtraText,GoogleAppIndexingWarning">
-        <activity android:name=".AddNewLecture"></activity>
+        <activity android:name=".QR_Generator"></activity>
+        <activity android:name=".AddNewLecture" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"
-            tools:replace="android:screenOrientation"
-            android:stateNotNeeded="true"/>
-
+            android:stateNotNeeded="true"
+            tools:replace="android:screenOrientation" />
         <activity android:name=".AddUserToClass" />
         <activity android:name=".TextbookSelection" />
         <activity android:name=".AddTextbook" />
