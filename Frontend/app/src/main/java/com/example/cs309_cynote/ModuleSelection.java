@@ -19,6 +19,7 @@ import com.example.objects.Lecture;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -119,21 +121,56 @@ public class ModuleSelection extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+
+        String fileUploadUrl = "http://cs309-sd-7.misc.iastate.edu:8080/1/1/oof";
+
+
         if(requestCode == 123 && resultCode == RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
+            String sourceFileUri = selectedfile.getPath();
+
+            File file = new File(sourceFileUri);//create path from uri
+            final String[] split = file.getPath().split(":");//split the path.
+            sourceFileUri = split[1];//assign it to a string(your choice).
 
 
 
-            BigOof bigOof = new BigOof() {
-                @Override
-                public void onResponse(String message) {
-                    System.out.println("Fuck");
-                }
-            };
-
-
+            final File fileToUpload = new File(sourceFileUri);
             Ion.with(getApplicationContext())
-                    .load("https://koush.clockworkmod.com/test/echo")
+                    .load(fileUploadUrl)
+                    .uploadProgressHandler(new ProgressCallback() {
+                        @Override
+                        public void onProgress(long uploaded, long total) {
+                            // Displays the progress bar for the first time.
+                            mNotifyManager.notify(notificationId, mBuilder.build());
+                            mBuilder.setProgress((int) total, (int) uploaded, false);
+                        }
+                    })
+                    .setTimeout(60 * 60 * 1000)
+                    .setMultipartFile("upload", "image/jpeg", fileToUpload)
+                    .asJsonObject()
+                    // run a callback on completion
+                    .setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result) {
+                            // When the loop is finished, updates the notification
+                            mBuilder.setContentText("Upload complete")
+                                    // Removes the progress bar
+                                    .setProgress(0, 0, false);
+                            mNotifyManager.notify(notificationId, mBuilder.build());
+                            if (e != null) {
+                                Toast.makeText(context, "Error uploading file", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            Toast.makeText(context, "File upload complete", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+
+            /*
+            Ion.with(getApplicationContext())
+                    //.load("http://cs309-sd-7.misc.iastate.edu:8080/1/1/oof")
+                    .load("http://cs309-sd-7.misc.iastate.edu:8080/")
                     //.uploadProgressBar(uploadProgressBar)
                     //.setMultipartParameter("goop", "noop")
                     //.setMultipartFile("archive", "application/zip", new File("/sdcard/filename.zip"))
@@ -147,12 +184,54 @@ public class ModuleSelection extends AppCompatActivity {
                         }
                     });
 
+        }
+            /*
+
+
+            final File fileToUpload = new File(sourceFileUri);
+            Ion.with(getApplicationContext())
+                    .load(Urls.UPLOAD_PICTURE)
+                    .uploadProgressHandler(new ProgressCallback() {
+                        @Override
+                        public void onProgress(long uploaded, long total) {
+                            // Displays the progress bar for the first time.
+                            mNotifyManager.notify(notificationId, mBuilder.build());
+                            mBuilder.setProgress((int) total, (int) uploaded, false);
+                        }
+                    })
+                    .setTimeout(60 * 60 * 1000)
+                    .setMultipartFile("upload", "image/jpeg", fileToUpload)
+                    .asJsonObject()
+                    // run a callback on completion
+                    .setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result) {
+                            // When the loop is finished, updates the notification
+                            mBuilder.setContentText("Upload complete")
+                                    // Removes the progress bar
+                                    .setProgress(0, 0, false);
+                            mNotifyManager.notify(notificationId, mBuilder.build());
+                            if (e != null) {
+                                Toast.makeText(context, "Error uploading file", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            Toast.makeText(context, "File upload complete", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    */
+
+
+
+
+
+
+
             //Send the file linked to the above URI to an async post
             //UploadFileAsync uploadFileAsync = new UploadFileAsync();
             //uploadFileAsync.execute(selectedfile.getPath());
             //uploadMultipart(selectedfile);
 
-        }
+
         /*
         //If all is well and the data exists...
         if(requestCode == AddNewLecture.RESULT_OK && data != null){
@@ -163,6 +242,7 @@ public class ModuleSelection extends AppCompatActivity {
         }
         */
     }
+
 
     /**
      * Upload the selected multipart file
@@ -311,7 +391,17 @@ public class ModuleSelection extends AppCompatActivity {
                         break;
 
                     case "Collaborative Notes":
-                        //TODO Direct the user to the EtherPad room
+                        //Direct the user to the EtherPad room using the default browser
+
+                        //Base EtherPad url
+                        String url = "http://cs309-sd-7.misc.iastate.edu:8443/p/";
+
+                        //Add the CID and the LID to the path to direct to the correct room
+                        url += clEnt.getCID() + "--" + lecture.getLID();
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(url));
+                        startActivity(intent);
                         break;
 
                     case "Add a note +":
