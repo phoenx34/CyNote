@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.notes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,11 +39,37 @@ public class NotesController {
     public Notes[] getAllNotes() {
         logger.info("Entered into Controller Layer");
         List<Notes> results = noteRepository.findAll();
-        logger.info("Number of Records Fetched:" + results.size());
-        Notes[] result = notesService.quicksortNote((Notes[]) results.toArray());
-       return result;
+       return (Notes[]) results.toArray();
     }
     
+    @RequestMapping(method = RequestMethod.GET, path = "/getNotes/{lid}")
+    public Notes[] getNotesLID(@PathVariable("lid") int lid) {
+		List<Notes> x = new ArrayList<Notes>();
+		for(Notes n : getAllNotes()) {
+			if(n.getLecNum() == lid) {
+				x.add(n);
+			}
+		}
+    	Notes[] toSort = (Notes[]) x.toArray();
+    	toSort = notesService.quicksortNote(toSort);
+    	return toSort;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/updateNote/{nid}/{lid}")
+    public Notes[] updateNotes(@PathVariable("nid") int nid, @PathVariable("lid") int lid) {
+    	
+    	List<Notes> notes = noteRepository.findAll();
+    	Notes upMe = noteRepository.findById(nid).get();
+    	if(upMe == null) {
+    		return null;
+    	}
+    	
+    	noteRepository.deleteById(nid);
+    	upMe.setRating(upMe.getRating() + 1);
+    	noteRepository.save(upMe);
+    	
+    	return getNotesLID(lid);
+    }
     
     
     @RequestMapping(method = RequestMethod.GET, path = "/notes/{noteId}")
