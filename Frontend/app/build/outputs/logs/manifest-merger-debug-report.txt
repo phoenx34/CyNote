@@ -14,6 +14,7 @@ MERGED from [com.android.volley:volley:1.1.1] C:\Users\Snowizard\.gradle\caches\
 MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0.aar\ec0a4c4fd848d6ca0600100380841049\AndroidManifest.xml:17:1-22:12
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\5f1619f3b70f51f4bdd6146be9d2ab65\AndroidManifest.xml:17:1-55:12
 MERGED from [com.google.firebase:firebase-messaging:17.1.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-messaging-17.1.0.aar\ca1b2a35db7ef760e5e58fb93f2a86ec\AndroidManifest.xml:17:1-37:12
+MERGED from [com.koushikdutta.ion:ion:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\ion-2.1.9.aar\f4abb3f407f1610a176fd7794ec5a6fb\AndroidManifest.xml:2:1-16:12
 MERGED from [com.google.firebase:firebase-iid:16.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.2.0.aar\429f1f38920424b6752af996f79eb039\AndroidManifest.xml:17:1-65:12
 MERGED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-common-16.0.0.aar\af4b913f15e31ba90fa0a93b38357d1c\AndroidManifest.xml:2:1-16:12
 MERGED from [com.google.firebase:firebase-iid-interop:16.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-iid-interop-16.0.0.aar\86297055b3d714d1d8c466b490c2e7b6\AndroidManifest.xml:2:1-10:12
@@ -49,6 +50,7 @@ MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Snowizard\.gradle
 MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\livedata-1.1.1.aar\6665c2d130a62d99a7482434a6530146\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\4cd5dc679a601d56ceb5970d48d3e6e3\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\f370f7f6209a1b34ece12724ab0a0643\AndroidManifest.xml:17:1-22:12
+MERGED from [com.koushikdutta.async:androidasync:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\androidasync-2.1.9.aar\aacbf77939d9bcf860debef592d87126\AndroidManifest.xml:2:1-16:12
 INJECTED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:2:1-60:12
 INJECTED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:2:1-60:12
 INJECTED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:2:1-60:12
@@ -72,8 +74,12 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:6:5-67
 MERGED from [net.gotev:uploadservice:2.1] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\uploadservice-2.1.aar\f7bc36e777dc649dfec7182730b19fa0\AndroidManifest.xml:11:5-67
 MERGED from [net.gotev:uploadservice:2.1] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\uploadservice-2.1.aar\f7bc36e777dc649dfec7182730b19fa0\AndroidManifest.xml:11:5-67
+MERGED from [com.koushikdutta.ion:ion:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\ion-2.1.9.aar\f4abb3f407f1610a176fd7794ec5a6fb\AndroidManifest.xml:11:5-67
+MERGED from [com.koushikdutta.ion:ion:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\ion-2.1.9.aar\f4abb3f407f1610a176fd7794ec5a6fb\AndroidManifest.xml:11:5-67
 MERGED from [com.google.firebase:firebase-iid:16.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.2.0.aar\429f1f38920424b6752af996f79eb039\AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-iid:16.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.2.0.aar\429f1f38920424b6752af996f79eb039\AndroidManifest.xml:23:5-67
+MERGED from [com.koushikdutta.async:androidasync:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\androidasync-2.1.9.aar\aacbf77939d9bcf860debef592d87126\AndroidManifest.xml:11:5-67
+MERGED from [com.koushikdutta.async:androidasync:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\androidasync-2.1.9.aar\aacbf77939d9bcf860debef592d87126\AndroidManifest.xml:11:5-67
 	android:name
 		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:6:22-64
 uses-permission#android.permission.GET_ACCOUNTS
@@ -112,6 +118,8 @@ MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.g
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\5f1619f3b70f51f4bdd6146be9d2ab65\AndroidManifest.xml:45:5-53:19
 MERGED from [com.google.firebase:firebase-messaging:17.1.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-messaging-17.1.0.aar\ca1b2a35db7ef760e5e58fb93f2a86ec\AndroidManifest.xml:22:5-35:19
 MERGED from [com.google.firebase:firebase-messaging:17.1.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-messaging-17.1.0.aar\ca1b2a35db7ef760e5e58fb93f2a86ec\AndroidManifest.xml:22:5-35:19
+MERGED from [com.koushikdutta.ion:ion:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\ion-2.1.9.aar\f4abb3f407f1610a176fd7794ec5a6fb\AndroidManifest.xml:13:5-14:19
+MERGED from [com.koushikdutta.ion:ion:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\ion-2.1.9.aar\f4abb3f407f1610a176fd7794ec5a6fb\AndroidManifest.xml:13:5-14:19
 MERGED from [com.google.firebase:firebase-iid:16.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.2.0.aar\429f1f38920424b6752af996f79eb039\AndroidManifest.xml:34:5-63:19
 MERGED from [com.google.firebase:firebase-iid:16.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.2.0.aar\429f1f38920424b6752af996f79eb039\AndroidManifest.xml:34:5-63:19
 MERGED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-common-16.0.0.aar\af4b913f15e31ba90fa0a93b38357d1c\AndroidManifest.xml:8:5-14:19
@@ -136,6 +144,8 @@ MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Snowizard\.grad
 MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\73e3922216887caed2b8f6bd5660a350\AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\98c136755af10fbccb26f314b02c98e1\AndroidManifest.xml:22:5-23:19
 MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0.aar\98c136755af10fbccb26f314b02c98e1\AndroidManifest.xml:22:5-23:19
+MERGED from [com.koushikdutta.async:androidasync:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\androidasync-2.1.9.aar\aacbf77939d9bcf860debef592d87126\AndroidManifest.xml:13:5-14:19
+MERGED from [com.koushikdutta.async:androidasync:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\androidasync-2.1.9.aar\aacbf77939d9bcf860debef592d87126\AndroidManifest.xml:13:5-14:19
 	android:appComponentFactory
 		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0.aar\73e3922216887caed2b8f6bd5660a350\AndroidManifest.xml:22:18-91
 	android:supportsRtl
@@ -154,18 +164,22 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Snowizard\
 		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:20:9-40
 	android:networkSecurityConfig
 		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:17:9-69
-activity#com.example.cs309_cynote.AddNewLecture
-ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:22:9-60
+activity#com.example.cs309_cynote.QR_Generator
+ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:22:9-59
 	android:name
-		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:22:19-48
+		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:22:19-47
+activity#com.example.cs309_cynote.AddNewLecture
+ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:23:9-51
+	android:name
+		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:23:19-48
 activity#com.journeyapps.barcodescanner.CaptureActivity
-ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:23:9-27:44
+ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:24:9-28:57
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\5f1619f3b70f51f4bdd6146be9d2ab65\AndroidManifest.xml:46:9-52:63
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\5f1619f3b70f51f4bdd6146be9d2ab65\AndroidManifest.xml:46:9-52:63
 	android:clearTaskOnLaunch
 		ADDED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\5f1619f3b70f51f4bdd6146be9d2ab65\AndroidManifest.xml:48:13-45
 	android:screenOrientation
-		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:25:13-49
+		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:26:13-49
 		REJECTED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\5f1619f3b70f51f4bdd6146be9d2ab65\AndroidManifest.xml:49:13-56
 	android:stateNotNeeded
 		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:27:13-42
@@ -174,9 +188,9 @@ MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.g
 	android:theme
 		ADDED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\5f1619f3b70f51f4bdd6146be9d2ab65\AndroidManifest.xml:51:13-54
 	tools:replace
-		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:26:13-54
+		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:28:13-54
 	android:name
-		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:24:13-74
+		ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:25:13-74
 activity#com.example.cs309_cynote.AddUserToClass
 ADDED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml:29:9-52
 	android:name
@@ -283,6 +297,8 @@ MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.g
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\5f1619f3b70f51f4bdd6146be9d2ab65\AndroidManifest.xml:19:5-43
 MERGED from [com.google.firebase:firebase-messaging:17.1.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-messaging-17.1.0.aar\ca1b2a35db7ef760e5e58fb93f2a86ec\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-messaging:17.1.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-messaging-17.1.0.aar\ca1b2a35db7ef760e5e58fb93f2a86ec\AndroidManifest.xml:20:5-44
+MERGED from [com.koushikdutta.ion:ion:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\ion-2.1.9.aar\f4abb3f407f1610a176fd7794ec5a6fb\AndroidManifest.xml:7:5-9:41
+MERGED from [com.koushikdutta.ion:ion:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\ion-2.1.9.aar\f4abb3f407f1610a176fd7794ec5a6fb\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.firebase:firebase-iid:16.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.2.0.aar\429f1f38920424b6752af996f79eb039\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-iid:16.2.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-iid-16.2.0.aar\429f1f38920424b6752af996f79eb039\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\firebase-common-16.0.0.aar\af4b913f15e31ba90fa0a93b38357d1c\AndroidManifest.xml:5:5-6:37
@@ -353,6 +369,8 @@ MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Snowizard\.gra
 MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\4cd5dc679a601d56ceb5970d48d3e6e3\AndroidManifest.xml:20:5-44
 MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\f370f7f6209a1b34ece12724ab0a0643\AndroidManifest.xml:20:5-44
 MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\f370f7f6209a1b34ece12724ab0a0643\AndroidManifest.xml:20:5-44
+MERGED from [com.koushikdutta.async:androidasync:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\androidasync-2.1.9.aar\aacbf77939d9bcf860debef592d87126\AndroidManifest.xml:7:5-9:41
+MERGED from [com.koushikdutta.async:androidasync:2.1.9] C:\Users\Snowizard\.gradle\caches\transforms-1\files-1.1\androidasync-2.1.9.aar\aacbf77939d9bcf860debef592d87126\AndroidManifest.xml:7:5-9:41
 INJECTED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\Snowizard\GIT\team_37\Frontend\app\src\main\AndroidManifest.xml
 	tools:overrideLibrary

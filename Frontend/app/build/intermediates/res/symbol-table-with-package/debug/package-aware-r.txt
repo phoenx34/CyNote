@@ -1187,6 +1187,7 @@ id direct
 id disableHome
 id dummy
 id editText
+id editTextInput
 id editTextName
 id edit_query
 id end
@@ -1204,6 +1205,7 @@ id fitCenter
 id fitXY
 id fixed
 id forever
+id ggBtn
 id ghost_view
 id goBackFromAddTextbook
 id goBackFromTextbookSelect
@@ -1219,6 +1221,7 @@ id icon_only
 id ifRoom
 id image
 id imageView
+id imagev
 id info
 id input_text
 id invisible
@@ -1364,6 +1367,7 @@ id text_input_password_toggle
 id textinput_counter
 id textinput_error
 id textinput_helper_text
+id textvie
 id time
 id title
 id titleDividerNoCustom
@@ -1457,6 +1461,7 @@ layout activity_login
 layout activity_module_selection
 layout activity_notes
 layout activity_professor_main
+layout activity_qr__generator
 layout activity_shout_out
 layout activity_student_main
 layout activity_ta_main

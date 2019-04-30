@@ -1,6 +1,7 @@
 package com.example.cs309_cynote;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,14 +16,24 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.example.objects.ClEnt;
 import com.example.objects.Lecture;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.UploadNotificationConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+
+import static com.example.cs309_cynote.FileSelector.getContext;
 
 /**
  * Hub for module/lecure selection, accessed by selecting a class. Shows individual lectures and their components.
@@ -100,16 +111,94 @@ public class ModuleSelection extends AppCompatActivity {
 
     }
 
+    public interface BigOof {
+        void onResponse(String message);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 123 && resultCode == RESULT_OK) {
+            Uri selectedfile = data.getData(); //The uri with the location of the file
 
+
+
+            BigOof bigOof = new BigOof() {
+                @Override
+                public void onResponse(String message) {
+                    System.out.println("Fuck");
+                }
+            };
+
+
+            Ion.with(getApplicationContext())
+                    .load("https://koush.clockworkmod.com/test/echo")
+                    //.uploadProgressBar(uploadProgressBar)
+                    //.setMultipartParameter("goop", "noop")
+                    //.setMultipartFile("archive", "application/zip", new File("/sdcard/filename.zip"))
+                    .setMultipartFile("image", "multipart/form-data", new File(selectedfile.getPath()))
+                    .asJsonObject()
+                    .setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result) {
+                            System.out.println("FUck");
+                            //System.out.println(
+                        }
+                    });
+
+            //Send the file linked to the above URI to an async post
+            //UploadFileAsync uploadFileAsync = new UploadFileAsync();
+            //uploadFileAsync.execute(selectedfile.getPath());
+            //uploadMultipart(selectedfile);
+
+        }
+        /*
         //If all is well and the data exists...
         if(requestCode == AddNewLecture.RESULT_OK && data != null){
             //Grab the returned (updated) ClEnt and update this class's
             ClEnt clEnt = (ClEnt)data.getSerializableExtra("Class");
             this.clEnt = clEnt;
             this.lectures = clEnt.getLectureList();
+        }
+        */
+    }
+
+    /**
+     * Upload the selected multipart file
+     */
+    public void uploadMultipart(Uri filePath) {
+        String UPLOAD_URL = "http://cs309-sd-7.misc.iastate.edu:8080/1/1";
+
+        //getting name for the image
+        //String name = editText.getText().toString().trim();
+        String name = "EE";
+        UPLOAD_URL += "/"+name;
+
+        //getting the actual path of the image
+        //String path = getPath(filePath);
+        //String path = filePath;
+
+        //Uploading code
+        try {
+            String uploadId = UUID.randomUUID().toString();
+            System.out.println(filePath);
+            System.out.println(filePath.toString());
+
+
+            //Creating a multi part request
+            new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
+                    //.addFileToUpload(path, "image") //Adding file
+                    .addFileToUpload(filePath.toString(), "image") //Adding file
+                    .addParameter("name", name) //Adding text parameter to the request
+                    .setNotificationConfig(new UploadNotificationConfig())
+                    .setMaxRetries(2)
+                    .startUpload(); //Starting the upload
+
+        } catch (Exception exc) {
+            System.out.println("Exception in multipart...");
+            System.out.println(exc.getMessage());
+            Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -305,8 +394,15 @@ public class ModuleSelection extends AppCompatActivity {
     }
 
     private void inflateAddNote(){
+        /*
         AddNoteModal addNoteModal = new AddNoteModal();
         addNoteModal.show(getSupportFragmentManager(), "missiles");
+        */
+        Intent intent = new Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(intent, "Select a file"), 123);
     }
 
     /**

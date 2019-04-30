@@ -56,6 +56,7 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.cs309_cynote.QR_Generator" />
         <activity android:name="com.example.cs309_cynote.AddNewLecture" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
