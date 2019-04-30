@@ -50,8 +50,8 @@ public class AddNewLecture extends AppCompatActivity {
 
     public void addNewLecture(final View view){
 
-        String inputCodeCheck = editInputLectureID.getText().toString();
-        String inputNameCheck = editInputLectureName.getText().toString();
+        String inputCodeCheck = editInputLectureID.getText().toString();//record ID to check
+        String inputNameCheck = editInputLectureName.getText().toString();//record name to check
         //check if the Code is null
         if(inputCodeCheck == null || inputCodeCheck.trim().length() == 0 ||
                 inputNameCheck == null || inputNameCheck.trim().length() == 0) {
@@ -65,7 +65,7 @@ public class AddNewLecture extends AppCompatActivity {
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/classes/";
         url += clEnt.getCID() + "/lecture";
 
-        String json = "{\"id\":" + clEnt.getCID() + "," +
+        String json = "{\"id\":" + LID + "," +
                 "\"name\":" + inputNameCheck + "}";
 
         //get correct response to get class list and go to ClassSelection page
@@ -77,6 +77,7 @@ public class AddNewLecture extends AppCompatActivity {
 
                 //TODO
                 //Here, because we have the lecture object, just add this to the list of lectures
+                
 
                 //api.getModuleList(view, getClassName(), getCid());
             }
