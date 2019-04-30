@@ -66,11 +66,15 @@ public class ClassSelection extends AppCompatActivity {
         try{
             //Grab the received User
             User user = (User)intent.getSerializableExtra("User");
-            if(user == null || user.getClassList() == null || user.getClassList().isEmpty())
+            System.out.println(user);
+            if(user == null || user.getClassList() == null)
                 throw new Exception("No classList received in ClassSelection");
 
+            if(user.getClassList().isEmpty())
+                System.out.println("ClassList is empty");
 
             this.user = user;
+            System.out.println(this.user);
             this.classes = user.getClassList();
         }
         catch(Exception e){
@@ -338,7 +342,8 @@ public class ClassSelection extends AppCompatActivity {
      */
     public void goToAddNewClass(View view){
         Intent intent = new Intent(this, AddUserToClass.class);
-        intent.putExtra("UID", user.getUID());
+        System.out.println(user);
+        intent.putExtra("User", this.user);
         startActivity(intent);
 
     }

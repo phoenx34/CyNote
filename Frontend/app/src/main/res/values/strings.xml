@@ -88,5 +88,6 @@
     <string name="type_lecture_id">Type Lecture ID</string>
     <string name="add_new_lecture">Add New Lecture</string>
     <string name="type_lecture_name">Type Lecture Name</string>
+    <string name="scan_to_add">Scan To Add</string>
 
 </resources>

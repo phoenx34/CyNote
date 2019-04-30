@@ -49,6 +49,9 @@ dependencies {
 
     implementation files('libs/java_websocket.jar')
 
+
+    implementation 'com.koushikdutta.ion:ion:2.1.9'
+
     // ... more entries
     //testCompile 'junit:junit:4.12'
 

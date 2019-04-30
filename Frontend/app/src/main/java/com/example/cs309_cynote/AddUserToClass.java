@@ -1,5 +1,7 @@
 package com.example.cs309_cynote;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +11,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.objects.ClEnt;
+import com.example.objects.User;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import org.json.JSONException;
+
+import java.util.ArrayList;
 
 /**
  * AddUserToClass page, this page is used to add the student or TA type user into specific class,
@@ -21,8 +30,10 @@ public class AddUserToClass extends AppCompatActivity {
 
     private EditText editInputClassCode, editInputClassName;
 //    private Button cancelFromAddToClass, updateFromAddToClass;
-    private int uid, cid;
-    private String userType, newClassName;
+    private int cid;
+    private User user;
+    private String newClassName;
+    private static View jump;
 
 
     @Override
@@ -30,51 +41,51 @@ public class AddUserToClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user_to_class);
 
-        Bundle extras = getIntent().getExtras();
+        Intent intent = getIntent();
+        // Grab User passed through intent
         try{
-            //----Ensuring the data actually exists----\\
-
-            //If the extras does not exist, big oof
-            if(extras == null)
-                throw new Exception("No data received");
-
-            //Try pulling data from extras
-            setUid(extras.getInt("UID"));//get UID
-            setUserType(extras.getString("userType"));//get userType
-            //If data does not exist, big oof
-            }
-        catch(JSONException e) {
-            System.out.println("JSONException: ");
-            System.out.println(e.getMessage());
+            //Grab the received User
+            User user = (User)intent.getSerializableExtra("User");
+            System.out.println(user);
+            if(user == null)
+                throw new Exception("No user received from ClassSelection");
+            this.user = user;
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch(Exception e){
+            System.out.println("Exception: ");
+            System.out.println(e.getMessage());
         }
         editInputClassCode = findViewById(R.id.addToClassInput);
         editInputClassName = findViewById(R.id.NewClassNameInput);
 
         //check user type and visible corresponding button
-        if(userType.equalsIgnoreCase("Professor") || userType.contains("test"))
+        if(user.getUserType().equalsIgnoreCase("Professor") || user.getUserType().contains("test"))
         {
             //visible add class TextView and Button
             editInputClassCode.setVisibility(View.VISIBLE);
-            Button classCodeInputBut = findViewById(R.id.CreateClassBut);
+            Button classCodeInputBut = findViewById(R.id.addUserToClassBut);
             classCodeInputBut.setVisibility(View.VISIBLE);
             //visible create class TextView and Button
             editInputClassName.setVisibility(View.VISIBLE);
-            Button classNameInputBut = findViewById(R.id.addUserToClassBut);
+            Button classNameInputBut = findViewById(R.id.CreateClassBut);
             classNameInputBut.setVisibility(View.VISIBLE);
         }
         else
         {
             //visible add class TextView and Button
             editInputClassCode.setVisibility(View.VISIBLE);
-            Button classCodeInputBut = findViewById(R.id.CreateClassBut);
+            Button classCodeInputBut = findViewById(R.id.addUserToClassBut);
             classCodeInputBut.setVisibility(View.VISIBLE);
         }
 
     }
 
+//    /**
+//     * Start action of add user to class
+//     */
+//    public void addUserToClass(final View view) {
+//        addUserToClassAction();
+//    }
 
     /**
      * Find class-ID (cid) by using APICalls, volley GET method with String-className from input
@@ -95,14 +106,37 @@ public class AddUserToClass extends AppCompatActivity {
 
         //create url link with UID and CID
         String url = "http://cs309-sd-7.misc.iastate.edu:8080/addclass/";
-        url += uid + "/" + cid;
+        url += user.getUID() + "/" + cid;
 
         //get correct response to get class list and go to ClassSelection page
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //call API to get class list and go to ClassSelection page
-                //api.getClassList(view, getUid(), userType);
+//                try{
+//                    if(response.equalsIgnoreCase("false")) throw new Exception("Class can not be added!");
+//                }
+//                catch(Exception e) {
+//                    System.out.println("Exception: ");
+//                    System.out.println(e.getMessage());
+//                }
+
+                final APICallbacks classCallbacks = new APICallbacks<User>() {
+                    @Override
+                    public void onResponse(User user) {
+                        //Now that this user is completed, move to ClassSelection as login is complete
+                        Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                        intent.putExtra("User", user);         //Add User to ClassSelection intent
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onVolleyError(VolleyError error) {
+                        System.out.println(error.getMessage());
+                    }
+                };
+
+                api.getClassList(user, classCallbacks);
+
             }
         };
 
@@ -172,13 +206,77 @@ public class AddUserToClass extends AppCompatActivity {
         api.volleyPost(url, json, responseListener, errorListener);//send JSON request
     }
 
+    /**
+     * Open camera and scan the QR code to add user to class.
+     * @param view
+     */
+    public void scanToAddToClass(View view){
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator.setPrompt("Scan");
+        integrator.setCameraId(0);
+        integrator.setBeepEnabled(false);
+        integrator.setBarcodeImageEnabled(false);
+        jump = view;
+        integrator.initiateScan();
+    }
+
+    /**
+     * This method get result from scanner and add user to class.
+     * @param requestCode   int number including request
+     * @param resultCode    int number including result
+     * @param data          intent obj pointing this page
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+        if(result != null)
+        {
+            if(result.getContents()==null)
+            {
+                Toast.makeText(this,"Scan has been cancelled or stopped",Toast.LENGTH_SHORT).show();
+
+            }
+            else
+            {
+                Toast.makeText(this,"Add To Class!",Toast.LENGTH_LONG).show();
+                setCid(Integer.parseInt(result.getContents()));//set cid from result
+                System.out.println(getCid());
+                editInputClassCode.setText(getCid() + "");//set inputBox to be cid
+                addUserToClass(jump);
+
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
     /**
      * Cancel the adding action and go back to ClassSelection page.
      * @param view View selected to cancel action.
      */
-    public void CancelAddToClass(View view) {
-        finish();
+    public void CancelAddToClass(final View view) {
+        //finish();
+
+        final APICalls api = new APICalls(getApplicationContext());//new APICalls
+        final APICallbacks classCallbacks = new APICallbacks<User>() {
+            @Override
+            public void onResponse(User user) {
+                //Now that this user is completed, move to ClassSelection as login is complete
+                Intent intent = new Intent(view.getContext(), ClassSelection.class);
+                intent.putExtra("User", user);         //Add User to ClassSelection intent
+                startActivity(intent);
+            }
+
+            @Override
+            public void onVolleyError(VolleyError error) {
+                System.out.println(error.getMessage());
+            }
+        };
+
+        api.getClassList(user, classCallbacks);
     }
 
     /**
@@ -199,34 +297,20 @@ public class AddUserToClass extends AppCompatActivity {
     }
 
     /**
-     * Set UID as int.
-     * @param receivedInteger int number for setting UID
+     * Set user as User type.
+     * @param inputUser User obj to set user
      */
-    public void setUid(int receivedInteger)
+    public void setUser(User inputUser)
     {
-        uid = receivedInteger;
+        this.user = inputUser;
     }
 
     /**
-     * Get UID.
-     * @return Return UID as int
+     * Get User.
+     * @return Return user as User type
      */
-    public int getUid(){
-        return uid;
+    public User getUser(){
+        return user;
     }
-
-
-    public void setUserType(String inputUserType){
-        userType = inputUserType;
-    }
-
-    /**
-     * Get user type.
-     * @return Return user type as String
-     */
-    public String getUserType(){
-        return userType;
-    }
-
 
 }
