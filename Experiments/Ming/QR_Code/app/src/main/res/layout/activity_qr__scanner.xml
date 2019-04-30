@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".QR_Scanner">
 
+
+
     <TextView
         android:id="@+id/qrScannerText"
         android:layout_width="wrap_content"

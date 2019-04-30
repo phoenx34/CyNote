@@ -25,4 +25,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public void qrGeneratorBtn(View v)
+    {
+        Intent ie = new Intent(MainActivity.this,QR_Generator.class);
+        startActivity(ie);
+        Toast.makeText(this, "QR Generator",Toast.LENGTH_SHORT).show();
+    }
+
+
 }
