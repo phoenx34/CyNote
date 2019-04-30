@@ -1,5 +1,6 @@
 package com.example.cs309_cynote;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,9 @@ public class QR_Generator extends AppCompatActivity {
 
         textg = (EditText)findViewById(R.id.editTextInput);
         imageg = (ImageView)findViewById(R.id.imagev);
+        Bundle extras = getIntent().getExtras();
+        int CID = extras.getInt("CID");
+        textg.setText(CID);
     }
 
     public void genBtn(View v)

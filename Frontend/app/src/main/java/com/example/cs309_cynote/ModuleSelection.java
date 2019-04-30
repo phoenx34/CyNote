@@ -439,4 +439,11 @@ public class ModuleSelection extends AppCompatActivity {
         Intent intent = new Intent(this, NotesUI.class);
         startActivity(intent);
     }
+
+
+    public void GoToQRGenerator(View view) {
+        Intent intent = new Intent(this, QR_Generator.class);
+        intent.putExtra("CID",clEnt.getCID());
+        startActivity(intent);
+    }
 }
