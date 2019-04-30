@@ -39,7 +39,15 @@ public class NotesController {
     public Notes[] getAllNotes() {
         logger.info("Entered into Controller Layer");
         List<Notes> results = noteRepository.findAll();
-       return (Notes[]) results.toArray();
+        
+        Notes[] arr = new Notes[results.size()];
+        
+        for(int i = 0; i < arr.length; i++) {
+        	arr[i] = results.get(i);
+        }
+        
+        
+       return arr;
     }
     
     /**
@@ -56,7 +64,14 @@ public class NotesController {
 				x.add(n);
 			}
 		}
-    	Notes[] toSort = (Notes[]) x.toArray();
+		
+		Notes[] toSort = new Notes[x.size()];
+        
+        for(int i = 0; i < toSort.length; i++) {
+        	toSort[i] = x.get(i);
+        }
+		
+    	//Notes[] toSort = (Notes[]) x.toArray();
     	toSort = notesService.quicksortNote(toSort);
     	return toSort;
     }

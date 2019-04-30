@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic;
 
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +108,11 @@ public class FileUploadController {
         note.setAddress(path);
         note.setTitle(name);
         note.setLecNum(lidL);
-        note.setNID(1);
+        
+        //SSHHHHHHHHHhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+        Random rand = new Random();
+        int NID = rand.nextInt(99999);
+        note.setNID(NID);
         
         notes.save(note);
         redirectAttributes.addFlashAttribute("message",

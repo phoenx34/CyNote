@@ -5,27 +5,35 @@
     build-mode="COLD"
     density="560dpi"
     format="10"
+    ir-eligibility="CLASS_ADDED"
     plugin-version="3.3.0"
-    timestamp="1556660390732"
+    timestamp="1556664999738"
     token="-8912060472754348297"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="2243" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="73" />
     <task
         name="verifier"
-        duration="0" />
+        duration="60" />
+
+    <artifact
+        location="C:\Users\marc_\Desktop\linux\Programming\team_37\Frontend\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="C:\Users\marc_\Desktop\linux\Programming\team_37\Frontend\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+        type="SPLIT" />
 
     <build
         build-mode="FULL"
-        timestamp="1556659257755"
+        timestamp="1556660998650"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\marc_\Desktop\linux\Programming\team_37\Frontend\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
@@ -69,16 +77,15 @@
     </build>
     <build
         build-mode="COLD"
-        ir-eligibility="COMPATIBLE"
-        timestamp="1556660151796"
+        ir-eligibility="CLASS_ADDED"
+        timestamp="1556664999738"
         verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="C:\Users\marc_\Desktop\linux\Programming\team_37\Frontend\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            type="SPLIT" />
         <artifact
             location="C:\Users\marc_\Desktop\linux\Programming\team_37\Frontend\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
             type="SPLIT" />
     </build>
-    <build
-        build-mode="COLD"
-        timestamp="1556660390732"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

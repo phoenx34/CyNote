@@ -289,7 +289,8 @@ public class ClassSelection extends AppCompatActivity {
             public void onResponse(ClEnt clEnt) {
                 //Now that this ClEnt is completed, move to ModuleSelection
                 Intent intent = new Intent(view.getContext(), ModuleSelection.class);
-                intent.putExtra("Class", clEnt);         //Add User to ClassSelection intent
+                intent.putExtra("User", user);          //Add User to ModuleSelection intent
+                intent.putExtra("Class", clEnt);        //Add ClEnt to ModuleSelection intent
                 startActivity(intent);
             }
 

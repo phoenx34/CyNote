@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.example.objects.ClEnt;
 import com.example.objects.Lecture;
+import com.example.objects.User;
 
 
 import net.gotev.uploadservice.MultipartUploadRequest;
@@ -38,6 +40,8 @@ public class ModuleSelection extends AppCompatActivity {
     private List<String> dropdownHeaders;                       //List that contains all the lecture headers and references their children
     private List<Integer> idList;                           //Parallel list to hold lectureIDs (don't want to mess with this list api)
     private HashMap<String, List<String>> dropdownMap;  //Map of children for every lecture
+
+    private User user;
 
     private ClEnt clEnt;                    //Class selected to get here
     private List<Lecture> lectures;         //List of lectures for that class
@@ -83,6 +87,22 @@ public class ModuleSelection extends AppCompatActivity {
 
         // Grab ClEnt passed through intent
         try{
+
+            User user = (User)intent.getSerializableExtra("User");
+            if(user == null)
+                throw new Exception("No User received in ModuleSelection");
+
+            this.user = user;
+
+            //If the user type is student, hide AddNewLecture button
+            if(user.getUserType() == "Student"){
+                Button addLectureButton = (Button) findViewById(R.id.NewLectureBut);
+                addLectureButton.setVisibility(View.GONE);
+            }
+
+
+
+
             ClEnt clEnt = (ClEnt)intent.getSerializableExtra("Class");
             if(clEnt == null || clEnt.getLectureList() == null)
                 throw new Exception("No ClEnt received in ModuleSelection");
@@ -97,6 +117,9 @@ public class ModuleSelection extends AppCompatActivity {
             System.out.println("Exception: ");
             System.out.println(e.getMessage());
         }
+
+
+
 
 
 

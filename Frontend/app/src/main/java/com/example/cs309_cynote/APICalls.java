@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.objects.ClEnt;
 import com.example.objects.Lecture;
 import com.example.objects.Message;
+import com.example.objects.Note;
 import com.example.objects.User;
 
 import org.json.JSONArray;
@@ -561,8 +562,8 @@ public class APICalls{
 
                 //Grab the LID and the lectureName from the JSON
                 int lid = lec.getInt("id");
-                //String lectureName = lec.getString("name");
-                String lectureName = "Lectures have no name " + lid;     //Names don't exist atm
+                String lectureName = lec.getString("name");
+                //String lectureName = "Lectures have no name " + lid;     //Names don't exist atm
 
 
 
@@ -707,6 +708,130 @@ public class APICalls{
             System.out.println(e.getMessage());
         }
 
+    }
+
+
+    /**
+     * Takes a Lecture object and updates its noteList using its LID.
+     *
+     *         LID  -->  Server
+     *  Notes List  <--  Server
+     *
+     * @param lecture Lecture Object to update noteList of
+     * @param callbacks Callbacks to use on responses
+     */
+    public void getNoteList(final Lecture lecture, final APICallbacks callbacks){
+
+        int LID = lecture.getLID();
+        System.out.println("getNoteList: \n"+LID);
+
+
+        //TODO update path
+        //            http://cs309-sd-7.misc.iastate.edu:8080/getNotes/{LID}
+        String url = "http://cs309-sd-7.misc.iastate.edu:8080/getNotes/";    //Server-side url to receive list of modules/lectures for Class CID
+
+        //Add LID to path
+        url += "/" + LID;
+
+
+
+        //Set up listener for success case
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                /*  Server response will come in this form:
+                [
+                    {
+                        "id":1,
+                        "shoutout_history":[],
+                        "clEnt":null
+                    },
+                    {
+                        "id":2,
+                        "shoutout_history":[],
+                        "clEnt":null
+                    }
+                ]
+                */
+
+                //Parse the lecture JSON into a new array
+                List<Note> notes = parseNoteJSON(response);
+
+
+                //Update the given ClEnt's lectureList
+                lecture.setNoteList(notes);
+
+                for(Note not: notes){
+                    System.out.println("Note received: " + not.getNID());
+                }
+
+                //Continue
+                callbacks.onResponse(lecture);
+            }
+        };
+
+        //Set up listener for error case
+        //In the case of a bad login, returns a 401 for Unauthorized with a WWW-Authenticate header
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callbacks.onVolleyError(error);
+            }
+        };
+
+
+        //Uses the APICalls generic volley get request
+        try{
+            //Gets an array rather than an object, important distinction
+            volleyGetArray(url, responseListener, errorListener);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
+    }
+
+    public List<Note> parseNoteJSON(String json){
+
+        List<Note> notes = new ArrayList<Note>();
+
+        //Decode the response:
+        try{
+            //Turn received noteList(response) from JSON into an array
+            JSONArray arr = new JSONArray(json);
+            for (int i = 0; i < arr.length(); i++) {
+
+                //Turn each index in the array into another object
+                String noteStr = arr.get(i).toString();
+                JSONObject not = new JSONObject(noteStr);
+
+                //Grab the NID and the noteName from the JSON
+                int nid = not.getInt("nid");
+                String noteName = not.getString("title");
+                String path = not.getString("address");
+                int rating = not.getInt("rating");
+
+
+
+                //And create a Note with them
+                Note note = new Note(nid, noteName, path, rating);
+
+                //Add them to the array to be used module list generation
+                notes.add(note);
+            }
+        }
+        catch(JSONException e) {
+            System.out.println("JSONException: ");
+            System.out.println(e.getMessage());
+        }
+        catch(Exception e){
+            System.out.println("Exception: ");
+            System.out.println(e.getMessage());
+        }
+
+        return notes;
     }
 
 
